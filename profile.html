@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AstroMods | My Profile Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- NAVBAR UTAMA -->
+  <header class="navbar">
+    <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+      <img src="src/assets/images/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+      <h1>ASTROMODS</h1>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#games-section">Games</a>
+      <a href="detail-mod-minecraft-bedrock/minecraft.html">Browse</a>
+    </nav>
+    
+    <div class="cf-header-right">
+      <div class="buttons">
+        <!-- GUEST -->
+        <div id="guestButtons">
+          <button class="login" onclick="openLoginModal()">Login</button>
+          <button class="register" onclick="openLoginModal()">Register</button>
+        </div>
+
+        <!-- PROFILE -->
+        <div id="profileSection" class="profile-hidden" style="display: none; align-items: center; gap: 12px;">
+          <button class="gear-settings-btn" onclick="window.location.href='settings.html'">⚙️</button>
+          <img src="https://i.imgur.com/8Km9tLL.png" alt="Profile" class="profile-avatar-trigger" onclick="toggleDropdownMenu()" style="width: 42px; height: 42px; border-radius: 50%; cursor: pointer;">
+          
+          <div id="profileDropdown" class="dropdown-menu">
+            <div class="dropdown-user-header">
+              <h4 id="dropdownUserText">Player</h4>
+              <span>⚡ VIP MEMBER</span>
+            </div>
+            <a href="profile.html" class="dropdown-item">👤 My Profile</a>
+            <button class="dropdown-item" onclick="openUploadModal()">🚀 Upload Game Mod</button>
+            <a href="settings.html" class="dropdown-item">⚙️ Settings Dashboard</a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item logout-btn" onclick="logoutUser()">🚪 Log Out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- PROFILE SECTION -->
+  <div class="profile-container">
+    <div class="profile-banner" id="profileDashboardBanner">
+      <!-- Edit Banner Brush Button in the top right of the banner -->
+      <label for="bannerFileInput" class="banner-edit-label" id="bannerEditLabel" title="Edit Profile Banner">
+        <span id="bannerEditText">🖼️ Edit Banner</span>
+      </label>
+      <input type="file" id="bannerFileInput" accept="image/*" style="display: none;" onchange="processLocalBannerUpload(event)">
+
+      <!-- Avatar Wrapper containing image and absolute edit icon -->
+      <div class="avatar-container">
+        <img src="https://i.imgur.com/8Km9tLL.png" class="profile-avatar" id="profileDashboardAvatar">
+        <label for="avatarFileInput" class="avatar-edit-label" id="avatarEditLabel" title="Edit Avatar">
+          ✏️
+        </label>
+        <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="processLocalAvatarUpload(event)">
+      </div>
+    </div>
+
+    <div class="profile-info">
+      <div>
+        <h1 id="dropdownUserText">AstroMods User</h1>
+        <p>⚡ Minecraft Creator & Mod Explorer</p>
+      </div>
+
+      <div class="quick-actions">
+        <button onclick="window.location.href='settings.html'">⚙️ Edit Profile</button>
+        <button onclick="openUploadModal()">🚀 Upload Mod</button>
+        <button onclick="alert('⚡ Creator Statistics calibrated inside offline sandbox mode.')">📊 Creator Stats</button>
+      </div>
+    </div>
+
+    <!-- STATS GRID -->
+    <div class="profile-stats-grid">
+      <div class="profile-stat-card">
+        <h2 id="profileTotalDownloadsCount">124K</h2>
+        <p>Total Downloads</p>
+      </div>
+
+      <div class="profile-stat-card">
+        <h2 id="profileUploadedModsCount">32</h2>
+        <p>Uploaded Mods</p>
+      </div>
+
+      <div class="profile-stat-card">
+        <h2 id="profileFollowersCount">1.2K</h2>
+        <p>Followers</p>
+      </div>
+
+      <div class="profile-stat-card">
+        <h2 id="profileCreatorRank">VIP</h2>
+        <p>Creator Rank</p>
+      </div>
+    </div>
+
+    <!-- CREATIONS PORTFOLIO GRID -->
+    <div class="profile-extra-section" style="margin-bottom: 30px;">
+      <h2>Published Mods Portfolio (<span id="profileCreationsCount">0</span>)</h2>
+      <div id="profileCreationsListGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 15px;">
+        <!-- Populated dynamically via script.js -->
+        <div style="text-align: center; color: #64748b; font-size: 13px; font-style: italic; padding: 20px; grid-column: 1 / -1;">
+          No published creations found.
+        </div>
+      </div>
+    </div>
+
+    <!-- FAVORITE MODS SECTION -->
+    <div class="profile-extra-section" style="margin-bottom: 30px;">
+      <h2 id="profileFavoritesHeading">My Favorite Mods (<span id="profileFavoritesCount">0</span>)</h2>
+      <div id="profileFavoritesListGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 15px;">
+        <!-- Populated dynamically via script.js -->
+        <div style="text-align: center; color: #64748b; font-size: 13px; font-style: italic; padding: 20px; grid-column: 1 / -1;">
+          No favorite mods saved yet.
+        </div>
+      </div>
+    </div>
+
+    <!-- RECENT ACTIVITY SECTION -->
+    <div class="profile-extra-section">
+      <h2>Recent Activity Feed</h2>
+      <div id="profileActivityList">
+        <!-- populated dynamically via script.js -->
+        <div class="recent-activity-card">
+          <span>Uploaded: Pokemon Bedrock Addon</span>
+          <span class="activity-badge">05/22/2026</span>
+        </div>
+        <div class="recent-activity-card">
+          <span>Updated: Dragon Shader V2</span>
+          <span class="activity-badge">05/18/2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POP-UP LOGIN -->
+  <div id="loginModal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="close-modal-btn" onclick="closeLoginModal()">&times;</button>
+      <h2>SECURE ACCESS</h2>
+      <button class="oauth-btn google-btn" onclick="mockAuthLogin('Google')"><img src="https://www.google.com/favicon.ico" alt="Google" class="oauth-logo"> Continue with Google</button>
+      <button class="oauth-btn discord-btn" onclick="mockAuthLogin('Discord')"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord" class="oauth-logo"> Continue with Discord</button>
+      <div class="modal-divider"><span>OR</span></div>
+      <form onsubmit="handleManualLogin(event)" class="modal-form">
+        <input type="email" placeholder="Email Address" required>
+        <input type="password" placeholder="Password" required>
+        <button type="submit" class="modal-submit-btn">ACCESS PORTAL</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- DYNAMIC CREATOR PORTAL UPLOAD MOD POPUP -->
+  <div id="uploadModal" class="upload-modal-overlay">
+    <div class="upload-modal-box" style="max-width: 500px;">
+      <button class="close-upload-btn" onclick="closeUploadModal()">&times;</button>
+      <h2>CREATOR PORTAL</h2>
+      <p class="upload-subtitle" style="color: #ff5555; font-weight: bold;">⚠️ TERMS: Files must not contain malicious code. Max file limit scale parameter is 50MB.</p>
+      
+      <div class="upload-game-select-title">1. Select Destination Target Game:</div>
+      <div class="upload-game-grid">
+        <div class="game-select-node" onclick="selectUploadGameSector('minecraft', this)">Minecraft Bedrock</div>
+        <div class="game-select-node" onclick="selectUploadGameSector('roblox', this)">Roblox Matrix</div>
+        <div class="game-select-node" onclick="selectUploadGameSector('gta', this)">Grand Theft Auto V</div>
+      </div>
+
+      <!-- Wadah Otomatis Pilihan Kategori Khas Masing-Masing Game -->
+      <div id="dynamicCategorySelectorBox" style="display: none; margin-bottom: 15px; text-align: left;">
+        <div class="upload-game-select-title">2. Select Module Category:</div>
+        <div id="categoryNodesContainer" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+      </div>
+
+      <!-- Isian Formulir Berkas Bawah -->
+      <form class="upload-form" onsubmit="handleModCreatorUpload(event)" style="display: none;" id="extendedUploadDetailsForm">
+        <input type="text" id="creatorModName" placeholder="Mod / Addon Title Name" required>
+        <textarea placeholder="Write documentation guide specifications... (Min 50 chars)" rows="3" required></textarea>
+        <div style="text-align: left; font-size: 11px; margin-top: 5px;">
+          <label style="color:#64748b; font-weight:bold; display:block; margin-bottom:4px;">Upload Archive File (.zip, .mcaddon, .mcpack, .mcworld):</label>
+          <input type="file" id="creatorModFile" accept=".zip,.mcaddon,.mcpack,.mcworld" required style="padding: 8px;">
+        </div>
+        <button type="submit" class="upload-submit-btn">DEPLOY TARGET PACK FILE</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- DYNAMIC PREMIUM FOOTER SYSTEM -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-brandbox">
+        <div class="footer-brand-logo">
+          <img src="src/assets/images/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+          <span>ASTROMODS</span>
+        </div>
+        <p class="footer-brand-motto" id="footerMottoText">Your ultimate cosmic station for top-tier game modifications, executor scripts, addons, and high-performance enhancements.</p>
+      </div>
+      
+      <div class="footer-links-grid">
+        <div class="footer-links-col">
+          <h4 class="footer-col-title" id="footerColNavTitle">Navigation</h4>
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="index.html#games-section" class="footer-link">Games Listing</a>
+          <a href="detail-mod-minecraft-bedrock/minecraft.html" class="footer-link">Browse Mods</a>
+        </div>
+        <div class="footer-links-col">
+          <h4 class="footer-col-title" id="footerColLegalTitle">Legal & Rules</h4>
+          <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+          <a href="terms-of-service.html" class="footer-link">Terms of Service</a>
+          <a href="dmca.html" class="footer-link">DMCA Policy</a>
+          <a href="disclaimer.html" class="footer-link">Disclaimer</a>
+          <a href="mailto:bimaignal2010@gmail.com" class="footer-link">Contact Support</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p id="footerCopyrightText">&copy; 2026 AstroMods. All rights reserved. Created and managed by bimaignal2010.</p>
+    </div>
+  </footer>
+
+  <!-- FIXED COOKIE COMPONENT BAR HORIZONTAL -->
+  <div id="cookieBanner" class="cookie-container">
+    <div class="cookie-content">
+      <span class="cookie-icon">🍪</span>
+      <p>AstroMods uses cookies to optimize your experience. <a href="privacy-policy.html" class="cookie-policy-link">Learn Privacy Guide</a></p>
+    </div>
+    <button class="cookie-accept-btn" onclick="acceptCookieConsent()">ACCEPT COOKIES</button>
+  </div>
+
+<script src="js/script.js"></script>
+</body>
+</html>

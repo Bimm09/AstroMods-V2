@@ -1,0 +1,584 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@600;700;800&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#0d1117;
+  color:white;
+  font-family: Arial, sans-serif;
+}
+
+/* =========================
+GLOBAL NAVBAR
+========================= */
+.cf-global-header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:70px;
+  background:#11161b;
+  border-bottom: 1px solid #1e2630;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  padding:0 40px;
+  z-index:999;
+}
+
+.cf-header-left{
+  display:flex;
+  align-items:center;
+  gap:40px;
+}
+
+.cf-logo{
+  color:white;
+  text-decoration:none;
+  font-size:24px;
+  font-weight:bold;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.cf-logo span{
+  color:#3ade79;
+}
+
+.cf-main-nav{
+  display:flex;
+  gap:30px;
+}
+
+.cf-main-nav a{
+  color:#9aa4af;
+  text-decoration:none;
+  font-weight:600;
+  transition:0.3s;
+}
+
+.cf-main-nav a:hover,
+.cf-main-nav a.active{
+  color:#3ade79;
+}
+
+.cf-header-right{
+  display:flex;
+  gap:12px;
+}
+
+.cf-btn{
+  border:none;
+  padding:11px 18px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.cf-btn-primary{
+  background:#3ade79;
+  color:black;
+}
+
+.cf-btn-secondary{
+  background:#1b232d;
+  color:white;
+}
+
+/* SECOND NAVBAR */
+.cf-project-menu-bar{
+  margin-top:70px;
+  height:60px;
+  background:#151a15;
+  border-bottom: 1px solid #222b22;
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  padding:0 40px;
+}
+
+.cf-menu-tabs{
+  display:flex;
+  gap:30px;
+}
+
+.cf-tab-item{
+  height:60px;
+  display:flex;
+  align-items:center;
+  color:#a3b5a3;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  border-bottom: 3px solid transparent;
+  transition:0.3s;
+}
+
+.cf-tab-item:hover{
+  color:white;
+}
+
+.cf-tab-item.active{
+  color:#3ade79;
+  border-bottom: 3px solid #3ade79;
+}
+
+.second-search input{
+  width:240px;
+  height:38px;
+  background:#0d1117;
+  border: 1px solid #253126;
+  border-radius:10px;
+  color:white;
+  padding:0 15px;
+}
+
+/* HERO */
+.cf-hero-banner{
+  position:relative;
+  padding:90px 40px;
+  background: url('https://4kwallpapers.com/images/wallpapers/minecraft-bedrock-3840x1080-19694.jpg') center/cover;
+}
+
+.cf-hero-overlay{
+  position:absolute;
+  inset:0;
+  background: rgba(0,0,0,0.55);
+}
+
+.cf-hero-container{
+  position:relative;
+  z-index:2;
+  max-width:850px;
+}
+
+.cf-breadcrumbs{
+  margin-bottom:20px;
+  color:#b0b8c5;
+}
+
+.cf-breadcrumbs a{
+  color:#3ade79;
+  text-decoration:none;
+}
+
+.cf-hero-container h1{
+  font-size:56px;
+  margin-bottom:20px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.cf-hero-container p{
+  color:#d1d5db;
+  line-height:1.7;
+  margin-bottom:30px;
+}
+
+/* DISCOVER */
+.cf-discover-view{
+  padding:40px;
+  position: relative;
+  z-index: 5;
+}
+
+.cf-discover-grid-layout{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+  gap:25px;
+}
+
+.cf-discover-panel{
+  background:#131a22;
+  border: 1px solid #1e2630;
+  border-radius:14px;
+  padding:20px;
+}
+
+.cf-discover-panel-title{
+  margin-bottom:20px;
+}
+
+.cf-micro-row{
+  display:flex;
+  gap:15px;
+  align-items:center;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  transition: 0.25s;
+}
+
+.cf-micro-img{
+  width:70px;
+  height:70px;
+  border-radius:12px;
+  object-fit: cover;
+}
+
+.cf-micro-info h4{
+  margin-bottom:8px;
+  font-weight: 600;
+}
+
+.cf-micro-info a{
+  color:white;
+  text-decoration:none;
+}
+
+.cf-micro-meta{
+  color:#94a3b8;
+  font-size: 12px;
+}
+
+.cf-micro-meta span{
+  color:white;
+}
+
+/* SEARCH VIEW */
+.cf-main-layout{
+  display:flex;
+  gap:30px;
+  padding:40px;
+}
+
+.cf-filter-sidebar{
+  width:250px;
+  background:#131a22;
+  border: 1px solid #1e2630;
+  border-radius:14px;
+  padding:20px;
+  height:fit-content;
+}
+
+.cf-filter-title{
+  margin-bottom:18px;
+  font-weight:bold;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  color: #3ade79;
+}
+
+.cf-filter-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.cf-filter-link{
+  background:#0f141a;
+  border: 1px solid #1e2630;
+  padding:12px;
+  border-radius:10px;
+  cursor:pointer;
+  transition:0.3s;
+  color: #94a3b8;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.cf-filter-link:hover,
+.cf-filter-link.active{
+  background:#1a242f;
+  border-color:#3ade79;
+  color: white;
+}
+
+.cf-content-feed {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #11151e;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cf-project-row {
+  display: flex;
+  gap: 20px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 0;
+  padding: 22px 24px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cf-project-row:last-child {
+  border-bottom: none;
+}
+
+.cf-project-row:hover {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.cf-project-img {
+  width: 96px;
+  height: 96px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cf-project-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cf-project-details h2 {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.cf-project-details p {
+  color: #94a3b8;
+  line-height: 1.6;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.cf-project-details a {
+  color: #3ade79;
+  text-decoration: none;
+}
+
+/* HIDDEN */
+.view-hidden{
+  display:none;
+}
+
+.cf-project-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-bottom:15px;
+}
+
+.cf-project-meta span{
+  background:#1b232d;
+  border: 1px solid #263241;
+  padding:7px 12px;
+  border-radius:999px;
+  font-size:13px;
+  color:#c4d0db;
+}
+
+/* CURSEFORGE ROW ITEM DESIGN */
+.cf-row-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.cf-row-title h3 { font-size: 18px; color: #fff; margin-bottom: 4px; font-weight: 600; }
+.cf-row-title h3:hover { color: #3ade79; }
+.cf-row-meta-author { font-size: 12px; color: #7a8f7a; }
+.cf-row-meta-author strong { color: #cfdacf; }
+
+.cf-row-desc { font-size: 13px; color: #a3b5a3; line-height: 1.5; margin: 8px 0; }
+.cf-row-stats { display: flex; gap: 20px; font-size: 12px; color: #7a8f7a; }
+.cf-row-stats span strong { color: #cfdacf; }
+
+.cf-row-categories { display: flex; gap: 6px; margin-top: 8px; }
+.cf-cat-badge { font-size: 11px; background: rgba(58,222,121,0.1); border: 1px solid #1e2630; color: #3ade79; padding: 3px 10px; border-radius: 6px; text-transform: uppercase; font-weight: bold; }
+
+/* MOD DETAILS PAGE (SPECIFIC LAYOUT) */
+.cf-details-grid {
+  max-width: 1400px;
+  margin: 30px auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 30px;
+}
+
+.cf-main-article-box { background: #131a22; border: 1px solid #1e2630; border-radius: 12px; padding: 30px; }
+.cf-description-text { font-size: 14px; color: #cfdacf; line-height: 1.7; }
+.cf-description-text p { margin-bottom: 16px; }
+
+/* Sidebar Metadata Widget Table */
+.cf-widget-box { background: #131a22; border: 1px solid #1e2630; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+.cf-widget-box h4 { font-size: 14px; text-transform: uppercase; color: #3ade79; letter-spacing: 0.5px; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; font-weight: bold; }
+
+.cf-meta-table { display: flex; flex-direction: column; gap: 14px; font-size: 13px; }
+.cf-meta-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.02); padding-bottom: 6px; }
+.cf-meta-row span:first-child { color: #7a8f7a; }
+.cf-meta-row span:last-child { color: #fff; font-weight: 500; }
+
+/* Discussion & Comments System */
+.cf-comment-section { margin-top: 40px; border-top: 1px solid #1e2630; padding-top: 24px; }
+.cf-comment-section h4 { font-size: 18px; margin-bottom: 16px; color: white; }
+.cf-textarea-custom { width: 100%; background: #0b0d0b; border: 1px solid #1e2630; padding: 14px; color: #fff; border-radius: 10px; font-family: inherit; resize: none; font-size: 13px; outline: none; margin-bottom: 12px; }
+.cf-textarea-custom:focus { border-color: #3ade79; }
+
+@media (max-width: 1024px) {
+  .cf-main-layout { 
+    flex-direction: column !important; 
+    padding: 20px !important;
+  }
+  .cf-details-grid { 
+    grid-template-columns: 1fr !important; 
+    padding: 0 20px !important;
+  }
+  .cf-filter-sidebar { 
+    display: none !important; 
+  }
+}
+
+/* --- DETAILED PAGES MOBILE OVERRIDES --- */
+@media (max-width: 768px) {
+  /* 1. Browse Headers and Menu Bars */
+  .cf-global-header {
+    padding: 0 16px !important;
+    height: 60px !important;
+  }
+  .cf-logo {
+    font-size: 18px !important;
+  }
+  .cf-main-nav {
+    gap: 15px !important;
+  }
+  .cf-main-nav a {
+    font-size: 12px !important;
+  }
+  .cf-header-right {
+    gap: 8px !important;
+  }
+  .cf-btn {
+    padding: 8px 12px !important;
+    font-size: 11px !important;
+    border-radius: 8px !important;
+  }
+
+  .cf-project-menu-bar {
+    margin-top: 60px !important;
+    height: auto !important;
+    padding: 10px 16px !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: flex-start !important;
+  }
+  .cf-menu-tabs {
+    width: 100% !important;
+    overflow-x: auto !important;
+    gap: 16px !important;
+    padding-bottom: 4px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cf-tab-item {
+    height: 36px !important;
+    font-size: 13.5px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+  .second-search {
+    width: 100% !important;
+  }
+  .second-search input {
+    width: 100% !important;
+    height: 36px !important;
+    font-size: 13px !important;
+  }
+
+  /* 2. Hero Component */
+  .cf-hero-banner {
+    padding: 50px 16px !important;
+  }
+  .cf-breadcrumbs {
+    font-size: 11px !important;
+    margin-bottom: 12px !important;
+  }
+  .cf-hero-container h1 {
+    font-size: 28px !important;
+    line-height: 1.25 !important;
+    margin-bottom: 12px !important;
+  }
+  .cf-hero-container p {
+    font-size: 13px !important;
+    margin-bottom: 20px !important;
+    line-height: 1.5 !important;
+  }
+
+  /* 3. Discover Feed and Feed Cards */
+  .cf-discover-view {
+    padding: 24px 16px !important;
+  }
+  .cf-discover-grid-layout {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  .cf-discover-panel {
+    padding: 16px !important;
+  }
+  .cf-discover-panel-title {
+    font-size: 15px !important;
+    margin-bottom: 14px !important;
+  }
+
+  /* 4. Active feed lists */
+  .cf-project-row {
+    padding: 16px !important;
+    gap: 14px !important;
+  }
+  .cf-project-img {
+    width: 64px !important;
+    height: 64px !important;
+  }
+  .cf-row-title h3 {
+    font-size: 15px !important;
+  }
+  .cf-row-desc {
+    font-size: 12px !important;
+    margin: 4px 0 !important;
+  }
+  .cf-row-stats {
+    gap: 12px !important;
+    font-size: 11px !important;
+  }
+  .cf-row-categories {
+    flex-wrap: wrap !important;
+  }
+
+  /* 5. Main Detail view layout inside Article view */
+  .cf-main-article-box {
+    padding: 18px !important;
+    border-radius: 8px !important;
+  }
+  .cf-description-text {
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+  }
+  .cf-widget-box {
+    padding: 16px !important;
+    border-radius: 8px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .cf-project-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .cf-project-img {
+    width: 100% !important;
+    height: 140px !important;
+    border-radius: 8px !important;
+  }
+  .cf-row-top {
+    flex-direction: column !important;
+    gap: 6px !important;
+    align-items: flex-start !important;
+  }
+}
+
+.cf-micro-row {
+  transition: 0.25s;
+}
+
+.cf-micro-row:hover {
+  transform: translateY(-2px);
+  border-color: #3ade79;
+}

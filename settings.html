@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AstroMods | Settings Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .social-link-row {
+    background: #0f111a;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    text-align: left;
+  }
+  @media (min-width: 640px) {
+    .social-link-row {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+  .social-icon-selector {
+    display: flex;
+    gap: 6px;
+  }
+  .social-icon-option {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: #171921;
+    border: 2px solid transparent;
+    transition: all 0.15s ease;
+    font-size: 16px;
+    user-select: none;
+  }
+  .social-icon-option:hover {
+    background: rgba(255,255,255,0.04);
+  }
+  .social-icon-option.active {
+    background: #171921;
+    border-color: #10b981;
+    box-shadow: 0 0 10px rgba(16,185,129,0.2);
+  }
+  .trash-delete-btn {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .trash-delete-btn:hover {
+    background: #ef4444;
+    color: white;
+    transform: scale(1.05);
+  }
+  .error-message-bubble {
+    color: #f87171;
+    font-size: 11px;
+    font-weight: 500;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-align: left;
+  }
+  .reward-stat-card {
+    background: #0f111a;
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .reward-history-line {
+    background: rgba(255,255,255,0.02);
+    border-left: 3px solid #10b981;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #cbd5e1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .settings-menu button[disabled],
+  .settings-menu button[disabled]:hover,
+  .settings-sidebar .settings-menu button[disabled]:hover,
+  .settings-sidebar .settings-menu button[disabled].active {
+    background: #0d0e15 !important;
+    color: #4b5563 !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+    transform: none !important;
+    opacity: 0.55 !important;
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAVBAR UTAMA -->
+  <header class="navbar">
+    <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+      <img src="src/assets/images/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+      <h1>ASTROMODS</h1>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#games-section">Games</a>
+      <a href="detail-mod-minecraft-bedrock/minecraft.html">Browse</a>
+    </nav>
+    
+    <div class="cf-header-right">
+      <div class="buttons">
+        <!-- GUEST -->
+        <div id="guestButtons">
+          <button class="login" onclick="openLoginModal()">Login</button>
+          <button class="register" onclick="openLoginModal()">Register</button>
+        </div>
+
+        <!-- PROFILE -->
+        <div id="profileSection" class="profile-hidden" style="display: none; align-items: center; gap: 12px;">
+          <button class="gear-settings-btn" onclick="window.location.href='settings.html'">⚙️</button>
+          <img src="https://i.imgur.com/8Km9tLL.png" alt="Profile" class="profile-avatar-trigger" onclick="toggleDropdownMenu()" style="width: 42px; height: 42px; border-radius: 50%; cursor: pointer;">
+          
+          <div id="profileDropdown" class="dropdown-menu">
+            <div class="dropdown-user-header">
+              <h4 id="dropdownUserText">Player</h4>
+              <span>⚡ VIP MEMBER</span>
+            </div>
+            <a href="profile.html" class="dropdown-item">👤 My Profile</a>
+            <button class="dropdown-item" onclick="openUploadModal()">🚀 Upload Game Mod</button>
+            <a href="settings.html" class="dropdown-item">⚙️ Settings Dashboard</a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item logout-btn" onclick="logoutUser()">🚪 Log Out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SETTINGS SCREEN -->
+  <div class="settings-wrapper">
+    <!-- SIDEBAR -->
+    <aside class="settings-sidebar">
+      <h2>⚙️ Settings Control</h2>
+      <div class="settings-menu">
+        <button class="active" data-tab="profile">Profile</button>
+        <button data-tab="notifications">Notifications</button>
+        <button data-tab="appearance">Appearance</button>
+        <button data-tab="privacy">Privacy</button>
+        <button data-tab="security">Security</button>
+        <button data-tab="language">Language</button>
+        <button id="btn-tab-my-reward" data-tab="my-reward" disabled style="display: flex; align-items: center; justify-content: space-between; gap: 6px;">My Reward <span style="font-size: 10px; padding: 2px 6px; background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 4px; font-weight: bold; text-transform: uppercase;">Soon</span></button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONFIG CONTENT -->
+    <main class="settings-content">
+      <form onsubmit="handleSaveSettings(event)">
+        
+        <!-- PANE: PROFILE -->
+        <div class="settings-pane pane-active" id="pane-profile">
+          <h2>👤 Edit Public Profile</h2>
+          <div class="settings-form-group">
+            <label for="setting-username">Creator Username</label>
+            <input type="text" id="setting-username" placeholder="Enter username..." required>
+          </div>
+          <div class="settings-form-group">
+            <label for="setting-bio">Biographical Tagline</label>
+            <textarea id="setting-bio" rows="4" placeholder="Tell other modders about yourself..."></textarea>
+          </div>
+          <div class="settings-form-group">
+            <label>Public Verification Badge</label>
+            <input type="text" class="vip-badge" value="⚡ VIP MOD CREATOR MEMBER (ACTIVE)" disabled style="background:#131520; color:#10b981; border:1px solid #10b981; font-weight:bold;">
+          </div>
+          
+          <!-- ADD SOCIALS COMPONENT -->
+          <div class="settings-form-group" style="margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <label style="margin: 0; font-weight: bold; color: white;">🔗 Public Social Channels</label>
+              <button type="button" class="add-socials-btn" onclick="addNewAccountSocialRow()" style="background: rgba(16, 185, 129, 0.05); color: #10b981; border: 1px dashed rgba(16,185,129,0.3); padding: 8px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 4px;">
+                Add socials ↗
+              </button>
+            </div>
+            <p style="color: #64748b; font-size: 12px; margin-bottom: 15px; margin-top: -6px;">Specify URLs of your social networks. They will be displayed on your main profile description.</p>
+            <div id="account-socials-list-container">
+              <!-- dynamic account social rows -->
+            </div>
+          </div>
+        </div>
+
+        <!-- PANE: NOTIFICATIONS -->
+        <div class="settings-pane" id="pane-notifications">
+          <h2>🔔 Notification Preferences</h2>
+          <div class="settings-grid">
+            <div class="settings-card">
+              <h3>Email Alerts</h3>
+              <label class="toggle-label">
+                <input type="checkbox" id="setting-email-alerts"> Keep me updated with newsletter
+              </label>
+            </div>
+            <div class="settings-card">
+              <h3>Mod Comments</h3>
+              <label class="toggle-label">
+                <input type="checkbox" checked> Alert when users comment on my mods
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANE: APPEARANCE -->
+        <div class="settings-pane" id="pane-appearance">
+          <h2>🎨 Appearance Options</h2>
+          <div class="settings-grid">
+            <div class="settings-card">
+              <h3>Animations</h3>
+              <label class="toggle-label">
+                <input type="checkbox" id="setting-animated-bg" checked> Enable glowing transitions
+              </label>
+            </div>
+            <div class="settings-card">
+              <h3>Accent Palette</h3>
+              <label class="toggle-label">
+                <select id="setting-accent-palette" style="background:#0a0b0d; padding:5px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); color:white;">
+                  <option value="default">Default (Original Emerald)</option>
+                  <option value="gray">Matte Gray (Minimalist)</option>
+                  <option value="cyberpunk">Cyberpunk Gold</option>
+                  <option value="crimson">Crimson Blast</option>
+                </select>
+              </label>
+            </div>
+            <div class="settings-card">
+              <h3>Interactive Wallpaper</h3>
+              <label class="toggle-label">
+                <input type="checkbox" id="setting-moving-wallpaper"> Enable moving wallpaper (Mouse & Touch)
+              </label>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- PANE: PRIVACY -->
+        <div class="settings-pane" id="pane-privacy">
+          <h2>🔒 Privacy Configurations</h2>
+          <div class="settings-grid">
+            <div class="settings-card">
+              <h3>Online Status</h3>
+              <label class="toggle-label">
+                <input type="checkbox" id="setting-show-online" checked> Show my presence as ONLINE
+              </label>
+            </div>
+            <div class="settings-card">
+              <h3>Mod Downloads</h3>
+              <label class="toggle-label">
+                <input type="checkbox" checked> Show total download statistics publicly
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANE: SECURITY -->
+        <div class="settings-pane" id="pane-security">
+          <h2>🛡️ Security Settings</h2>
+          <div class="settings-grid">
+            <div class="settings-card">
+              <h3>Session Management</h3>
+              <button type="button" class="save-btn" style="background:#ef4444;" onclick="logoutUser()">Terminate Session Logs</button>
+            </div>
+            <div class="settings-card">
+              <h3>Wipe Temporary Cache</h3>
+              <button type="button" class="save-btn" style="background:#4b5563;" onclick="if(confirm('Clear compiled settings details?')){localStorage.clear(); window.location.reload();}">Clear LocalStorage Parameters</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANE: LANGUAGE -->
+        <div class="settings-pane" id="pane-language">
+          <h2>🌐 Language Settings / Pengaturan Bahasa</h2>
+          <p style="color:#64748b; font-size:13px; margin-top:-15px; margin-bottom:25px;">Choose your preferred display language for the AstroMods Control Center.</p>
+          <div class="settings-grid">
+            <div class="settings-card" style="padding: 24px;">
+              <h3 style="color: white; font-size: 16px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                🌎 Select Interface Language
+              </h3>
+              <p style="color: #64748b; font-size: 12px; margin-bottom: 20px;">
+                Choose whether you want to view portal actions, headings, and descriptors in English, Bahasa Indonesia, Bahasa Melayu, Русский or 中文.
+              </p>
+              
+              <div class="language-options-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
+                <!-- English -->
+                <div class="lang-option-node" id="lang-btn-en" onclick="selectInterfaceLanguage('en')" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 18px; cursor: pointer; transition: all 0.2s ease; position: relative; display: flex; flex-direction: column; gap: 4px;">
+                  <div style="font-size: 24px; margin-bottom: 6px;">🇬🇧</div>
+                  <div style="font-weight: bold; color: white; font-size: 14px;">English</div>
+                  <div style="color: #64748b; font-size: 11px;">Global Default</div>
+                  <div class="active-badge" style="position: absolute; top: 15px; right: 15px; width: 10px; height: 10px; border-radius: 50%; background: #10b981; display: none;"></div>
+                </div>
+                <!-- Indonesia -->
+                <div class="lang-option-node" id="lang-btn-id" onclick="selectInterfaceLanguage('id')" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 18px; cursor: pointer; transition: all 0.2s ease; position: relative; display: flex; flex-direction: column; gap: 4px;">
+                  <div style="font-size: 24px; margin-bottom: 6px;">🇮🇩</div>
+                  <div style="font-weight: bold; color: white; font-size: 14px;">Bahasa Indonesia</div>
+                  <div style="color: #64748b; font-size: 11px;">Bahasa Lokal</div>
+                  <div class="active-badge" style="position: absolute; top: 15px; right: 15px; width: 10px; height: 10px; border-radius: 50%; background: #10b981; display: none;"></div>
+                </div>
+                <!-- Malaysia -->
+                <div class="lang-option-node" id="lang-btn-ms" onclick="selectInterfaceLanguage('ms')" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 18px; cursor: pointer; transition: all 0.2s ease; position: relative; display: flex; flex-direction: column; gap: 4px;">
+                  <div style="font-size: 24px; margin-bottom: 6px;">🇲🇾</div>
+                  <div style="font-weight: bold; color: white; font-size: 14px;">Bahasa Melayu</div>
+                  <div style="color: #64748b; font-size: 11px;">Bahasa Serantau</div>
+                  <div class="active-badge" style="position: absolute; top: 15px; right: 15px; width: 10px; height: 10px; border-radius: 50%; background: #10b981; display: none;"></div>
+                </div>
+                <!-- Russia -->
+                <div class="lang-option-node" id="lang-btn-ru" onclick="selectInterfaceLanguage('ru')" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 18px; cursor: pointer; transition: all 0.2s ease; position: relative; display: flex; flex-direction: column; gap: 4px;">
+                  <div style="font-size: 24px; margin-bottom: 6px;">🇷🇺</div>
+                  <div style="font-weight: bold; color: white; font-size: 14px;">Русский</div>
+                  <div style="color: #64748b; font-size: 11px;">Русский интерфейс</div>
+                  <div class="active-badge" style="position: absolute; top: 15px; right: 15px; width: 10px; height: 10px; border-radius: 50%; background: #10b981; display: none;"></div>
+                </div>
+                <!-- China -->
+                <div class="lang-option-node" id="lang-btn-zh" onclick="selectInterfaceLanguage('zh')" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 18px; cursor: pointer; transition: all 0.2s ease; position: relative; display: flex; flex-direction: column; gap: 4px;">
+                  <div style="font-size: 24px; margin-bottom: 6px;">🇨🇳</div>
+                  <div style="font-weight: bold; color: white; font-size: 14px;">中文 (Chinese)</div>
+                  <div style="color: #64748b; font-size: 11px;">中文界面</div>
+                  <div class="active-badge" style="position: absolute; top: 15px; right: 15px; width: 10px; height: 10px; border-radius: 50%; background: #10b981; display: none;"></div>
+                </div>
+              </div>
+
+              <!-- hidden input structure -->
+              <input type="hidden" id="setting-language" value="en">
+            </div>
+          </div>
+        </div>
+
+        <!-- PANE: MY REWARD -->
+        <div class="settings-pane" id="pane-my-reward">
+          <h2>💸 Creator Rewards & My Reward</h2>
+          <p style="color:#64748b; font-size:13px; margin-top:-15px; margin-bottom:25px;">Track your earnings with a lifetime 0% AstroMods tax guarantee.</p>
+          
+          <!-- COMING SOON BANNER -->
+          <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: 12px; padding: 18px 24px; margin-bottom: 25px; display: flex; align-items: center; gap: 15px;">
+            <div style="font-size: 24px; user-select: none;">🚧</div>
+            <div>
+              <h4 style="color: #f87171; font-weight: bold; font-size: 14px; margin: 0 0 3px 0; text-transform: uppercase; letter-spacing: 0.5px;">Pencairan Dana Belum Tersedia (Coming Soon)</h4>
+              <p style="color: #94a3b8; font-size: 12px; margin: 0; line-height: 1.5;">Kami sedang mematangkan integrasi modal dan gateway pembayaran agar fitur pencairan dana ini dapat dinikmati secara langsung di masa mendatang. Untuk saat ini, penarikan belum dapat diproses.</p>
+            </div>
+          </div>
+
+          <div class="settings-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="reward-stat-card">
+              <span style="color:#64748b; font-size:11px; font-weight:bold; text-transform:uppercase; letter-spacing:0.5px;">Available Balance</span>
+              <h3 style="color:#94a3b8; font-size:24px; font-weight:800; margin: 8px 0 0 0;" id="rewardBalanceText">Rp 0</h3>
+            </div>
+            <div class="reward-stat-card">
+              <span style="color:#64748b; font-size:11px; font-weight:bold; text-transform:uppercase; letter-spacing:0.5px;">Lifetime Earned</span>
+              <h3 style="color:#64748b; font-size:24px; font-weight:800; margin: 8px 0 0 0;" id="rewardLifetimeText">Rp 0</h3>
+            </div>
+            <div class="reward-stat-card">
+              <span style="color:#64748b; font-size:11px; font-weight:bold; text-transform:uppercase; letter-spacing:0.5px;">Platform Fees Tax</span>
+              <h3 style="color:#3bef7c; font-size:24px; font-weight:800; margin: 8px 0 0 0;">0% GUARANTEE</h3>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:25px; margin-top:20px;">
+            <!-- Withdrawal form -->
+            <div style="background:#0f111a; border: 1px solid rgba(255,255,255,0.04); border-radius:12px; padding:25px; opacity:0.6;">
+              <h3 style="color:white; font-size:16px; font-weight:700; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">⚡ Funds Withdrawal (Pencairan Uang)</h3>
+              
+              <div class="settings-form-group" style="margin-bottom:15px;">
+                <label style="color:#64748b; font-size:12px; font-weight:600; display:block; margin-bottom:5px;">Select Payout Wallet Channel</label>
+                <select id="withdrawMethod" disabled class="form-input" style="background:#171921; width:100%; border:1px solid rgba(255,255,255,0.08); cursor:not-allowed;">
+                  <option value="DANA">📲 DANA Account</option>
+                  <option value="GoPay">📲 GoPay Account</option>
+                  <option value="ShopeePay">📲 ShopeePay Account</option>
+                  <option value="Bank BCA">🏦 Bank BCA Transfer</option>
+                  <option value="Bank Mandiri">🏦 Bank Mandiri Transfer</option>
+                </select>
+              </div>
+
+              <div class="settings-form-group" style="margin-bottom:15px;">
+                <label style="color:#64748b; font-size:12px; font-weight:600; display:block; margin-bottom:5px;">Destination Account / Phone Number</label>
+                <input type="text" id="withdrawAccount" disabled placeholder="Feature locked (Coming Soon)..." class="form-input" style="background:#171921; width:100%; border:1px solid rgba(255,255,255,0.08); cursor:not-allowed;">
+              </div>
+
+              <div class="settings-form-group" style="margin-bottom:15px;">
+                <label style="color:#64748b; font-size:12px; font-weight:600; display:block; margin-bottom:5px;">Account Holder Full Name</label>
+                <input type="text" id="withdrawHolderName" disabled placeholder="Feature locked (Coming Soon)..." class="form-input" style="background:#171921; width:100%; border:1px solid rgba(255,255,255,0.08); cursor:not-allowed;">
+              </div>
+
+              <div class="settings-form-group" style="margin-bottom:20px;">
+                <label style="color:#64748b; font-size:12px; font-weight:600; display:block; margin-bottom:5px;">Payout Amount (Rp)</label>
+                <input type="number" id="withdrawAmount" disabled placeholder="Rp 0" class="form-input" style="background:#171921; width:100%; border:1px solid rgba(255,255,255,0.08); cursor:not-allowed;">
+                <span style="color:#64748b; font-size:11px; margin-top:4px; display:inline-block;">Minimum withdrawal requirement limit parameter is Rp 50.0000.</span>
+              </div>
+
+              <button type="button" class="save-btn" disabled style="width:100%; text-align:center; background:#1b1d26; color:#64748b; font-weight:bold; font-size:14px; padding:12px 0; border: 1px solid rgba(255,255,255,0.05); cursor:not-allowed;">
+                🚫 Feature Coming Soon
+              </button>
+            </div>
+
+            <!-- Ledger lists -->
+            <div style="background:#0f111a; border: 1px solid rgba(255,255,255,0.04); border-radius:12px; padding:25px;">
+              <h3 style="color:white; font-size:16px; font-weight:700; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">📋 Transaction Ledger History</h3>
+              <div id="rewardLedgerWrapper" style="max-height:280px; overflow-y:auto; padding-right:5px;">
+                <!-- Filled via JS loop -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUBMIT FOOTER -->
+        <div style="margin-top:25px; border-top:1px solid rgba(255,255,255,0.05); padding-top:20px;">
+          <button type="submit" class="save-btn">Save Settings Changes</button>
+        </div>
+
+      </form>
+    </main>
+  </div>
+
+  <!-- POP-UP LOGIN -->
+  <div id="loginModal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="close-modal-btn" onclick="closeLoginModal()">&times;</button>
+      <h2>SECURE ACCESS</h2>
+      <button class="oauth-btn google-btn" onclick="mockAuthLogin('Google')"><img src="https://www.google.com/favicon.ico" alt="Google" class="oauth-logo"> Continue with Google</button>
+      <button class="oauth-btn discord-btn" onclick="mockAuthLogin('Discord')"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord" class="oauth-logo"> Continue with Discord</button>
+      <div class="modal-divider"><span>OR</span></div>
+      <form onsubmit="handleManualLogin(event)" class="modal-form">
+        <input type="email" placeholder="Email Address" required>
+        <input type="password" placeholder="Password" required>
+        <button type="submit" class="modal-submit-btn">ACCESS PORTAL</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- DYNAMIC CREATOR PORTAL UPLOAD MOD POPUP -->
+  <div id="uploadModal" class="upload-modal-overlay">
+    <div class="upload-modal-box" style="max-width: 500px;">
+      <button class="close-upload-btn" onclick="closeUploadModal()">&times;</button>
+      <h2>CREATOR PORTAL</h2>
+      <p class="upload-subtitle" style="color: #ff5555; font-weight: bold;">⚠️ TERMS: Files must not contain malicious code. Max file limit scale parameter is 50MB.</p>
+      
+      <div class="upload-game-select-title">1. Select Destination Target Game:</div>
+      <div class="upload-game-grid">
+        <div class="game-select-node" onclick="selectUploadGameSector('minecraft', this)">Minecraft Bedrock</div>
+        <div class="game-select-node" onclick="selectUploadGameSector('roblox', this)">Roblox Matrix</div>
+        <div class="game-select-node" onclick="selectUploadGameSector('gta', this)">Grand Theft Auto V</div>
+      </div>
+
+      <!-- Wadah Otomatis Pilihan Kategori Khas Masing-Masing Game -->
+      <div id="dynamicCategorySelectorBox" style="display: none; margin-bottom: 15px; text-align: left;">
+        <div class="upload-game-select-title">2. Select Module Category:</div>
+        <div id="categoryNodesContainer" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+      </div>
+
+      <!-- Isian Formulir Berkas Bawah -->
+      <form class="upload-form" onsubmit="handleModCreatorUpload(event)" style="display: none;" id="extendedUploadDetailsForm">
+        <input type="text" id="creatorModName" placeholder="Mod / Addon Title Name" required>
+        <textarea placeholder="Write documentation guide specifications... (Min 50 chars)" rows="3" required></textarea>
+        <div style="text-align: left; font-size: 11px; margin-top: 5px;">
+          <label style="color:#64748b; font-weight:bold; display:block; margin-bottom:4px;">Upload Archive File (.zip, .mcaddon, .mcpack, .mcworld):</label>
+          <input type="file" id="creatorModFile" accept=".zip,.mcaddon,.mcpack,.mcworld" required style="padding: 8px;">
+        </div>
+        <button type="submit" class="upload-submit-btn">DEPLOY TARGET PACK FILE</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- DYNAMIC PREMIUM FOOTER SYSTEM -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-brandbox">
+        <div class="footer-brand-logo">
+          <img src="src/assets/images/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+          <span>ASTROMODS</span>
+        </div>
+        <p class="footer-brand-motto" id="footerMottoText">Your ultimate cosmic station for top-tier game modifications, executor scripts, addons, and high-performance enhancements.</p>
+      </div>
+      
+      <div class="footer-links-grid">
+        <div class="footer-links-col">
+          <h4 class="footer-col-title" id="footerColNavTitle">Navigation</h4>
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="index.html#games-section" class="footer-link">Games Listing</a>
+          <a href="detail-mod-minecraft-bedrock/minecraft.html" class="footer-link">Browse Mods</a>
+        </div>
+        <div class="footer-links-col">
+          <h4 class="footer-col-title" id="footerColLegalTitle">Legal & Rules</h4>
+          <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+          <a href="terms-of-service.html" class="footer-link">Terms of Service</a>
+          <a href="dmca.html" class="footer-link">DMCA Policy</a>
+          <a href="disclaimer.html" class="footer-link">Disclaimer</a>
+          <a href="mailto:bimaignal2010@gmail.com" class="footer-link">Contact Support</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p id="footerCopyrightText">&copy; 2026 AstroMods. All rights reserved. Created and managed by bimaignal2010.</p>
+    </div>
+  </footer>
+
+  <!-- FIXED COOKIE COMPONENT BAR HORIZONTAL -->
+  <div id="cookieBanner" class="cookie-container">
+    <div class="cookie-content">
+      <span class="cookie-icon">🍪</span>
+      <p>AstroMods uses cookies to optimize your experience. <a href="privacy-policy.html" class="cookie-policy-link">Learn Privacy Guide</a></p>
+    </div>
+    <button class="cookie-accept-btn" onclick="acceptCookieConsent()">ACCEPT COOKIES</button>
+  </div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
