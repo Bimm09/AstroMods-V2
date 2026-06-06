@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AstroMods | Creator Studio - Upload Mod</title>
 <link rel="stylesheet" href="css/style.css">
+<link rel="icon" type="image/png" href="src/assets/images/logo.png">
 <style>
   .upload-wrapper {
     max-width: 900px;
@@ -358,15 +359,38 @@
           <img src="https://i.imgur.com/8Km9tLL.png" alt="Profile" class="profile-avatar-trigger" onclick="toggleDropdownMenu()" style="width: 42px; height: 42px; border-radius: 50%; cursor: pointer;">
           
           <div id="profileDropdown" class="dropdown-menu">
-            <div class="dropdown-user-header">
-              <h4 id="dropdownUserText">Player</h4>
-              <span>⚡ VIP MEMBER</span>
+            <div class="dropdown-user-header" style="display: flex; gap: 12px; align-items: center; padding: 16px 20px;">
+              <img src="https://i.imgur.com/8Km9tLL.png" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid #10b981; box-shadow: 0 4px 10px rgba(0,0,0,0.3);" class="dropdown-header-avatar" id="dropdownHeaderAvatar_static">
+              <div style="display: flex; flex-direction: column; overflow: hidden; justify-content: center; text-align: left;">
+                <h4 id="dropdownUserText" style="margin: 0; font-size: 14px; font-weight: 700; color: #fff; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; font-family: 'Space Grotesk', sans-serif;">Player</h4>
+                <span class="vip-text-indicator" style="color: #8a9ab0; font-weight: 800; font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase; font-family: 'Space Grotesk', sans-serif;">🛡️ BASIC CREATOR</span>
+              </div>
             </div>
-            <a href="profile.html" class="dropdown-item">👤 My Profile</a>
-            <a href="upload-mod.html" class="dropdown-item active-dropdown-item">🚀 Upload Game Mod</a>
-            <a href="settings.html" class="dropdown-item">⚙️ Settings Dashboard</a>
+            <a href="profile.html" class="dropdown-item">
+              <span class="dropdown-ii">👤</span>
+              <span class="dropdown-it">Profile Portfolio</span>
+            </a>
+            <a href="profile.html#profileFavoritesHeading" class="dropdown-item">
+              <span class="dropdown-ii">🔖</span>
+              <span class="dropdown-it">Bookmarked Mods</span>
+            </a>
+            <a href="profile.html#profileCreationsListGrid" class="dropdown-item">
+              <span class="dropdown-ii">📁</span>
+              <span class="dropdown-it">My Uploaded Mods</span>
+            </a>
+            <button class="dropdown-item vip-premium-trigger-nav-btn" onclick="openVipUpgradesModal()" style="color:#ffaa00; font-weight:800; border: none; background: transparent; font-family:inherit; cursor:pointer;">
+              <span class="dropdown-ii">⚡</span>
+              <span class="dropdown-it">Get VIP Member</span>
+            </button>
+            <a href="settings.html" class="dropdown-item">
+              <span class="dropdown-ii">⚙️</span>
+              <span class="dropdown-it">Settings Dashboard</span>
+            </a>
             <div class="dropdown-divider"></div>
-            <button class="dropdown-item logout-btn" onclick="logoutUser()">🚪 Log Out</button>
+            <button class="dropdown-item logout-btn" onclick="logoutUser()" style="border: none; background: transparent; font-family:inherit; cursor:pointer;">
+              <span class="dropdown-ii">🚪</span>
+              <span class="dropdown-it">Sign Out</span>
+            </button>
           </div>
         </div>
       </div>

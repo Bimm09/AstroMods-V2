@@ -2,6 +2,20 @@
 /* üéÆ MASTER SCRIPT.JS - ALL INTERACTIVE CORES FUNCTIONING   */
 /* ======================================================== */
 
+// Ganti dengan nomor WA & link Discord asli kamu
+window.ASTROMODS_WA_NUMBER = '6289643008300';
+window.ASTROMODS_DISCORD_URL = 'https://discord.gg/xxxxxxx';
+
+// Dynamically import our brand new Firebase Authentication & Firestore integration module
+if (!window.firebaseAuthAttached) {
+  window.firebaseAuthAttached = true;
+  const script = document.createElement('script');
+  script.type = 'module';
+  const isSubfolder = window.location.pathname.includes('/detail-mod-');
+  script.src = isSubfolder ? '../js/firebase-auth.js' : 'js/firebase-auth.js';
+  document.head.appendChild(script);
+}
+
 // consolidated global state
 let userIsLoggedIn = localStorage.getItem('astroUserLoggedIn') === 'true';
 let selectedUploadGame = "";
@@ -1362,15 +1376,12 @@ function syncUserSessionUI() {
           adminBtn.className = 'dropdown-item admin-console-btn';
           adminBtn.style.color = '#ff3e4e';
           adminBtn.style.fontWeight = 'bold';
-          adminBtn.style.textAlign = 'left';
-          adminBtn.style.width = '100%';
           adminBtn.style.background = 'transparent';
           adminBtn.style.border = 'none';
-          adminBtn.style.padding = '10px 15px';
           adminBtn.style.cursor = 'pointer';
           adminBtn.style.fontFamily = 'inherit';
           adminBtn.style.fontSize = '13px';
-          adminBtn.innerHTML = 'üõ°Ô∏è Owner Admin Console';
+          adminBtn.innerHTML = '<span class="dropdown-ii">üõ°Ô∏è</span><span class="dropdown-it">Owner Admin Console</span>';
           adminBtn.onclick = function() {
             openAdminPortalModal();
           };
@@ -2076,7 +2087,7 @@ function initDetailPage() {
       ytHtml = `
         <div style="margin-bottom: 25px; background: rgba(220, 38, 38, 0.05); border: 1px solid rgba(220, 38, 38, 0.2); padding: 15px; border-radius: 12px; width: 100%; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
           <h3 style="color:#ef4444; font-family:'Inter',sans-serif; font-weight:700; font-size:13px; margin-bottom:12px; display:flex; align-items:center; gap:8px; margin-top:0;">
-            Ì†ΩÌ≥∫ FULL GAMEPLAY VIDEO (YOUTUBE EMDED)
+            üì∫ FULL GAMEPLAY VIDEO (YOUTUBE EMDED)
           </h3>
           <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
             <iframe src="https://www.youtube.com/embed/${ytId}" style="position: absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen referrerPolicy="no-referrer"></iframe>
@@ -2696,21 +2707,24 @@ function loadModComments() {
 
 // --- 5. SECURE PERMANENT PROFILE AVATAR PERSISTENT SAVE AND RENDER ENGINE ---
 function processLocalAvatarUpload(event) {
+  if (window.processLocalAvatarUpload && typeof window.processLocalAvatarUpload === 'function' && localStorage.getItem('astroUserLoggedIn') === 'true') {
+    // Forward to the firebase unified upload flow
+    window.processLocalAvatarUpload(event);
+    return;
+  }
   const file = event.target.files[0];
   if (!file) return;
 
   const reader = new FileReader();
   reader.onload = function(e) {
     const dataUrl = e.target.result;
-    localStorage.setItem('astromods_user_avatar', dataUrl);
+    localStorage.setItem('astroAvatar', dataUrl);
     
-    // Also save under current profile username specifically
     const loggedInUser = localStorage.getItem('astroUsername') || 'Player';
     localStorage.setItem(`astromods_user_avatar_${loggedInUser.toLowerCase()}`, dataUrl);
     
     injectAvatarToElements(dataUrl);
     
-    // Reload if we are on profile.html to sync other locations
     if (window.location.pathname.includes('profile.html')) {
       window.location.reload();
     }
@@ -2725,7 +2739,7 @@ function injectAvatarToElements(avatarSource) {
 }
 
 function loadSavedAvatarImage() {
-  const savedAvatar = localStorage.getItem('astromods_user_avatar');
+  const savedAvatar = localStorage.getItem('astroAvatar') || localStorage.getItem('astromods_user_avatar');
   if (savedAvatar) {
     injectAvatarToElements(savedAvatar);
   }
@@ -2733,21 +2747,24 @@ function loadSavedAvatarImage() {
 
 // --- 5B. LOGIKA UNGGAL GAMBAR BANNER BANNER EDITABLE ---
 function processLocalBannerUpload(event) {
+  if (window.processLocalBannerUpload && typeof window.processLocalBannerUpload === 'function' && localStorage.getItem('astroUserLoggedIn') === 'true') {
+    // Forward to the firebase unified upload flow
+    window.processLocalBannerUpload(event);
+    return;
+  }
   const file = event.target.files[0];
   if (!file) return;
 
   const reader = new FileReader();
   reader.onload = function(e) {
     const dataUrl = e.target.result;
-    localStorage.setItem('astromods_user_banner', dataUrl);
+    localStorage.setItem('astroBanner', dataUrl);
     
-    // Also save under current profile username specifically
     const loggedInUser = localStorage.getItem('astroUsername') || 'Player';
     localStorage.setItem(`astromods_user_banner_${loggedInUser.toLowerCase()}`, dataUrl);
     
     injectBannerToElements(dataUrl);
     
-    // Reload if we are on profile.html to sync
     if (window.location.pathname.includes('profile.html')) {
       window.location.reload();
     }
@@ -2765,8 +2782,9 @@ function injectBannerToElements(bannerSource) {
   }
 }
 
+// Load saved banner on init to prevent blank layout preview
 function loadSavedBannerImage() {
-  const savedBanner = localStorage.getItem('astromods_user_banner');
+  const savedBanner = localStorage.getItem('astroBanner') || localStorage.getItem('astromods_user_banner');
   if (savedBanner) {
     injectBannerToElements(savedBanner);
   }
@@ -2824,8 +2842,50 @@ function logoutUser() {
 
 function updateProfileUsername() {
   const username = localStorage.getItem('astroUsername') || 'Player';
+  const isVip = localStorage.getItem('astro_vip_status') === 'true';
+
   document.querySelectorAll('#dropdownUserText').forEach(el => {
     el.innerText = username;
+  });
+
+  document.querySelectorAll('.nav-username').forEach(el => {
+    el.innerText = username;
+  });
+
+  document.querySelectorAll('#profileSection').forEach(profileContainer => {
+    let navUserInfo = profileContainer.querySelector('.nav-user-info');
+    if (navUserInfo) {
+      const pUsername = navUserInfo.querySelector('.nav-username');
+      if (pUsername) pUsername.innerText = username;
+
+      const pBadge = navUserInfo.querySelector('.nav-vip-badge');
+      if (isVip) {
+        if (!pBadge) {
+          const badgeSpan = document.createElement('span');
+          badgeSpan.className = 'nav-vip-badge';
+          badgeSpan.style.background = 'linear-gradient(135deg, #ffaa00, #d97706)';
+          badgeSpan.style.color = '#000';
+          badgeSpan.style.fontFamily = "'Orbitron', 'Space Grotesk', sans-serif";
+          badgeSpan.style.fontSize = '9px';
+          badgeSpan.style.fontWeight = '900';
+          badgeSpan.style.padding = '2px 6px';
+          badgeSpan.style.borderRadius = '4px';
+          badgeSpan.style.boxShadow = '0 0 8px rgba(255, 170, 0, 0.4)';
+          badgeSpan.style.textTransform = 'uppercase';
+          badgeSpan.style.letterSpacing = '0.5px';
+          badgeSpan.style.display = 'inline-flex';
+          badgeSpan.style.alignItems = 'center';
+          badgeSpan.style.alignSelf = 'center';
+          badgeSpan.style.height = '16px';
+          badgeSpan.style.lineHeight = '16px';
+          badgeSpan.style.marginLeft = '2px';
+          badgeSpan.innerHTML = 'üëë VIP';
+          navUserInfo.appendChild(badgeSpan);
+        }
+      } else {
+        if (pBadge) pBadge.remove();
+      }
+    }
   });
 }
 
@@ -3555,7 +3615,13 @@ function initProfileDashboard() {
   // Dynamic biographical text
   const profileBio = document.querySelector('.profile-info p');
   if (profileBio) {
-    const customBio = localStorage.getItem(`astro_bio_${targetUser.toLowerCase()}`);
+    let customBio = null;
+    if (isOwnProfile) {
+      customBio = localStorage.getItem('astroBio_' + targetUser.toLowerCase());
+    }
+    if (!customBio) {
+      customBio = localStorage.getItem(`astro_bio_${targetUser.toLowerCase()}`) || localStorage.getItem(`astroBio_${targetUser.toLowerCase()}`);
+    }
     profileBio.innerText = customBio ? '‚ö° ' + customBio : '‚ö° Minecraft Creator & Mod Explorer';
   }
 
@@ -3780,33 +3846,35 @@ function initProfileDashboard() {
   }
 
   // Load avatar and banner specifically for target user too!
-  const targetAvatarKey = `astromods_user_avatar_${targetUser.toLowerCase()}`;
-  const targetBannerKey = `astromods_user_banner_${targetUser.toLowerCase()}`;
+  let savedAvatar = null;
+  let savedBanner = null;
+
+  if (isOwnProfile) {
+    savedAvatar = localStorage.getItem('astroAvatar');
+    savedBanner = localStorage.getItem('astroBanner');
+  }
   
-  const savedAvatar = localStorage.getItem(targetAvatarKey);
-  if (savedAvatar) {
-    const avatarEl = document.getElementById('profileDashboardAvatar');
-    if (avatarEl) avatarEl.setAttribute('src', savedAvatar);
-  } else {
-    const avatarEl = document.getElementById('profileDashboardAvatar');
-    if (avatarEl) avatarEl.setAttribute('src', 'https://i.imgur.com/8Km9tLL.png');
+  if (!savedAvatar) {
+    savedAvatar = localStorage.getItem(`astromods_user_avatar_${targetUser.toLowerCase()}`) || localStorage.getItem('astromods_user_avatar');
+  }
+  if (!savedBanner) {
+    savedBanner = localStorage.getItem(`astromods_user_banner_${targetUser.toLowerCase()}`) || localStorage.getItem('astromods_user_banner');
   }
 
-  const savedBanner = localStorage.getItem(targetBannerKey);
-  if (savedBanner) {
-    const bannerEl = document.getElementById('profileDashboardBanner');
-    if (bannerEl) {
+  const avatarEl = document.getElementById('profileDashboardAvatar');
+  if (avatarEl) {
+    avatarEl.setAttribute('src', savedAvatar || 'https://i.imgur.com/8Km9tLL.png');
+  }
+
+  const bannerEl = document.getElementById('profileDashboardBanner');
+  if (bannerEl) {
+    if (savedBanner) {
       bannerEl.style.backgroundImage = `url('${savedBanner}')`;
-      bannerEl.style.backgroundSize = 'cover';
-      bannerEl.style.backgroundPosition = 'center';
-    }
-  } else {
-    const bannerEl = document.getElementById('profileDashboardBanner');
-    if (bannerEl) {
+    } else {
       bannerEl.style.backgroundImage = "url('https://4kwallpapers.com/images/wallpapers/minecraft-bedrock-3840x1080-19694.jpg')";
-      bannerEl.style.backgroundSize = 'cover';
-      bannerEl.style.backgroundPosition = 'center';
     }
+    bannerEl.style.backgroundSize = 'cover';
+    bannerEl.style.backgroundPosition = 'center';
   }
 
   // Set up activity dynamic feeds
@@ -5672,5 +5740,9 @@ function shareModLink() {
   });
 }
 window.shareModLink = shareModLink;
+
+window.ALL_GAME_MODS = ALL_GAME_MODS;
+window.currentDetailPageModId = currentDetailPageModId;
+
 
 

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AstroMods | Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" type="image/png" href="src/assets/images/logo.png">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="logo" onclick="window.location.href='index.html'" style="cursor:pointer;">
+      <img src="src/assets/images/logo.png" alt="AstroMods Logo" referrerpolicy="no-referrer" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+      <h1>ASTROMODS</h1>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#games-section">Games</a>
+      <a href="detail-mod-minecraft-bedrock/minecraft.html">Browse</a>
+    </nav>
+    <div class="cf-header-right">
+      <div class="buttons">
+        <div id="guestButtons" style="display:flex;gap:8px;">
+          <button class="login" onclick="openLoginModal()">Sign In</button>
+          <button class="register" onclick="openLoginModalSignUp()">Sign Up</button>
+        </div>
+        <div id="profileSection" style="display:none;align-items:center;gap:12px;">
+          <button class="gear-settings-btn" onclick="window.location.href='settings.html'">⚙️</button>
+          <img src="" alt="Profile" class="profile-avatar-trigger" onclick="toggleDropdownMenu()" style="width:42px;height:42px;border-radius:50%;cursor:pointer;">
+          <div id="profileDropdown" class="dropdown-menu"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- DASHBOARD CONTENT -->
+  <div style="max-width:1100px;margin:90px auto 60px;padding:0 20px;">
+    <div style="margin-bottom:24px;">
+      <h1 style="font-family:'Orbitron',sans-serif;font-size:24px;color:#fff;font-weight:800;margin:0 0 4px;">📊 DASHBOARD</h1>
+      <p style="color:#64748b;font-size:13px;margin:0;">Kelola akun dan aktivitasmu di AstroMods</p>
+    </div>
+    <div id="_dashboardContainer">
+      <div style="text-align:center;padding:80px;color:#64748b;">
+        <div style="font-size:32px;margin-bottom:12px;">⏳</div>
+        <div>Memuat dashboard...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="close-modal-btn" onclick="closeLoginModal()">&times;</button>
+      <h2>SECURE ACCESS</h2>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-brandbox">
+        <div class="footer-brand-logo">
+          <img src="src/assets/images/logo.png" alt="AstroMods Logo" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+          <span>ASTROMODS</span>
+        </div>
+        <p class="footer-brand-motto">Your ultimate cosmic station for top-tier game modifications.</p>
+      </div>
+      <div class="footer-links-grid">
+        <div class="footer-links-col">
+          <h4 class="footer-col-title">Navigation</h4>
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="dashboard.html" class="footer-link">Dashboard</a>
+          <a href="bookmarks.html" class="footer-link">Bookmarks</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 AstroMods. All rights reserved.</p>
+    </div>
+  </footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
