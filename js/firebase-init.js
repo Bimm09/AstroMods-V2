@@ -45,12 +45,12 @@ import {
 
 // ─── FIREBASE CONFIG ─────────────────────────────────
 const firebaseConfig = {
-  apiKey: "AIzaSyAyz8j56DBBhmnMtJY1ryrMW3nylg_TBAI",
-  authDomain: "stoked-map-gw532.firebaseapp.com",
-  projectId: "stoked-map-gw532",
-  storageBucket: "stoked-map-gw532.firebasestorage.app",
-  messagingSenderId: "503781144042",
-  appId: "1:503781144042:web:f7f0a1cbbe3ac99732ae93"
+  apiKey: "AIzaSyBN8gjvMMVfJoKhgD-BowXFoo6rMkfKOPY",
+  authDomain: "astromods-5d01d.firebaseapp.com",
+  projectId: "astromods-5d01d",
+  storageBucket: "astromods-5d01d.firebasestorage.app",
+  messagingSenderId: "1384064915001",
+  appId: "1:1384064915001:web:2872176d6133bba1bafe8"
 };
 
 // ─── INITIALIZE APP ───────────────────────────────────
