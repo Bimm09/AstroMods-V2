@@ -1,19 +1,13 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/$1" }
-  ],
-  "headers": [
+  "version": 2,
+  "outputDirectory": ".",
+  "builds": [
     {
-      "source": "/js/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=3600" }
-      ]
-    },
-    {
-      "source": "/css/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=3600" }
-      ]
+      "src": "**/*",
+      "use": "@vercel/static"
     }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
