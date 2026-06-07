@@ -206,7 +206,7 @@
         <!-- GUEST -->
         <div id="guestButtons">
           <button class="login" onclick="openLoginModal()">Login</button>
-          <button class="register" onclick="openLoginModal()">Register</button>
+          <button class="register" onclick="openLoginModalSignUp()">Register</button>
         </div>
 
         <!-- PROFILE -->
@@ -467,18 +467,11 @@
     <div class="modal-box">
       <button class="close-modal-btn" onclick="closeLoginModal()">&times;</button>
       <h2>SECURE ACCESS</h2>
-      <button class="oauth-btn google-btn" onclick="mockAuthLogin('Google')"><img src="https://www.google.com/favicon.ico" alt="Google" class="oauth-logo"> Continue with Google</button>
-      <button class="oauth-btn discord-btn" onclick="mockAuthLogin('Discord')"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord" class="oauth-logo"> Continue with Discord</button>
-      <div class="modal-divider"><span>OR</span></div>
-      <form onsubmit="handleManualLogin(event)" class="modal-form">
-        <input type="email" placeholder="Email Address" required>
-        <input type="password" placeholder="Password" required>
-        <button type="submit" class="modal-submit-btn">ACCESS PORTAL</button>
-      </form>
     </div>
   </div>
 
-  <script src="js/script.js"></script>
+  <script type="module" src="js/firebase-init.js"></script>
+<script src="js/script.js"></script>
   <script>
     // Self-contained page controller for localized doc content
     function setDocLanguage(lang) {
