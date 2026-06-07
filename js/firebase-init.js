@@ -45,12 +45,13 @@ import {
 
 // ─── FIREBASE CONFIG ─────────────────────────────────
 const firebaseConfig = {
-  apiKey: "AIzaSyBN8gjvMMVfJoKhgD-BowXFoo6rMkfKOPY",
+  apiKey: "AIzaSyBN0gjvNMVfJoKhgD-BowXFoo6rMsfKOPY",
   authDomain: "astromods-5d01d.firebaseapp.com",
   projectId: "astromods-5d01d",
   storageBucket: "astromods-5d01d.firebasestorage.app",
-  messagingSenderId: "1384064915001",
-  appId: "1:1384064915001:web:2872176d6133bba1bafe8"
+  messagingSenderId: "384064915001",
+  appId: "1:384064915001:web:2872176d6133bbba1bafe8",
+  measurementId: "G-XQLWQH1JCS"
 };
 
 // ─── INITIALIZE APP ───────────────────────────────────
