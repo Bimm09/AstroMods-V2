@@ -34,7 +34,7 @@ function getAvatar(uid, customUrl) {
 }
 
 // ─── TOAST NOTIFICATION ──────────────────────────────
-window.astroToast = function(message, icon = '⚡', color = '#ff003c') {
+window.astroToast = function (message, icon = '⚡', color = '#ff003c') {
   const old = document.getElementById('_astroToast');
   if (old) old.remove();
   const t = document.createElement('div');
@@ -197,7 +197,7 @@ function injectAuthStyles() {
 }
 
 // ─── TAB SWITCH ───────────────────────────────────────
-window.authSwitchTab = function(tab) {
+window.authSwitchTab = function (tab) {
   const fi = document.getElementById('_formSignIn');
   const fu = document.getElementById('_formSignUp');
   const ti = document.getElementById('_tabSignIn');
@@ -225,7 +225,7 @@ function showAuthAlert(msg) {
 }
 
 // ─── GOOGLE LOGIN ─────────────────────────────────────
-window.authGoogleLogin = async function() {
+window.authGoogleLogin = async function () {
   const a = document.getElementById('_authAlert');
   if (a) a.style.display = 'none';
   try {
@@ -243,7 +243,7 @@ window.authGoogleLogin = async function() {
 };
 
 // ─── EMAIL SIGN IN ────────────────────────────────────
-window.authEmailSignIn = async function(e) {
+window.authEmailSignIn = async function (e) {
   e.preventDefault();
   const email = document.getElementById('_siEmail')?.value.trim();
   const pass = document.getElementById('_siPass')?.value;
@@ -269,15 +269,15 @@ window.authEmailSignIn = async function(e) {
     console.error('Sign in error:', err);
     const msg = err.code === 'auth/user-not-found' ? 'Akun tidak ditemukan.'
       : err.code === 'auth/wrong-password' ? 'Password salah.'
-      : err.code === 'auth/invalid-credential' ? 'Email atau password tidak valid.'
-      : err.message;
+        : err.code === 'auth/invalid-credential' ? 'Email atau password tidak valid.'
+          : err.message;
     showAuthAlert(msg);
     if (btn) { btn.disabled = false; btn.textContent = 'ESTABLISH CONNECTION'; }
   }
 };
 
 // ─── EMAIL SIGN UP ────────────────────────────────────
-window.authEmailSignUp = async function(e) {
+window.authEmailSignUp = async function (e) {
   e.preventDefault();
   const username = document.getElementById('_suUser')?.value.trim();
   const email = document.getElementById('_suEmail')?.value.trim();
@@ -306,7 +306,7 @@ window.authEmailSignUp = async function(e) {
 };
 
 // ─── FORGOT PASSWORD ──────────────────────────────────
-window.authForgotPassword = async function() {
+window.authForgotPassword = async function () {
   const email = document.getElementById('_siEmail')?.value.trim();
   if (!email || !email.includes('@')) {
     alert('Masukkan email kamu dulu di kolom email, lalu klik Forgot Password.');
@@ -321,7 +321,7 @@ window.authForgotPassword = async function() {
 };
 
 // ─── LOGOUT ───────────────────────────────────────────
-window.logoutUser = async function() {
+window.logoutUser = async function () {
   if (!confirm('Yakin ingin Sign Out?')) return;
   try {
     await signOut(auth);
@@ -363,6 +363,29 @@ async function setupOrLoadProfile(user) {
     if (snap.exists()) {
       currentProfile = snap.data();
       // Pastikan avatarUrl menggunakan DiceBear jika tidak ada custom
+      if (currentProfile.role === "owner") {
+        document.getElementById("ownerBadge")?.style.setProperty("display", "inline-block");
+      }
+
+      if (currentProfile.role === "admin") {
+        document.getElementById("adminBadge")?.style.setProperty("display", "inline-block");
+      }
+
+      if (currentProfile.vipStatus === true) {
+        document.getElementById("vipBadge")?.style.setProperty("display", "inline-block");
+      }
+
+      if (currentProfile.role === "owner") {
+        console.log("👑 OWNER LOGIN");
+
+        document.body.classList.add("owner-mode");
+      }
+
+      if (currentProfile.role === "admin") {
+        console.log("🛡️ ADMIN LOGIN");
+
+        document.body.classList.add("admin-mode");
+      }
       if (!currentProfile.avatarUrl || currentProfile.avatarUrl.includes('i.imgur.com/8Km9tLL')) {
         currentProfile.avatarUrl = getDiceBearAvatarUrl(uid);
         await updateDoc(doc(db, 'users', uid), { avatarUrl: currentProfile.avatarUrl });
@@ -399,7 +422,7 @@ function saveLocalSession(uid, profile) {
 function loadLocalSession(uid, user) {
   const raw = localStorage.getItem('_astro_profile');
   if (raw) {
-    try { currentProfile = JSON.parse(raw); return; } catch (e) {}
+    try { currentProfile = JSON.parse(raw); return; } catch (e) { }
   }
   currentProfile = {
     uid,
@@ -412,8 +435,8 @@ function loadLocalSession(uid, user) {
 }
 
 function clearLocalSession() {
-  const keys = ['_astro_loggedIn','_astro_uid','_astro_username','_astro_email','_astro_avatar','_astro_vip','_astro_profile',
-    'astroUserLoggedIn','astroUsername','astroAvatar','astro_vip_status','astro_user_id','astroEmail'];
+  const keys = ['_astro_loggedIn', '_astro_uid', '_astro_username', '_astro_email', '_astro_avatar', '_astro_vip', '_astro_profile',
+    'astroUserLoggedIn', 'astroUsername', 'astroAvatar', 'astro_vip_status', 'astro_user_id', 'astroEmail'];
   keys.forEach(k => localStorage.removeItem(k));
 }
 
@@ -450,10 +473,10 @@ function syncNavbar() {
     if (dropdown) {
       dropdown.innerHTML = `
         <div style="display:flex;gap:12px;align-items:center;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.05);">
-          <img src="${avatarUrl}" style="width:42px;height:42px;border-radius:50%;border:2px solid ${isVip?'#ffaa00':'#10b981'};object-fit:cover;" onerror="this.src='${getDiceBearAvatarUrl(localStorage.getItem('_astro_uid')||'guest')}'">
+          <img src="${avatarUrl}" style="width:42px;height:42px;border-radius:50%;border:2px solid ${isVip ? '#ffaa00' : '#10b981'};object-fit:cover;" onerror="this.src='${getDiceBearAvatarUrl(localStorage.getItem('_astro_uid') || 'guest')}'">
           <div>
             <div style="font-size:14px;font-weight:700;color:#fff;font-family:'Space Grotesk',sans-serif;">${username}</div>
-            <div style="font-size:9px;font-weight:800;color:${isVip?'#ffaa00':'#8a9ab0'};text-transform:uppercase;letter-spacing:.5px;">${isVip?'👑 ELITE VIP':'🛡️ BASIC CREATOR'}</div>
+            <div style="font-size:9px;font-weight:800;color:${isVip ? '#ffaa00' : '#8a9ab0'};text-transform:uppercase;letter-spacing:.5px;">${isVip ? '👑 ELITE VIP' : '🛡️ BASIC CREATOR'}</div>
           </div>
         </div>
         <a href="${ROOT}profile.html" class="dropdown-item"><span class="dropdown-ii">👤</span><span class="dropdown-it">Profile</span></a>
@@ -470,13 +493,13 @@ function syncNavbar() {
 }
 
 // ─── OPEN LOGIN MODAL (SIGN UP TAB) ──────────────────
-window.openLoginModalSignUp = function() {
+window.openLoginModalSignUp = function () {
   if (typeof openLoginModal === 'function') openLoginModal();
   setTimeout(() => authSwitchTab('signup'), 100);
 };
 
 // ─── BOOKMARK SYSTEM ──────────────────────────────────
-window.toggleBookmark = async function(modId, modData) {
+window.toggleBookmark = async function (modId, modData) {
   const uid = localStorage.getItem('_astro_uid');
   if (!uid) {
     if (typeof openLoginModal === 'function') openLoginModal();
@@ -488,7 +511,7 @@ window.toggleBookmark = async function(modId, modData) {
     if (snap.exists()) {
       await deleteDoc(bRef);
       // Kurangi counter
-      await updateDoc(doc(db, 'users', uid), { bookmarkCount: -1 }).catch(() => {});
+      await updateDoc(doc(db, 'users', uid), { bookmarkCount: -1 }).catch(() => { });
       astroToast('Bookmark dihapus', '🗑️', '#ef4444');
       return false;
     } else {
@@ -499,7 +522,7 @@ window.toggleBookmark = async function(modId, modData) {
         modGame: modData?.game || '',
         createdAt: serverTimestamp()
       });
-      await updateDoc(doc(db, 'users', uid), { bookmarkCount: 1 }).catch(() => {});
+      await updateDoc(doc(db, 'users', uid), { bookmarkCount: 1 }).catch(() => { });
       astroToast('Mod di-bookmark! 🔖', '🔖', '#10b981');
       return true;
     }
@@ -515,7 +538,7 @@ window.toggleBookmark = async function(modId, modData) {
   }
 };
 
-window.isBookmarked = async function(modId) {
+window.isBookmarked = async function (modId) {
   const uid = localStorage.getItem('_astro_uid');
   if (!uid) return false;
   try {
@@ -528,7 +551,7 @@ window.isBookmarked = async function(modId) {
 };
 
 // ─── COMMENT SYSTEM ───────────────────────────────────
-window.submitComment = async function(modId, text) {
+window.submitComment = async function (modId, text) {
   const uid = localStorage.getItem('_astro_uid');
   const username = localStorage.getItem('_astro_username') || 'Player';
   const avatarUrl = localStorage.getItem('_astro_avatar') || getDiceBearAvatarUrl(uid);
@@ -550,7 +573,7 @@ window.submitComment = async function(modId, text) {
   }
 };
 
-window.likeComment = async function(commentId) {
+window.likeComment = async function (commentId) {
   const uid = localStorage.getItem('_astro_uid');
   if (!uid) { if (typeof openLoginModal === 'function') openLoginModal(); return; }
   try {
@@ -560,15 +583,15 @@ window.likeComment = async function(commentId) {
     const data = snap.data();
     const liked = (data.likedBy || []).includes(uid);
     if (liked) {
-      await updateDoc(ref, { likes: Math.max(0, (data.likes||0)-1), likedBy: arrayRemove(uid) });
+      await updateDoc(ref, { likes: Math.max(0, (data.likes || 0) - 1), likedBy: arrayRemove(uid) });
     } else {
-      await updateDoc(ref, { likes: (data.likes||0)+1, likedBy: arrayUnion(uid) });
+      await updateDoc(ref, { likes: (data.likes || 0) + 1, likedBy: arrayUnion(uid) });
     }
     if (typeof loadComments === 'function') loadComments(data.modId);
   } catch (err) { console.error(err); }
 };
 
-window.loadComments = async function(modId) {
+window.loadComments = async function (modId) {
   const container = document.getElementById('_commentsContainer');
   if (!container) return;
   try {
@@ -594,7 +617,7 @@ window.loadComments = async function(modId) {
             </div>
           </div>
           <p style="font-size:13px;color:#cbd5e1;margin:0 0 10px;line-height:1.5;">${d.text}</p>
-          <button class="astro-like-btn ${liked?'liked':''}" onclick="likeComment('${snap.id}')">
+          <button class="astro-like-btn ${liked ? 'liked' : ''}" onclick="likeComment('${snap.id}')">
             ❤️ ${d.likes || 0}
           </button>
         </div>
@@ -619,11 +642,11 @@ async function loadNotifications() {
       el.textContent = count > 0 ? count.toString() : '';
       el.style.display = count > 0 ? 'flex' : 'none';
     });
-  } catch (e) {}
+  } catch (e) { }
 }
 
 // ─── EDIT PROFILE MODAL ──────────────────────────────
-window.openEditProfileModal = function() {
+window.openEditProfileModal = function () {
   if (document.getElementById('_editProfileModal')) return;
   const uid = localStorage.getItem('_astro_uid');
   const profile = currentProfile || {};
@@ -667,7 +690,7 @@ window.openEditProfileModal = function() {
   document.body.appendChild(modal);
 };
 
-window.previewEditAvatar = function(e) {
+window.previewEditAvatar = function (e) {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
@@ -678,7 +701,7 @@ window.previewEditAvatar = function(e) {
   reader.readAsDataURL(file);
 };
 
-window.saveEditProfile = async function() {
+window.saveEditProfile = async function () {
   const uid = localStorage.getItem('_astro_uid');
   if (!uid) return;
   const username = document.getElementById('_editUsername')?.value.trim();
@@ -787,7 +810,7 @@ function injectVipStyles() {
   document.head.appendChild(s);
 }
 
-window.openVipUpgradesModal = function() {
+window.openVipUpgradesModal = function () {
   injectVipStyles();
   const old = document.getElementById('_vipModal');
   if (old) old.remove();
@@ -898,7 +921,7 @@ window.openVipUpgradesModal = function() {
 };
 
 // ─── VIP MODAL HELPERS ────────────────────────────────
-window._vipSwitchTab = function(tab, el) {
+window._vipSwitchTab = function (tab, el) {
   document.querySelectorAll('._payTab').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   const idGrid = document.getElementById('_vipPayID');
@@ -914,14 +937,14 @@ window._vipSwitchTab = function(tab, el) {
   }
 };
 
-window._vipSelectPay = function(el, method) {
+window._vipSelectPay = function (el, method) {
   const grid = el.closest('._payGrid');
   if (grid) grid.querySelectorAll('._payItem').forEach(p => p.classList.remove('selected'));
   el.classList.add('selected');
   window._vipSelectedPay = method;
 };
 
-window._vipStartPurchase = function() {
+window._vipStartPurchase = function () {
   const displayEl = document.getElementById('_vipPayDisplay');
   if (displayEl) displayEl.textContent = window._vipSelectedPay || 'metode yang dipilih';
   const main = document.getElementById('_vipMainView');
@@ -933,14 +956,14 @@ window._vipStartPurchase = function() {
   if (box) box.scrollTop = 0;
 };
 
-window._vipBackToMain = function() {
+window._vipBackToMain = function () {
   const main = document.getElementById('_vipMainView');
   const success = document.getElementById('_vipSuccessView');
   if (main) main.style.display = 'block';
   if (success) success.style.display = 'none';
 };
 
-window._vipContact = function(channel) {
+window._vipContact = function (channel) {
   const method = window._vipSelectedPay || 'pilihan kamu';
   const username = localStorage.getItem('_astro_username') || localStorage.getItem('astroUsername') || 'User';
   const msg = `Halo admin AstroMods! 👋\n\nSaya ingin membeli VIP Budget Pelajar.\n\n📋 Detail:\n• Username: ${username}\n• Metode: ${method}\n• Harga: Rp20.000\n\nMohon konfirmasi rekening/nomor untuk transfer. Terima kasih!`;
@@ -966,19 +989,19 @@ window._vipContact = function(channel) {
 window.processVipPurchase = window._vipStartPurchase;
 
 // ─── DOWNLOAD TRACKING ────────────────────────────────
-window.trackDownload = async function(modId) {
+window.trackDownload = async function (modId) {
   const uid = localStorage.getItem('_astro_uid');
   if (!uid) return;
   try {
     await addDoc(collection(db, 'downloads'), {
       uid, modId, createdAt: serverTimestamp()
     });
-    await updateDoc(doc(db, 'mods', modId), { downloadCount: increment(1) }).catch(() => {});
-  } catch (e) {}
+    await updateDoc(doc(db, 'mods', modId), { downloadCount: increment(1) }).catch(() => { });
+  } catch (e) { }
 };
 
 // ─── FOLLOW SYSTEM ────────────────────────────────────
-window.toggleFollow = async function(targetUid) {
+window.toggleFollow = async function (targetUid) {
   const uid = localStorage.getItem('_astro_uid');
   if (!uid || uid === targetUid) return;
   try {
@@ -1065,8 +1088,8 @@ async function loadProfileBookmarks(uid) {
           <img src="${d.modImg || ''}" style="height:130px;width:100%;object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1612287230202-1bf1d85d1bdf?w=400&h=200&fit=crop'">
           <div style="padding:14px;flex:1;display:flex;flex-direction:column;justify-content:space-between;">
             <div>
-              <span style="font-size:10px;background:#1e293b;color:#ffaa00;padding:3px 8px;border-radius:4px;text-transform:uppercase;font-weight:bold;">${d.modGame||'Mod'}</span>
-              <h3 style="font-size:14px;color:#fff;margin:8px 0;">${d.modTitle||'Untitled Mod'}</h3>
+              <span style="font-size:10px;background:#1e293b;color:#ffaa00;padding:3px 8px;border-radius:4px;text-transform:uppercase;font-weight:bold;">${d.modGame || 'Mod'}</span>
+              <h3 style="font-size:14px;color:#fff;margin:8px 0;">${d.modTitle || 'Untitled Mod'}</h3>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.05);padding-top:10px;margin-top:8px;">
               <a href="${ROOT}detail-mod-minecraft-bedrock/detail-pokemon.html?mod=${d.modId}" style="color:#10b981;font-size:11px;font-weight:bold;">Buka →</a>
@@ -1088,7 +1111,7 @@ async function loadProfileBookmarks(uid) {
   }
 }
 
-window.removeBookmark = async function(bookmarkDocId) {
+window.removeBookmark = async function (bookmarkDocId) {
   const uid = localStorage.getItem('_astro_uid');
   if (!uid) return;
   try {
@@ -1160,7 +1183,7 @@ async function saveSettingsForm() {
   }
 }
 
-window.changePasswordSettings = async function() {
+window.changePasswordSettings = async function () {
   const pass = document.getElementById('_newPassSettings')?.value;
   if (!pass || pass.length < 8) { alert('Password minimal 8 karakter.'); return; }
   if (!auth.currentUser) { alert('Harap login ulang terlebih dahulu untuk mengganti password.'); return; }
@@ -1173,7 +1196,7 @@ window.changePasswordSettings = async function() {
   }
 };
 
-window.deleteAccountSettings = async function() {
+window.deleteAccountSettings = async function () {
   if (!auth.currentUser) return;
   if (!confirm('⚠️ HAPUS AKUN PERMANEN?\n\nSemua data kamu akan terhapus dan tidak bisa dipulihkan!')) return;
   const uid = auth.currentUser.uid;
@@ -1213,7 +1236,7 @@ async function initDashboardPage() {
     const mq = query(collection(db, 'mods'), where('uploaderUid', '==', uid));
     const msnaps = await getDocs(mq);
     modCount = msnaps.size;
-  } catch (e) {}
+  } catch (e) { }
 
   container.innerHTML = `
     <div class="astro-dash-header">
@@ -1223,14 +1246,14 @@ async function initDashboardPage() {
         <div style="color:#64748b;font-size:13px;margin-bottom:6px;">${profile.email || ''}</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
           <span style="background:#0f111a;border:1px solid rgba(255,0,60,.2);color:#94a3b8;font-size:10px;padding:4px 10px;border-radius:6px;">📅 Bergabung: ${profile.joinDateFormatted || 'Unknown'}</span>
-          <span style="background:${profile.vipStatus?'rgba(255,170,0,.15)':'#0f111a'};border:1px solid ${profile.vipStatus?'#ffaa00':'rgba(255,255,255,.08)'};color:${profile.vipStatus?'#ffaa00':'#64748b'};font-size:10px;padding:4px 10px;border-radius:6px;">${profile.vipStatus?'👑 VIP MEMBER':'🛡️ Member Biasa'}</span>
+          <span style="background:${profile.vipStatus ? 'rgba(255,170,0,.15)' : '#0f111a'};border:1px solid ${profile.vipStatus ? '#ffaa00' : 'rgba(255,255,255,.08)'};color:${profile.vipStatus ? '#ffaa00' : '#64748b'};font-size:10px;padding:4px 10px;border-radius:6px;">${profile.vipStatus ? '👑 VIP MEMBER' : '🛡️ Member Biasa'}</span>
         </div>
       </div>
     </div>
     <div class="astro-dash-grid">
       <div class="astro-dash-card"><h2>${bookmarkCount}</h2><p>Bookmark</p></div>
       <div class="astro-dash-card"><h2>${modCount}</h2><p>Mod Upload</p></div>
-      <div class="astro-dash-card"><h2>${profile.vipStatus?'VIP':'Free'}</h2><p>Status Akun</p></div>
+      <div class="astro-dash-card"><h2>${profile.vipStatus ? 'VIP' : 'Free'}</h2><p>Status Akun</p></div>
       <div class="astro-dash-card"><h2>0</h2><p>Total Download</p></div>
     </div>
     <div style="background:#0d0f1a;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px;margin-bottom:20px;">
@@ -1277,7 +1300,7 @@ async function loadDashboardActivity(uid) {
 }
 
 // ─── DOWNLOAD HISTORY (RIWAYAT DOWNLOAD) ─────────────
-window.logDownloadHistory = async function(modId, modTitle) {
+window.logDownloadHistory = async function (modId, modTitle) {
   const uid = localStorage.getItem('_astro_uid');
   if (!uid) return;
   try {
@@ -1285,7 +1308,7 @@ window.logDownloadHistory = async function(modId, modTitle) {
       uid, modId, modTitle: modTitle || modId,
       createdAt: serverTimestamp()
     });
-  } catch (e) {}
+  } catch (e) { }
 };
 
 // ─── AUTH STATE LISTENER ──────────────────────────────
@@ -1348,10 +1371,10 @@ async function initBookmarksPage() {
       const d = snap.data();
       container.innerHTML += `
         <div style="background:#0d0f1a;border:1px solid rgba(255,255,255,.06);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:.2s;" onmouseover="this.style.borderColor='rgba(255,0,60,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
-          <img src="${d.modImg||''}" style="height:140px;width:100%;object-fit:cover;" onerror="this.style.display='none'">
+          <img src="${d.modImg || ''}" style="height:140px;width:100%;object-fit:cover;" onerror="this.style.display='none'">
           <div style="padding:16px;flex:1;display:flex;flex-direction:column;">
-            <span style="font-size:10px;background:#1e293b;color:#ffaa00;padding:3px 8px;border-radius:4px;text-transform:uppercase;font-weight:bold;display:inline-block;width:fit-content;margin-bottom:8px;">${d.modGame||'Mod'}</span>
-            <h3 style="font-size:15px;color:#fff;font-weight:600;margin:0 0 auto;">${d.modTitle||'Untitled'}</h3>
+            <span style="font-size:10px;background:#1e293b;color:#ffaa00;padding:3px 8px;border-radius:4px;text-transform:uppercase;font-weight:bold;display:inline-block;width:fit-content;margin-bottom:8px;">${d.modGame || 'Mod'}</span>
+            <h3 style="font-size:15px;color:#fff;font-weight:600;margin:0 0 auto;">${d.modTitle || 'Untitled'}</h3>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.05);">
               <a href="${ROOT}detail-mod-minecraft-bedrock/detail-pokemon.html?mod=${d.modId}" style="color:#10b981;font-size:11px;font-weight:bold;text-decoration:none;">Buka Mod →</a>
               <button onclick="removeBookmark('${snap.id}')" style="background:rgba(239,68,68,.15);color:#f87171;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:bold;">🗑️ Hapus</button>
