@@ -364,15 +364,12 @@ async function setupOrLoadProfile(user) {
       currentProfile = snap.data();
       // Pastikan avatarUrl menggunakan DiceBear jika tidak ada custom
       if (currentProfile.role === "owner") {
+
         document.getElementById("ownerBadge")?.style.setProperty("display", "inline-block");
-      }
 
-      if (currentProfile.role === "admin") {
-        document.getElementById("adminBadge")?.style.setProperty("display", "inline-block");
-      }
+        document.getElementById("ownerPanelBtn")?.style.setProperty("display", "block");
 
-      if (currentProfile.vipStatus === true) {
-        document.getElementById("vipBadge")?.style.setProperty("display", "inline-block");
+        document.getElementById("ownerStats")?.style.setProperty("display", "block");
       }
 
       if (currentProfile.role === "owner") {
@@ -1393,4 +1390,8 @@ async function initBookmarksPage() {
 window.addEventListener('load', () => {
   injectAuthStyles();
   injectAuthModal();
+});
+
+document.getElementById("ownerPanelBtn")?.addEventListener("click", () => {
+  alert("👑 Selamat datang di Owner Panel AstroMods");
 });
