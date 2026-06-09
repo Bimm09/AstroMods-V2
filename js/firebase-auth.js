@@ -368,8 +368,6 @@ async function setupOrLoadProfile(user) {
         document.getElementById("ownerBadge")?.style.setProperty("display", "inline-block");
 
         document.getElementById("ownerPanelBtn")?.style.setProperty("display", "block");
-
-        document.getElementById("ownerStats")?.style.setProperty("display", "block");
       }
 
       if (currentProfile.role === "owner") {
