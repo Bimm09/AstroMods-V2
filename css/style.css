@@ -2109,7 +2109,58 @@ button:active {
   }
 }
 
+/* =====================================
+   PROFILE STATS MODERN CARD LAYOUT
+===================================== */
 
+.profile-stats-row{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+    margin-top:30px;
+    margin-bottom:30px;
+}
+
+.stat-card{
+    width:220px;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,0.05);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(10px);
+
+    text-align:center;
+
+    transition:all .25s ease;
+}
+
+.stat-card:hover{
+    transform:translateY(-5px);
+}
+
+.stat-card h2{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+.stat-card span{
+    opacity:.8;
+    font-size:14px;
+}
+
+.vip-card h2{
+    color:#fbbf24;
+}
 
 
 
