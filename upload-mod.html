@@ -1409,9 +1409,39 @@
       localStorage.setItem('astro_user_uploaded_mods', JSON.stringify(userUploadedMods));
     } catch (e) {
       console.error("Storage write failed, executing fallback memory footprint mitigation:", e);
-      alert("❌ Error saving to storage: " + e.message);
+            alert("❌ Error saving to storage: " + e.message);
       return;
     }
+
+    // ─── KIRIM KE FIRESTORE UNTUK APPROVAL ─────────────────────────
+    // Kirim asinkron (tidak blocking) ke Firestore dengan status 'pending'
+    const firestorePayload = {
+      id: modId,
+      title: modTitle,
+      game: customNewMod.game,
+      category: formSelectedClass,
+      creator: currentUsername,
+      modVersion: modVersionInputVal,
+      gameVersion: gameVersionInputVal,
+      size: customNewMod.size,
+      desc: modDesc,
+      img: finalLogo,
+      tags: userTags,
+      allowComments: customNewMod.allowComments,
+      donation: customNewMod.donation,
+      socials: socialLinksArray,
+      ytVideoUrl: customNewMod.ytVideoUrl,
+      localModId: modId  // referensi ke localStorage
+    };
+
+    if (window._submitToFirestore) {
+      window._submitToFirestore(firestorePayload).then(docId => {
+        if (docId) {
+          console.log('[AstroMods] \u2705 Mod sent to Firestore approval queue. Awaiting admin review.');
+        }
+      });
+    }
+    // ─── END FIRESTORE SUBMISSION ────────────────────────────────────
 
     // Register mod metrics
     localStorage.setItem(`astro_${modId}_likes`, "0");
@@ -1455,6 +1485,28 @@
     }
     window.location.href = targetPage;
   }
+</script>
+<script type="module">
+  // ─── FIRESTORE MOD SUBMISSION (Approval System) ───────────────────
+  import { submitModForApproval } from './js/mod-approval.js';
+  import { auth } from './js/firebase-init.js';
+
+  // Expose ke window agar bisa dipanggil dari script non-module
+  window._submitToFirestore = async function(modData) {
+    const user = auth.currentUser;
+    if (!user) {
+      console.warn('[AstroMods] User not logged in – mod saved locally only.');
+      return null;
+    }
+    try {
+      const docId = await submitModForApproval(modData, user.uid);
+      console.log('[AstroMods] Mod submitted to Firestore for approval. Doc ID:', docId);
+      return docId;
+    } catch (err) {
+      console.error('[AstroMods] Firestore submission failed (mod still saved locally):', err);
+      return null;
+    }
+  };
 </script>
 </body>
 </html>

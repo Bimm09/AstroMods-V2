@@ -75,6 +75,11 @@
           <span>VIP Members</span>
         </div>
 
+        <div class="dashboard-card" style="cursor:pointer;" onclick="window.location.href='mod-approval.html'">
+          <h3 id="totalPendingMods" style="color:#f59e0b;">—</h3>
+          <span>⏳ Mods Pending</span>
+        </div>
+
       </div>
 
     </div>
@@ -91,6 +96,10 @@
 
       <button class="owner-action-btn">
         📦 Manage Mods
+      </button>
+
+      <button class="owner-action-btn" onclick="window.location.href='mod-approval.html'" style="cursor:pointer;">
+        🛡️ Mod Approval
       </button>
 
       <button class="owner-action-btn">
@@ -169,6 +178,24 @@
     <script type="module" src="js/firebase-init.js"></script>
     <script src="js/script.js"></script>
     <script type="module" src="js/dashboard-analytics.js">
+</script>
+    <script type="module">
+      // ─── Load pending mod count for dashboard ─────────────
+      import { fetchModSubmissions } from './js/mod-approval.js';
+      import { auth, onAuthStateChanged } from './js/firebase-init.js';
+
+      onAuthStateChanged(auth, async (user) => {
+        if (!user) return;
+        try {
+          const pending = await fetchModSubmissions('pending');
+          const el = document.getElementById('totalPendingMods');
+          if (el) el.textContent = pending.length;
+        } catch (err) {
+          console.warn('Could not load pending mods:', err.message);
+        }
+      });
+    </script>
+    <!-- DUMMY (replaced above) 
     </script>
 </body>
 
