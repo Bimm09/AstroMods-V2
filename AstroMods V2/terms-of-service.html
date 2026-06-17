@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AstroMods | Terms of Service</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="src/assets/images/logo.png">
+  <style>
+    /* Custom layout for Terms of Service */
+    .privacy-wrapper {
+      max-width: 1100px;
+      margin: 110px auto 60px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    @media (min-width: 900px) {
+      .privacy-wrapper {
+        grid-template-columns: 280px 1fr;
+      }
+    }
+    .privacy-sidebar {
+      background: #171921;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 24px;
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+    .privacy-sidebar h3 {
+      font-size: 15px;
+      color: #fff;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 10px;
+    }
+    .privacy-nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .privacy-nav-btn {
+      background: #0f111a;
+      border: 1px solid rgba(255,255,255,0.04);
+      color: #94a3b8;
+      padding: 12px 16px;
+      border-radius: 8px;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+    .privacy-nav-btn:hover {
+      background: rgba(255, 255, 255, 0.02);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    .privacy-nav-btn.active-item {
+      background: var(--theme-accent, #10b981);
+      color: #fff;
+      border-color: var(--theme-accent, #10b981);
+      box-shadow: 0 4px 12px var(--theme-accent-glow, rgba(16, 185, 129, 0.2));
+    }
+    .privacy-content-box {
+      background: #171921;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 35px;
+    }
+    .privacy-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 25px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding-bottom: 20px;
+    }
+    .privacy-header-row h1 {
+      font-size: 24px;
+      color: #fff;
+    }
+    .lang-switcher-row {
+      display: flex;
+      background: #0f111a;
+      padding: 4px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .lang-pick-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #64748b;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .lang-pick-btn:hover {
+      color: #fff;
+    }
+    .lang-pick-btn.active-lang {
+      color: #000 !important;
+      background: #fff;
+    }
+    .privacy-section-node {
+      margin-bottom: 40px;
+      scroll-margin-top: 100px;
+    }
+    .privacy-section-node h2 {
+      font-size: 18px;
+      color: var(--theme-accent, #10b981);
+      margin-bottom: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .privacy-section-node p {
+      font-size: 14px;
+      color: #cbd5e1;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+    .privacy-section-node ul {
+      margin-left: 20px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      list-style-type: square;
+    }
+    .privacy-section-node li {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    .compliance-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #10b981;
+      padding: 4px 12px;
+      border-radius: 99px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .last-updated {
+      font-size: 11px;
+      color: #64748b;
+      margin-bottom: 25px;
+      display: block;
+    }
+  </style>
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100vh;">
+
+  <!-- NAVBAR UTAMA -->
+  <header class="navbar">
+    <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+      <img src="src/assets/images/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+      <h1>ASTROMODS</h1>
+    </div>
+    <nav id="navbar-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#games-section">Games</a>
+      <a href="detail-mod-minecraft-bedrock/minecraft.html">Browse</a>
+    </nav>
+    
+    <div class="cf-header-right">
+      <div class="buttons">
+        <!-- GUEST -->
+        <div id="guestButtons">
+          <button class="login" onclick="openLoginModal()">Login</button>
+          <button class="register" onclick="openLoginModalSignUp()">Register</button>
+        </div>
+
+        <!-- PROFILE -->
+        <div id="profileSection" class="profile-hidden" style="display: none; align-items: center; gap: 12px;">
+          <button class="gear-settings-btn" onclick="window.location.href='settings.html'">⚙️</button>
+          <img src="https://i.imgur.com/8Km9tLL.png" alt="Profile" class="profile-avatar-trigger" onclick="toggleDropdownMenu()" style="width: 42px; height: 42px; border-radius: 50%; cursor: pointer;">
+          
+          <div id="profileDropdown" class="dropdown-menu">
+            <div class="dropdown-user-header" style="display: flex; gap: 12px; align-items: center; padding: 16px 20px;">
+              <img src="https://i.imgur.com/8Km9tLL.png" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid #10b981; box-shadow: 0 4px 10px rgba(0,0,0,0.3);" class="dropdown-header-avatar" id="dropdownHeaderAvatar_static">
+              <div style="display: flex; flex-direction: column; overflow: hidden; justify-content: center; text-align: left;">
+                <h4 id="dropdownUserText" style="margin: 0; font-size: 14px; font-weight: 700; color: #fff; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; font-family: 'Space Grotesk', sans-serif;">Player</h4>
+                <span class="vip-text-indicator" style="color: #8a9ab0; font-weight: 800; font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase; font-family: 'Space Grotesk', sans-serif;">🛡️ BASIC CREATOR</span>
+              </div>
+            </div>
+            <a href="profile.html" class="dropdown-item">
+              <span class="dropdown-ii">👤</span>
+              <span class="dropdown-it">Profile Portfolio</span>
+            </a>
+            <a href="profile.html#profileFavoritesHeading" class="dropdown-item">
+              <span class="dropdown-ii">🔖</span>
+              <span class="dropdown-it">Bookmarked Mods</span>
+            </a>
+            <a href="profile.html#profileCreationsListGrid" class="dropdown-item">
+              <span class="dropdown-ii">📁</span>
+              <span class="dropdown-it">My Uploaded Mods</span>
+            </a>
+            <button class="dropdown-item vip-premium-trigger-nav-btn" onclick="openVipUpgradesModal()" style="color:#ffaa00; font-weight:800; border: none; background: transparent; font-family:inherit; cursor:pointer;">
+              <span class="dropdown-ii">⚡</span>
+              <span class="dropdown-it">Get VIP Member</span>
+            </button>
+            <a href="settings.html" class="dropdown-item">
+              <span class="dropdown-ii">⚙️</span>
+              <span class="dropdown-it">Settings Dashboard</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item logout-btn" onclick="logoutUser()" style="border: none; background: transparent; font-family:inherit; cursor:pointer;">
+              <span class="dropdown-ii">🚪</span>
+              <span class="dropdown-it">Sign Out</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN TERMS CONTENT -->
+  <div class="privacy-wrapper">
+    <!-- LEFT NAVIGATION SIDEBAR -->
+    <aside class="privacy-sidebar">
+      <h3 id="sidebarTitle">Sections</h3>
+      <div class="privacy-nav-list">
+        <button class="privacy-nav-btn active-item" data-target="sec-agreement">
+          ⚖️ <span>User Agreement</span>
+        </button>
+        <button class="privacy-nav-btn" data-target="sec-account">
+          👤 <span>Account Rules</span>
+        </button>
+        <button class="privacy-nav-btn" data-target="sec-mods">
+          🚀 <span>Mod Upload Policy</span>
+        </button>
+        <button class="privacy-nav-btn" data-target="sec-intellect">
+          🛡️ <span>Intellectual Property</span>
+        </button>
+        <button class="privacy-nav-btn" data-target="sec-liability">
+          ⚠️ <span>Liability Limit</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- RIGHT MAIN CONTENT PORTAL -->
+    <div class="privacy-content-box">
+      <div class="privacy-header-row">
+        <div>
+          <span class="compliance-pill">🛡️ Legal Framework</span>
+          <h1 id="terms-main-title">Terms of Service</h1>
+          <span class="last-updated" id="text-last-updated">Last Updated: May 28, 2026</span>
+        </div>
+
+        <!-- Language Button bar -->
+        <div class="lang-switcher-row">
+          <button class="lang-pick-btn active-lang" onclick="setDocLanguage('en')">en</button>
+          <button class="lang-pick-btn" onclick="setDocLanguage('id')">id</button>
+        </div>
+      </div>
+
+      <!-- ENGLISH CONTAINER NODE -->
+      <div id="doc-content-en">
+        <!-- Agreement -->
+        <div class="privacy-section-node" id="sec-agreement-en">
+          <h2>⚖️ 1. Acceptance of Terms</h2>
+          <p>By registering, uploading, browsing, or downloading any game modifications (mods), scripts, addons, or tools on AstroMods, you acknowledge that you have read, understood, and agree to be bound by these structured Terms of Services.</p>
+          <p>If you disagree with any segment of these rules, please suspend browsing the platform instantly.</p>
+        </div>
+
+        <!-- Account Rules -->
+        <div class="privacy-section-node" id="sec-account-en">
+          <h2>👤 2. Account Security & Membership</h2>
+          <p>To access uploading, voting, commenting, or advanced dashboard analytics, you can create an account or verify your identity. You are directly accountable for safeguarding your credentials and all activities occurring under your account.</p>
+          <ul>
+            <li>Accounts targeting bot creation, automated registrations, or scraping are prohibited.</li>
+            <li>We reserve the high-level right to close accounts violating user conduct codes.</li>
+          </ul>
+        </div>
+
+        <!-- Mod Upload Policy -->
+        <div class="privacy-section-node" id="sec-mods-en">
+          <h2>🚀 3. Mod Submission & Upload Rules</h2>
+          <p>As a dynamic creator, you hold complete ownership of files you publish to AstroMods. However, by uploading content, you guarantee that:</p>
+          <ul>
+            <li>Your creations do not contain malicious code, computer viruses, Trojan horses, spyware, or keyloggers that could affect players' devices.</li>
+            <li>Your mods do not violate the intellectual property rights, licenses, or copyrights of game developers or other creators.</li>
+            <li>You will use human-friendly titles, detailed descriptions, and high-quality representative images.</li>
+          </ul>
+        </div>
+
+        <!-- Intellectual Property -->
+        <div class="privacy-section-node" id="sec-intellect-en">
+          <h2>🛡️ 4. Intellectual Property</h2>
+          <p>AstroMods respects copyright holders. All original materials, page designs, brands, and styling are property of AstroMods and bimaignal2010. User-uploaded game modifications remain safe under DMCA procedures.</p>
+          <p>You grant AstroMods a non-exclusive license to scan, analyze, host, and render download access of your upload packages to platform gamers.</p>
+        </div>
+
+        <!-- Liability Limitation -->
+        <div class="privacy-section-node" id="sec-liability-en">
+          <h2>⚠️ 5. Limitation of Liability</h2>
+          <p>All mods, custom assets, or script files are provided **"AS-IS"** without warranty of any kind. You download, utilize, or configure scripts entirely at your own risk.</p>
+          <p>AstroMods, its founder bimaignal2010, and team are not liable for in-game bans, account suspensions, system faults, software incompatibilities, or system crashes resulting from using game modifications.</p>
+        </div>
+      </div>
+
+      <!-- INDONESIAN CONTAINER NODE -->
+      <div id="doc-content-id" style="display: none;">
+        <!-- Agreement -->
+        <div class="privacy-section-node" id="sec-agreement-id">
+          <h2>⚖️ 1. Penerimaan Ketentuan</h2>
+          <p>Dengan mendaftar, mengunggah, menjelajahi, atau mengunduh modifikasi game (mod), skrip, addon, atau alat di AstroMods, Anda mengakui bahwa Anda telah membaca, memahami, dan setuju untuk terikat oleh Ketentuan Layanan yang terstruktur ini.</p>
+          <p>Jika Anda tidak setuju dengan bagian apa pun dari aturan ini, harap segera hentikan penelusuran platform ini.</p>
+        </div>
+
+        <!-- Account Rules -->
+        <div class="privacy-section-node" id="sec-account-id">
+          <h2>👤 2. Keamanan Akun & Keanggotaan</h2>
+          <p>Untuk mengakses fitur unggah, voting, berkomentar, atau analitik dasbor lanjutan, Anda dapat membuat akun atau memverifikasi identitas Anda. Anda bertanggung jawab secara langsung untuk melindungi data login Anda dan semua aktivitas yang terjadi di bawah akun Anda.</p>
+          <ul>
+            <li>Akun yang ditujukan untuk pembuatan bot, pendaftaran otomatis, atau scraping dilarang keras.</li>
+            <li>Kami mempertahankan hak penuh untuk menutup akun yang melanggar kode etik pengguna.</li>
+          </ul>
+        </div>
+
+        <!-- Mod Upload Policy -->
+        <div class="privacy-section-node" id="sec-mods-id">
+          <h2>🚀 3. Kebijakan Pengiriman & Aturan Unggah Mod</h2>
+          <p>Sebagai kreator dinamis, Anda memegang kepemilikan penuh atas file yang Anda publikasikan di AstroMods. Namun, dengan mengunggah konten, Anda menjamin bahwa:</p>
+          <ul>
+            <li>Kreasi Anda tidak mengandung kode berbahaya, virus komputer, trojan horse, spyware, atau keylogger yang dapat memengaruhi perangkat pemain lain.</li>
+            <li>Modifikasi Anda tidak melanggar hak kekayaan intelektual, lisensi, atau hak cipta dari pengembang game atau pencipta lainnya.</li>
+            <li>Anda akan menggunakan judul yang ramah bagi pengguna, deskripsi detail, dan gambar representatif berkualitas tinggi.</li>
+          </ul>
+        </div>
+
+        <!-- Intellectual Property -->
+        <div class="privacy-section-node" id="sec-intellect-id">
+          <h2>🛡️ 4. Kekayaan Intelektual</h2>
+          <p>AstroMods menghormati para pemegang hak cipta. Semua materi asli, desain halaman, merek, dan gaya adalah milik korporat AstroMods dan bimaignal2010. Modifikasi game yang diunggah pengguna tetap aman di bawah protokol DMCA kami.</p>
+          <p>Anda memberikan lisensi non-eksklusif kepada AstroMods untuk memindai, menganalisis, menghosting, dan menyediakan akses unduhan file unggahan Anda kepada seluruh gamer di platform ini.</p>
+        </div>
+
+        <!-- Liability Limitation -->
+        <div class="privacy-section-node" id="sec-liability-id">
+          <h2>⚠️ 5. Batasan Tanggung Jawab</h2>
+          <p>Semua mod, aset khusus, atau file skrip disediakan **"APA ADANYA" (As-Is)** tanpa jaminan apa pun. Anda mengunduh, menggunakan, atau mengonfigurasi skrip sepenuhnya atas risiko Anda sendiri.</p>
+          <p>AstroMods, pendirinya bimaignal2010, dan tim tidak bertanggung jawab atas pencekalan dalam game, penangguhan akun (banned), kerusakan sistem, ketidakcocokan perangkat lunak, atau kerusakan sistem yang dihasilkan dari penggunaan modifikasi game.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DYNAMIC PREMIUM FOOTER SYSTEM -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-brandbox">
+        <div class="footer-brand-logo">
+          <img src="src/assets/images/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+          <span>ASTROMODS</span>
+        </div>
+        <p class="footer-brand-motto" id="footerMottoText">Your ultimate cosmic station for top-tier game modifications, executor scripts, addons, and high-performance enhancements.</p>
+      </div>
+      
+      <div class="footer-links-grid">
+        <div class="footer-links-col">
+          <h4 class="footer-col-title" id="footerColNavTitle">Navigation</h4>
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="index.html#games-section" class="footer-link">Games Listing</a>
+          <a href="detail-mod-minecraft-bedrock/minecraft.html" class="footer-link">Browse Mods</a>
+        </div>
+        <div class="footer-links-col">
+          <h4 class="footer-col-title" id="footerColLegalTitle">Legal & Rules</h4>
+          <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+          <a href="mailto:bimaignal2010@gmail.com" class="footer-link">Contact Support</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p id="footerCopyrightText">&copy; 2026 AstroMods. All rights reserved. Created and managed by bimaignal2010.</p>
+    </div>
+  </footer>
+
+  <!-- POP-UP LOGIN -->
+  <div id="loginModal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="close-modal-btn" onclick="closeLoginModal()">&times;</button>
+      <h2>SECURE ACCESS</h2>
+    </div>
+  </div>
+
+  <script type="module" src="js/firebase-init.js"></script>
+<script src="js/script.js"></script>
+  <script>
+    // Self-contained page controller for localized doc content
+    function setDocLanguage(lang) {
+      const enBox = document.getElementById('doc-content-en');
+      const idBox = document.getElementById('doc-content-id');
+      const switcherButtons = document.querySelectorAll('.lang-pick-btn');
+      
+      // Update UI active buttons
+      switcherButtons.forEach(btn => {
+        if (btn.textContent.trim().toLowerCase() === lang) {
+          btn.classList.add('active-lang');
+        } else {
+          btn.classList.remove('active-lang');
+        }
+      });
+      
+      // Toggle visibility
+      if (lang === 'id') {
+        enBox.style.display = 'none';
+        idBox.style.display = 'block';
+        document.getElementById('terms-main-title').textContent = 'Ketentuan Layanan';
+        document.getElementById('text-last-updated').textContent = 'Pembaruan Terakhir: 28 Mei 2026';
+        document.getElementById('sidebarTitle').textContent = 'Kategori';
+        
+        // Translate sidebar buttons
+        const navBtns = document.querySelectorAll('.privacy-nav-btn');
+        navBtns[0].querySelector('span').textContent = 'Penerimaan Ketentuan';
+        navBtns[1].querySelector('span').textContent = 'Aturan Akun';
+        navBtns[2].querySelector('span').textContent = 'Kebijakan Unggah';
+        navBtns[3].querySelector('span').textContent = 'Hak Kekayaan Intelektual';
+        navBtns[4].querySelector('span').textContent = 'Batasan Tanggung Jawab';
+      } else {
+        enBox.style.display = 'block';
+        idBox.style.display = 'none';
+        document.getElementById('terms-main-title').textContent = 'Terms of Service';
+        document.getElementById('text-last-updated').textContent = 'Last Updated: May 28, 2026';
+        document.getElementById('sidebarTitle').textContent = 'Sections';
+        
+        // Restore sidebar buttons
+        const navBtns = document.querySelectorAll('.privacy-nav-btn');
+        navBtns[0].querySelector('span').textContent = 'User Agreement';
+        navBtns[1].querySelector('span').textContent = 'Account Rules';
+        navBtns[2].querySelector('span').textContent = 'Mod Upload Policy';
+        navBtns[3].querySelector('span').textContent = 'Intellectual Property';
+        navBtns[4].querySelector('span').textContent = 'Liability Limit';
+      }
+    }
+
+    // Tab Scroll Navigation Setup
+    document.querySelectorAll('.privacy-nav-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        // Toggle Active style class
+        document.querySelectorAll('.privacy-nav-btn').forEach(b => b.classList.remove('active-item'));
+        this.classList.add('active-item');
+        
+        const targetId = this.getAttribute('data-target');
+        const langVal = document.querySelector('.lang-pick-btn.active-lang').textContent.trim().toLowerCase();
+        
+        // Access target ID based on active document language content blocks
+        const fullTargetId = targetId + '-' + langVal;
+        const element = document.getElementById(fullTargetId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Auto load current language preference from AstroMods core setting
+    window.addEventListener('DOMContentLoaded', () => {
+      const activeLanguage = localStorage.getItem('astromods_language') || 'en';
+      setDocLanguage(activeLanguage);
+    });
+  </script>
+</body>
+</html>

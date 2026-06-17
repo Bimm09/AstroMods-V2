@@ -1,0 +1,171 @@
+// =====================================================
+// ASTROMODS FIRESTORE SECURITY RULES - v2.0
+// Paste ke Firebase Console → Firestore → Rules
+// =====================================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── HELPER FUNCTIONS ────────────────────────────
+    function isAuth() {
+      return request.auth != null;
+    }
+    function isOwner(uid) {
+      return isAuth() && request.auth.uid == uid;
+    }
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    function hasRole(role) {
+      return isAuth() && getUserData().role == role;
+    }
+    function isOwnerOrAdmin() {
+      return isAuth() && (
+        getUserData().isOwner == true ||
+        getUserData().role == 'owner' ||
+        getUserData().role == 'admin'
+      );
+    }
+    function isModerator() {
+      return isAuth() && (
+        isOwnerOrAdmin() ||
+        getUserData().role == 'moderator'
+      );
+    }
+    function isValidString(s, minLen, maxLen) {
+      return s is string && s.size() >= minLen && s.size() <= maxLen;
+    }
+
+    // ─── USERS COLLECTION ────────────────────────────
+    match /users/{userId} {
+      // Siapapun bisa membaca profil user
+      allow read: if true;
+      // User hanya bisa update profil sendiri
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId) && 
+        // Tidak bisa mengubah field sensitif sendiri
+        !request.resource.data.diff(resource.data).affectedKeys()
+          .hasAny(['isOwner', 'role']) &&
+        // Validasi field
+        isValidString(request.resource.data.username, 3, 30);
+      // Hanya owner/admin bisa update role
+      allow update: if isOwnerOrAdmin() && 
+        // Tidak bisa mengubah owner menjadi role lain
+        !(resource.data.isOwner == true && request.resource.data.isOwner == false);
+      allow delete: if isOwner(userId) || isOwnerOrAdmin();
+    }
+
+    // ─── MOD SUBMISSIONS ─────────────────────────────
+    match /mod_submissions/{modId} {
+      // Mod approved bisa dibaca semua; pending/rejected hanya pemilik atau admin
+      allow read: if resource.data.status == 'approved' || 
+                     isOwner(resource.data.submittedBy) ||
+                     isModerator();
+      // User login bisa submit mod baru
+      allow create: if isAuth() &&
+        request.resource.data.submittedBy == request.auth.uid &&
+        request.resource.data.status == 'pending' &&
+        isValidString(request.resource.data.title, 3, 100);
+      // Hanya moderator/admin/owner bisa approve/reject
+      allow update: if isModerator() ||
+        // Pemilik mod hanya bisa update field tertentu (bukan status)
+        (isOwner(resource.data.submittedBy) &&
+          !request.resource.data.diff(resource.data).affectedKeys()
+            .hasAny(['status', 'downloadCount', 'likeCount', 'averageRating', 'ratingCount']));
+      // Hanya owner/admin bisa hapus
+      allow delete: if isOwnerOrAdmin();
+    }
+
+    // ─── BOOKMARKS / WISHLIST ─────────────────────────
+    match /bookmarks/{docId} {
+      allow read: if isOwner(resource.data.uid);
+      allow create: if isAuth() && 
+        request.resource.data.uid == request.auth.uid;
+      allow delete: if isOwner(resource.data.uid);
+      allow update: if false; // Tidak bisa edit bookmark
+    }
+
+    // ─── RATINGS ─────────────────────────────────────
+    match /ratings/{docId} {
+      allow read: if true; // Owner bisa lihat total rating
+      allow create: if isAuth() &&
+        request.resource.data.uid == request.auth.uid &&
+        request.resource.data.rating >= 1 &&
+        request.resource.data.rating <= 5;
+      allow update: if false; // Anti-duplicate: tidak bisa edit rating
+      allow delete: if false;
+    }
+
+    // ─── LIKES ───────────────────────────────────────
+    match /likes/{likeId} {
+      allow read: if true;
+      // likeId harus berformat "{uid}_{modId}"
+      allow create: if isAuth() &&
+        request.resource.data.uid == request.auth.uid &&
+        likeId.matches(request.auth.uid + '_.*');
+      allow delete: if isOwner(resource.data.uid);
+      allow update: if false;
+    }
+
+    // ─── COMMENTS ────────────────────────────────────
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if isAuth() &&
+        request.resource.data.uid == request.auth.uid &&
+        isValidString(request.resource.data.text, 1, 1000);
+      // User hanya bisa edit komentar sendiri
+      allow update: if isOwner(resource.data.uid) &&
+        // Hanya bisa mengubah text dan edited
+        request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['text', 'edited', 'editedAt']) &&
+        isValidString(request.resource.data.text, 1, 1000);
+      // User bisa hapus komentar sendiri, moderator bisa hapus semua
+      allow delete: if isOwner(resource.data.uid) || isModerator();
+    }
+
+    // ─── NOTIFICATIONS ───────────────────────────────
+    match /notifications/{notifId} {
+      // User hanya bisa baca notifikasi miliknya
+      allow read: if isOwner(resource.data.userUid);
+      // Sistem yang kirim (lewat cloud functions atau server-side)
+      // Client bisa membuat notifikasi (untuk demo; idealnya lewat Functions)
+      allow create: if isAuth();
+      // User bisa mark as read notifikasi sendiri
+      allow update: if isOwner(resource.data.userUid) &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
+      allow delete: if isOwner(resource.data.userUid);
+    }
+
+    // ─── REPORTS ─────────────────────────────────────
+    match /reports/{reportId} {
+      allow read: if isModerator() || isOwner(resource.data.reporterUid);
+      allow create: if isAuth() &&
+        request.resource.data.reporterUid == request.auth.uid &&
+        request.resource.data.status == 'pending';
+      // Hanya moderator bisa update status
+      allow update: if isModerator() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']);
+      allow delete: if isOwnerOrAdmin();
+    }
+
+    // ─── FOLLOWS ─────────────────────────────────────
+    match /follows/{followId} {
+      allow read: if true;
+      allow create: if isAuth() &&
+        request.resource.data.followerUid == request.auth.uid &&
+        followId.matches(request.auth.uid + '_.*');
+      allow delete: if isOwner(resource.data.followerUid);
+      allow update: if false;
+    }
+
+    // ─── DOWNLOADS (HISTORY) ─────────────────────────
+    match /downloads/{docId} {
+      allow read: if isOwner(resource.data.uid) || isOwnerOrAdmin();
+      allow create: if true; // Guest pun bisa download
+      allow update: if false;
+      allow delete: if isOwnerOrAdmin();
+    }
+
+  }
+}

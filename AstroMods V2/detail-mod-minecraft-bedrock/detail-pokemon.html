@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AstroMods | Mod Details</title>
+<link rel="stylesheet" href="minecraft.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/png" href="src/assets/images/logo.png">
+<style>
+  /* Extra details specific elements */
+  .cf-project-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #11161b;
+    padding: 10px 40px;
+    margin-top: 70px;
+    border-bottom: 1px solid #1e2630;
+  }
+  .mod-hero-header {
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #1e2630;
+    margin-top: 70px; /* Fix fixed header clipping */
+  }
+  .mod-hero-header .header-banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.35;
+  }
+  .cf-back-link {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 25px;
+    font-weight: bold;
+    transition: 0.25s;
+  }
+  .cf-back-link:hover {
+    color: #3ade79;
+    transform: translateX(-4px);
+  }
+  /* Tab controls */
+  .tabs {
+    display: flex !important;
+    gap: 25px !important;
+    border-bottom: 1px solid #1e2630 !important;
+    margin-top: 15px !important;
+  }
+  .tabs .tab {
+    padding-bottom: 12px;
+    color: #9aa4af; /* Inactive text color style */
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .tabs .tab:hover {
+    color: #3ade79;
+  }
+  .tabs .tab.active {
+    color: #3ade79 !important;
+    border-bottom: 2px solid #3ade79;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="cf-global-header">
+  <div class="cf-header-left">
+    <a href="../index.html" class="cf-logo" style="display: flex; align-items: center; gap: 10px;">
+      <img src="../src/assets/images/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer" style="height: 32px; width: auto;" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+      ASTRO<span>MODS</span>
+    </a>
+    <nav class="cf-main-nav">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#games-section">Games</a>
+      <a href="minecraft.html" class="active">Browse</a>
+    </nav>
+  </div>
+
+  <div class="cf-header-right">
+    <div class="buttons">
+      <!-- GUEST -->
+      <div id="guestButtons">
+        <button class="login" onclick="openLoginModal()">Login</button>
+        <button class="register" onclick="openLoginModalSignUp()">Register</button>
+      </div>
+
+      <!-- PROFILE -->
+      <div id="profileSection" class="profile-hidden" style="display: none; align-items: center; gap: 12px;">
+        <button class="gear-settings-btn" onclick="window.location.href='../settings.html'">⚙️</button>
+        <img src="https://i.imgur.com/8Km9tLL.png" alt="Profile" class="profile-avatar-trigger" onclick="toggleDropdownMenu()" style="width: 42px; height: 42px; border-radius: 50%; cursor: pointer;">
+        
+        <div id="profileDropdown" class="dropdown-menu">
+          <div class="dropdown-user-header" style="display: flex; gap: 12px; align-items: center; padding: 16px 20px;">
+            <img src="https://i.imgur.com/8Km9tLL.png" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid #10b981; box-shadow: 0 4px 10px rgba(0,0,0,0.3);" class="dropdown-header-avatar" id="dropdownHeaderAvatar_static">
+            <div style="display: flex; flex-direction: column; overflow: hidden; justify-content: center; text-align: left;">
+              <h4 id="dropdownUserText" style="margin: 0; font-size: 14px; font-weight: 700; color: #fff; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; font-family: 'Space Grotesk', sans-serif;">Player</h4>
+              <span class="vip-text-indicator" style="color: #8a9ab0; font-weight: 800; font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase; font-family: 'Space Grotesk', sans-serif;">🛡️ BASIC CREATOR</span>
+            </div>
+          </div>
+          <a href="../profile.html" class="dropdown-item">
+            <span class="dropdown-ii">👤</span>
+            <span class="dropdown-it">Profile Portfolio</span>
+          </a>
+          <a href="../profile.html#profileFavoritesHeading" class="dropdown-item">
+            <span class="dropdown-ii">🔖</span>
+            <span class="dropdown-it">Bookmarked Mods</span>
+          </a>
+          <a href="../profile.html#profileCreationsListGrid" class="dropdown-item">
+            <span class="dropdown-ii">📁</span>
+            <span class="dropdown-it">My Uploaded Mods</span>
+          </a>
+          <button class="dropdown-item vip-premium-trigger-nav-btn" onclick="openVipUpgradesModal()" style="color:#ffaa00; font-weight:800; border: none; background: transparent; font-family:inherit; cursor:pointer;">
+            <span class="dropdown-ii">⚡</span>
+            <span class="dropdown-it">Get VIP Member</span>
+          </button>
+          <a href="../settings.html" class="dropdown-item">
+            <span class="dropdown-ii">⚙️</span>
+            <span class="dropdown-it">Settings Dashboard</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item logout-btn" onclick="logoutUser()" style="border: none; background: transparent; font-family:inherit; cursor:pointer;">
+            <span class="dropdown-ii">🚪</span>
+            <span class="dropdown-it">Sign Out</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- BANNER HERO -->
+<div class="mod-hero-header">
+  <img class="header-banner" id="detailModBannerImage" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200';">
+</div>
+
+<!-- POP-UP LOGIN -->
+<div id="loginModal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="close-modal-btn" onclick="closeLoginModal()">&times;</button>
+      <h2>SECURE ACCESS</h2>
+    </div>
+  </div>
+
+<!-- DYNAMIC CREATOR PORTAL UPLOAD MOD POPUP -->
+<div id="uploadModal" class="upload-modal-overlay">
+  <div class="upload-modal-box" style="max-width: 500px;">
+    <button class="close-upload-btn" onclick="closeUploadModal()">&times;</button>
+    <h2>CREATOR PORTAL</h2>
+    <p class="upload-subtitle" style="color: #ff5555; font-weight: bold;">⚠️ TERMS: Files must not contain malicious code. Max file limit scale parameter is 50MB.</p>
+    
+    <div class="upload-game-select-title">1. Select Destination Target Game:</div>
+    <div class="upload-game-grid">
+      <div class="game-select-node" onclick="selectUploadGameSector('minecraft', this)">Minecraft Bedrock</div>
+      <div class="game-select-node" onclick="selectUploadGameSector('roblox', this)">Roblox Matrix</div>
+      <div class="game-select-node" onclick="selectUploadGameSector('gta', this)">Grand Theft Auto V</div>
+    </div>
+
+    <!-- Wadah Otomatis Pilihan Kategori Khas Masing-Masing Game -->
+    <div id="dynamicCategorySelectorBox" style="display: none; margin-bottom: 15px; text-align: left;">
+      <div class="upload-game-select-title">2. Select Module Category:</div>
+      <div id="categoryNodesContainer" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+    </div>
+
+    <!-- Isian Formulir Berkas Bawah -->
+    <form class="upload-form" onsubmit="handleModCreatorUpload(event)" style="display: none;" id="extendedUploadDetailsForm">
+      <input type="text" id="creatorModName" placeholder="Mod / Addon Title Name" required>
+      <textarea placeholder="Write documentation guide specifications... (Min 50 chars)" rows="3" required></textarea>
+      <div style="text-align: left; font-size: 11px; margin-top: 5px;">
+        <label style="color:#64748b; font-weight:bold; display:block; margin-bottom:4px;">Upload Archive File (.zip, .mcaddon, .mcpack, .mcworld):</label>
+        <input type="file" id="creatorModFile" accept=".zip,.mcaddon,.mcpack,.mcworld" required style="padding: 8px;">
+      </div>
+      <button type="submit" class="upload-submit-btn">DEPLOY TARGET PACK FILE</button>
+    </form>
+  </div>
+</div>
+
+<!-- MAIN CONTAINER -->
+<div class="wrapper" style="max-width:1400px; margin: 40px auto; padding: 0 40px; display:grid; grid-template-columns: 1fr 350px; gap:40px;">
+  
+  <!-- LEFT PANEL -->
+  <div class="left-box" style="display:flex; flex-direction:column; gap:25px;">
+    
+    <a href="minecraft.html" class="cf-back-link">
+      ← Back to Minecraft Database
+    </a>
+
+    <!-- ICON & TITLE METRIC -->
+    <div class="mod-top" style="display:flex; gap:20px; align-items:center; justify-content:space-between; width:100%;">
+      <div style="display:flex; gap:20px; align-items:center;">
+        <img class="mod-icon" id="detailModIcon" src="https://images.unsplash.com/photo-1612287230202-1bf1d85d1bdf?w=256&h=256&fit=crop&q=80" style="width:100px; height:100px; border-radius:18px;" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1612287230202-1bf1d85d1bdf?w=256&h=256&fit=crop&q=80';">
+        <div>
+          <h1 class="mod-title" id="detailModTitle" style="font-size:32px; color:white; font-family:'Inter',sans-serif; font-weight:700;">SERP Pokédrock Addon</h1>
+          <div class="mod-author" id="detailModAuthor" style="color:#94a3b8; font-size:14px; margin-top:5px;">By ZacekElSerpentin</div>
+          <div id="detailRatingBadgeHeader" style="display:flex; align-items:center; gap:8px; margin-top:8px;"></div>
+        </div>
+      </div>
+      <div>
+        <button id="detailFavoriteBtn" onclick="toggleFavoriteCurrentMod()" class="cf-btn" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.35);" title="Add to Favorites">
+          🤍
+        </button>
+      </div>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="top-buttons" style="display:flex; flex-wrap:wrap; gap:12px; margin-top:5px;">
+      <a class="download-btn" id="detailDownloadTriggerBtn" href="javascript:void(0)" onclick="handleDownloadExecute()" style="background:#f16436; color:white; text-decoration:none; padding:14px 28px; border-radius:10px; font-weight:bold; text-align:center;">
+        📥 Download Pack Link
+      </a>
+      <button class="cf-btn" onclick="handleRecommendIncrementLike()" style="background:#1b232d; border:1px solid rgba(255,255,255,0.08); color:white; font-weight:bold; padding:12px 22px; border-radius:10px;">
+        ❤️ Like Mod Recommend
+      </button>
+      <button class="cf-btn" onclick="shareModLink()" style="background:rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); color:#10b981; font-weight:bold; padding:12px 22px; border-radius:10px;">
+        🔗 Share Mod Link
+      </button>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <div class="tab active">Description</div>
+      <div class="tab">Images Gallery</div>
+      <div class="tab">Files List</div>
+    </div>
+
+    <!-- DYNAMIC CORE CONTENT PANELS -->
+    <div class="desc" id="detailModDescriptionBody" style="display:block;">
+      <!-- populated dynamically -->
+    </div>
+
+    <div class="gallery" id="detailGalleryContent" style="display:none; transition:0.3s;">
+      <!-- populated dynamically -->
+    </div>
+
+    <div class="file-box" id="detailFilesContent" style="display:none; background:#131a22; border:1px solid #1e2630; padding:20px; border-radius:12px;">
+      <div style="font-weight:bold; color:white; margin-bottom:12px; font-size:15px;">Main Release File</div>
+      <div style="background:#0b0d0b; border:1px solid rgba(255,255,255,0.02); padding:16px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div class="file-name" id="detailMainFileName" style="color:#3ade79; font-weight:bold; font-size:14px;">SERP_Pokedrock.mcaddon</div>
+          <div style="color:#64748b; font-size:12px; margin-top:4px;">Main download release pack</div>
+        </div>
+        <button class="cf-btn cf-btn-primary" onclick="handleDownloadExecute()" style="padding:10px 18px; font-size:12px;">Deploy Link</button>
+      </div>
+    </div>
+
+    <!-- COMMENTS SYSTEM -->
+    <div class="cf-comment-section">
+      <h4>💬 Comments & Discussions (<span id="detailCommentsCounterDisplay">0</span>)</h4>
+      <form onsubmit="handleSubmitComment(event)" style="margin-bottom:25px;">
+        <textarea id="commentInputArea" class="cf-textarea-custom" rows="4" placeholder="Enter review or bug report for this mod..." required></textarea>
+        <button type="submit" class="save-btn" style="background:#3ade79; color:black; font-weight:bold; font-size:13px; padding:11px 22px;">Deploy Comment</button>
+      </form>
+      <div id="commentsContainerBox">
+        <!-- populated dynamically -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT PANEL (WIDGET DETAILS) -->
+  <aside class="right-sidebar">
+    
+    <!-- SUPPORT CREATOR WIDGET (DYNAMIC) -->
+    <div id="detailCreatorDonationWidget" class="cf-widget-box" style="display: none; border: 1px solid #10b981; background: rgba(16, 185, 129, 0.02); border-radius: 12px; padding: 20px;">
+      <h4 style="color: #10b981; display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-weight: bold; font-size: 14px;">💸 SUPPORT CREATOR</h4>
+      <p style="color: #94a3b8; font-size: 12px; margin-bottom: 15px; line-height: 1.5; text-transform: none;">Support <strong style="color: white;"><span id="donationCreatorName">Creator</span></strong>'s awesome package. 100% of your gift reaches them instantly with 0% platform tax!</p>
+      <button onclick="triggerCreatorDonationModal()" class="save-btn" style="background: #10b981; color: #0a0b0d; font-weight: bold; width: 100%; border: none; padding: 12px; border-radius: 8px; cursor: pointer; transition: 0.2s; font-size: 13px;">
+        Donate to Creator
+      </button>
+    </div>
+
+    <!-- STATS COUNTER -->
+    <div class="cf-widget-box">
+      <h4>📌 MOD SCORE STATISTICS</h4>
+      <div class="cf-meta-table">
+        <div class="cf-meta-row">
+          <span>Likes / Upvotes</span>
+          <span id="detailLikesCounterDisplay" style="color:#ffaa00; font-weight:bold;">0</span>
+        </div>
+        <div class="cf-meta-row">
+          <span>Server Downloads</span>
+          <span id="detailDownloadsCounterDisplay" style="color:#3ade79; font-weight:bold;">0</span>
+        </div>
+        <div class="cf-meta-row" style="border-top:1px dashed rgba(255,255,255,0.06); padding-top:8px; margin-top:4px;">
+          <span>Average Rating</span>
+          <span id="detailRatingValDisplay" style="color:#ffaa00; font-weight:bold;">⭐ 4.8 / 5.0</span>
+        </div>
+        <div class="cf-meta-row">
+          <span>Total Reviews</span>
+          <span id="detailRatingCountDisplay" style="color:#cbd5e1; font-weight:bold;">124 ratings</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- USER INTERACTIVE RATING -->
+    <div class="cf-widget-box" id="userRateWidgetArea">
+      <h4>⭐ YOUR REVIEW SCORING</h4>
+      <p style="color: #94a3b8; font-size: 11px; margin-bottom: 12px; line-height: 1.4;">Submit your gameplay rating feedback below. Every submission is recorded anonymously in real-time!</p>
+      <div class="rating-stars-container" style="display:flex; gap:8px; justify-content:center; margin:14px 0; font-size:26px; cursor:pointer; user-select:none;">
+        <span class="user-star" data-value="1" onclick="submitUserRating(1)" style="transition: transform 0.1s ease; color: #64748b;">☆</span>
+        <span class="user-star" data-value="2" onclick="submitUserRating(2)" style="transition: transform 0.1s ease; color: #64748b;">☆</span>
+        <span class="user-star" data-value="3" onclick="submitUserRating(3)" style="transition: transform 0.1s ease; color: #64748b;">☆</span>
+        <span class="user-star" data-value="4" onclick="submitUserRating(4)" style="transition: transform 0.1s ease; color: #64748b;">☆</span>
+        <span class="user-star" data-value="5" onclick="submitUserRating(5)" style="transition: transform 0.1s ease; color: #64748b;">☆</span>
+      </div>
+      <p id="userRatingStatusMsg" style="text-align:center; font-size:11px; color:#94a3b8; margin-top:2px; font-weight: 500;">Click a star to submit your review!</p>
+    </div>
+
+    <!-- MOD DETAILS SPECIFICATIONS -->
+    <div class="cf-widget-box">
+      <h4>📋 Specifications Metadata</h4>
+      <div class="cf-meta-table">
+        <div class="cf-meta-row">
+          <span>Destination Game</span>
+          <span id="detailMetaGame">Minecraft Bedrock</span>
+        </div>
+        <div class="cf-meta-row">
+          <span>Module Category</span>
+          <span id="detailMetaCategory">Addon</span>
+        </div>
+        <div class="cf-meta-row">
+          <span>Original Author</span>
+          <span id="detailMetaCreator" style="color:#3ade79; font-weight:bold;">ZacekElSerpentin</span>
+        </div>
+        <div class="cf-meta-row">
+          <span>File Density Weight</span>
+          <span id="detailMetaSize" style="font-weight:bold;">42.5 MB</span>
+        </div>
+        <div class="cf-meta-row">
+          <span>Latest Update Release</span>
+          <span id="detailMetaUpdated" style="font-weight:bold;">2 days ago</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMBINED GAME VERSION SUPPORT -->
+    <div class="cf-widget-box">
+      <h4>🎮 Supported Versions Information</h4>
+      <div class="cf-meta-table">
+        <div class="cf-meta-row">
+          <span>Mod Version</span>
+          <span id="detailMetaModVersion" style="color:#10b981; font-weight:bold;">v1.0</span>
+        </div>
+        <div class="cf-meta-row">
+          <span>Game / Minecraft Version</span>
+          <span id="detailMetaGameVersion" style="color:#3ade79; font-weight:bold;">1.21</span>
+        </div>
+      </div>
+      <!-- Hidden compatibility node just in case older routines need to find it -->
+      <div id="detailVersionTagsBox" style="display:none;"></div>
+    </div>
+
+    <!-- CREATOR SOCIALS WIDGET (DYNAMIC) -->
+    <div id="detailCreatorSocialsWidget" class="cf-widget-box" style="display: none; border-radius: 12px; padding: 20px;">
+      <h4 style="margin-bottom: 12px; font-weight: bold; font-size: 14px;">🔗 CREATOR CHANNELS</h4>
+      <div id="detailSocialsContainer" style="display: flex; flex-direction: column; gap: 8px;">
+        <!-- Filled with beautiful brand-specific button badges at runtime -->
+      </div>
+    </div>
+
+  </aside>
+
+</div>
+
+  <!-- DYNAMIC PREMIUM FOOTER SYSTEM -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-brandbox">
+        <div class="footer-brand-logo">
+          <img src="../src/assets/images/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+          <span>ASTROMODS</span>
+        </div>
+        <p class="footer-brand-motto" id="footerMottoText">Your ultimate cosmic station for top-tier game modifications, executor scripts, addons, and high-performance enhancements.</p>
+      </div>
+      
+      <div class="footer-links-grid">
+        <div class="footer-links-col">
+          <h4 class="footer-col-title" id="footerColNavTitle">Navigation</h4>
+          <a href="../index.html" class="footer-link">Home</a>
+          <a href="../index.html#games-section" class="footer-link">Games Listing</a>
+          <a href="../detail-mod-minecraft-bedrock/minecraft.html" class="footer-link">Browse Mods</a>
+        </div>
+        <div class="footer-links-col">
+          <h4 class="footer-col-title" id="footerColLegalTitle">Legal & Rules</h4>
+          <a href="../privacy-policy.html" class="footer-link">Privacy Policy</a>
+          <a href="../terms-of-service.html" class="footer-link">Terms of Service</a>
+          <a href="../dmca.html" class="footer-link">DMCA Policy</a>
+          <a href="../disclaimer.html" class="footer-link">Disclaimer</a>
+          <a href="mailto:bimaignal2010@gmail.com" class="footer-link">Contact Support</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p id="footerCopyrightText">&copy; 2026 AstroMods. All rights reserved. Created and managed by bimaignal2010.</p>
+    </div>
+  </footer>
+
+<!-- FIXED COOKIE COMPONENT BAR HORIZONTAL -->
+<div id="cookieBanner" class="cookie-container">
+  <div class="cookie-content">
+    <span class="cookie-icon">🍪</span>
+    <p>AstroMods uses cookies to optimize your experience. <a href="../privacy-policy.html" class="cookie-policy-link">Learn Privacy Guide</a></p>
+  </div>
+  <button class="cookie-accept-btn" onclick="acceptCookieConsent()">ACCEPT COOKIES</button>
+</div>
+
+<script type="module" src="../js/firebase-init.js"></script>
+<script src="../js/script.js"></script>
+<script src="../js/comments-firebase.js"></script>
+<script type="module" src="../js/firebase-auth.js"></script>
+<script type="module" src="../js/astro-features.js"></script>
+<script type="module" src="../js/notification-bell.js"></script>
+<script type="module" src="../js/mod-interactions.js"></script>
+
+<!-- ─── ASTROMODS FEATURES INIT ─────────────────────── -->
+<script type="module">
+  // Tunggu modId tersedia dari script.js
+  function waitForModId(cb, max = 5000) {
+    const start = Date.now();
+    const check = () => {
+      if (window.currentDetailPageModId) { cb(window.currentDetailPageModId); return; }
+      if (Date.now() - start > max) { console.warn('modId timeout'); return; }
+      setTimeout(check, 300);
+    };
+    check();
+  }
+
+  // Inject interaction bar setelah action buttons
+  function injectInteractionBar() {
+    const actionBar = document.querySelector('.top-buttons');
+    if (actionBar && !document.getElementById('_modInteractionsBar')) {
+      const div = document.createElement('div');
+      div.id = '_modInteractionsBar';
+      actionBar.after(div);
+    }
+    // Creator card area (di sidebar kanan)
+    const sidebar = document.querySelector('.right-sidebar');
+    if (sidebar && !document.getElementById('_creatorCard')) {
+      const div = document.createElement('div');
+      div.id = '_creatorCard';
+      div.style.marginBottom = '16px';
+      sidebar.prepend(div);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    injectInteractionBar();
+
+    waitForModId(async (modId) => {
+      // Ambil data mod dari elemen yang sudah ada di halaman
+      const title = document.getElementById('detailModTitle')?.textContent || modId;
+      const img = document.getElementById('detailModIcon')?.src || '';
+      const downloadUrl = ''; // akan diisi dari script.js
+
+      const modData = { title, img, game: 'Minecraft Bedrock', downloadUrl };
+
+      // Render interaction bar
+      if (typeof window.renderModInteractions === 'function') {
+        await window.renderModInteractions(modId, modData);
+      }
+
+      // Render creator card jika uploaderUid tersedia
+      if (window.currentDetailPageUploaderUid) {
+        if (typeof window.renderCreatorCard === 'function') {
+          await window.renderCreatorCard(window.currentDetailPageUploaderUid, '_creatorCard');
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AstroMods | Roblox Matrix</title>
+  <link rel="stylesheet" href="../detail-mod-minecraft-bedrock/minecraft.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/png" href="src/assets/images/logo.png">
+  <style>
+    /* Custom Red/Dark branding overrides specifically for Roblox */
+    .cf-hero-banner {
+      background-image: url('https://4kwallpapers.com/images/wallpapers/roblox-character-2560x1440-20149.jpg');
+    }
+    .cf-logo span {
+      color: #ff3e4e;
+    }
+    .cf-btn-primary {
+      background: #ff3e4e;
+      color: white;
+    }
+    .cf-main-nav a:hover,
+    .cf-main-nav a.active {
+      color: #ff3e4e;
+    }
+    .cf-sidebar-section .cat-list li.active {
+      color: #ff3e4e;
+      border-left: 3px solid #ff3e4e;
+    }
+    .cf-cat-badge {
+      background: rgba(255, 62, 78, 0.1) !important;
+      color: #ff3e4e !important;
+      border: 1px solid rgba(255, 62, 78, 0.2) !important;
+    }
+  </style>
+</head>
+<body>
+
+<!-- GLOBAL NAVBAR -->
+<header class="cf-global-header">
+  <div class="cf-header-left">
+    <a href="../index.html" class="cf-logo" style="display: flex; align-items: center; gap: 10px;">
+      <img src="../src/assets/images/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer" style="height: 32px; width: auto;" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+      ASTRO<span>MODS</span>
+    </a>
+    <nav class="cf-main-nav">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#games-section">Games</a>
+      <a href="#" class="active">Browse</a>
+    </nav>
+  </div>
+
+  <div class="cf-header-right">
+    <div class="buttons">
+      <!-- GUEST -->
+      <div id="guestButtons">
+        <button class="login" onclick="openLoginModal()">Login</button>
+        <button class="register" onclick="openLoginModalSignUp()">Register</button>
+      </div>
+
+      <!-- PROFILE -->
+      <div id="profileSection" class="profile-hidden" style="display: none; align-items: center; gap: 12px;">
+        <button class="gear-settings-btn" onclick="window.location.href='../settings.html'">⚙️</button>
+        <img src="https://i.imgur.com/8Km9tLL.png" alt="Profile" class="profile-avatar-trigger" onclick="toggleDropdownMenu()" style="width: 42px; height: 42px; border-radius: 50%; cursor: pointer;">
+        
+        <div id="profileDropdown" class="dropdown-menu">
+          <div class="dropdown-user-header" style="display: flex; gap: 12px; align-items: center; padding: 16px 20px;">
+            <img src="https://i.imgur.com/8Km9tLL.png" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid #10b981; box-shadow: 0 4px 10px rgba(0,0,0,0.3);" class="dropdown-header-avatar" id="dropdownHeaderAvatar_static">
+            <div style="display: flex; flex-direction: column; overflow: hidden; justify-content: center; text-align: left;">
+              <h4 id="dropdownUserText" style="margin: 0; font-size: 14px; font-weight: 700; color: #fff; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; font-family: 'Space Grotesk', sans-serif;">Player</h4>
+              <span class="vip-text-indicator" style="color: #8a9ab0; font-weight: 800; font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase; font-family: 'Space Grotesk', sans-serif;">🛡️ BASIC CREATOR</span>
+            </div>
+          </div>
+          <a href="../profile.html" class="dropdown-item">
+            <span class="dropdown-ii">👤</span>
+            <span class="dropdown-it">Profile Portfolio</span>
+          </a>
+          <a href="../profile.html#profileFavoritesHeading" class="dropdown-item">
+            <span class="dropdown-ii">🔖</span>
+            <span class="dropdown-it">Bookmarked Mods</span>
+          </a>
+          <a href="../profile.html#profileCreationsListGrid" class="dropdown-item">
+            <span class="dropdown-ii">📁</span>
+            <span class="dropdown-it">My Uploaded Mods</span>
+          </a>
+          <button class="dropdown-item vip-premium-trigger-nav-btn" onclick="openVipUpgradesModal()" style="color:#ffaa00; font-weight:800; border: none; background: transparent; font-family:inherit; cursor:pointer;">
+            <span class="dropdown-ii">⚡</span>
+            <span class="dropdown-it">Get VIP Member</span>
+          </button>
+          <a href="../settings.html" class="dropdown-item">
+            <span class="dropdown-ii">⚙️</span>
+            <span class="dropdown-it">Settings Dashboard</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item logout-btn" onclick="logoutUser()" style="border: none; background: transparent; font-family:inherit; cursor:pointer;">
+            <span class="dropdown-ii">🚪</span>
+            <span class="dropdown-it">Sign Out</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- POP-UP LOGIN -->
+<div id="loginModal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="close-modal-btn" onclick="closeLoginModal()">&times;</button>
+      <h2>SECURE ACCESS</h2>
+    </div>
+  </div>
+
+<!-- DYNAMIC CREATOR PORTAL UPLOAD MOD POPUP -->
+<div id="uploadModal" class="upload-modal-overlay">
+  <div class="upload-modal-box" style="max-width: 500px;">
+    <button class="close-upload-btn" onclick="closeUploadModal()">&times;</button>
+    <h2>CREATOR PORTAL</h2>
+    <p class="upload-subtitle" style="color: #ff5555; font-weight: bold;">⚠️ TERMS: Files must not contain malicious code. Max file limit scale parameter is 50MB.</p>
+    
+    <div class="upload-game-select-title">1. Select Destination Target Game:</div>
+    <div class="upload-game-grid">
+      <div class="game-select-node" onclick="selectUploadGameSector('minecraft', this)">Minecraft Bedrock</div>
+      <div class="game-select-node" onclick="selectUploadGameSector('roblox', this)">Roblox Matrix</div>
+      <div class="game-select-node" onclick="selectUploadGameSector('gta', this)">Grand Theft Auto V</div>
+    </div>
+
+    <!-- Wadah Otomatis Pilihan Kategori Khas Masing-Masing Game -->
+    <div id="dynamicCategorySelectorBox" style="display: none; margin-bottom: 15px; text-align: left;">
+      <div class="upload-game-select-title">2. Select Module Category:</div>
+      <div id="categoryNodesContainer" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+    </div>
+
+    <!-- Isian Formulir Berkas Bawah -->
+    <form class="upload-form" onsubmit="handleModCreatorUpload(event)" style="display: none;" id="extendedUploadDetailsForm">
+      <input type="text" id="creatorModName" placeholder="Mod / Addon Title Name" required>
+      <textarea placeholder="Write documentation guide specifications... (Min 50 chars)" rows="3" required></textarea>
+      <div style="text-align: left; font-size: 11px; margin-top: 5px;">
+        <label style="color:#64748b; font-weight:bold; display:block; margin-bottom:4px;">Upload Archive File (.zip, .mcaddon, .mcpack, .mcworld):</label>
+        <input type="file" id="creatorModFile" accept=".zip,.mcaddon,.mcpack,.mcworld" required style="padding: 8px;">
+      </div>
+      <button type="submit" class="upload-submit-btn">DEPLOY TARGET PACK FILE</button>
+    </form>
+  </div>
+</div>
+
+<!-- SECOND NAVBAR -->
+<div class="cf-project-menu-bar">
+  <div class="cf-menu-tabs">
+    <div class="cf-tab-item active" id="tabMenuDiscover" onclick="switchViewMode('discover')">
+      Discover
+    </div>
+    <div class="cf-tab-item" id="tabMenuSearch" onclick="switchViewMode('search')">
+      Browse Scripts
+    </div>
+  </div>
+
+  <div class="cf-search-bar second-search" style="position:relative;">
+    <input type="text" id="homeSearchModsInput" placeholder="Search Roblox mods..." autocomplete="off">
+    <div id="homeSearchSuggestionsBox" class="search-mods-results" style="position:absolute; top:42px; right:0; width:300px; z-index:1000;"></div>
+  </div>
+</div>
+
+<!-- HERO BANNER -->
+<section class="cf-hero-banner">
+  <div class="cf-hero-overlay"></div>
+  <div class="cf-hero-container">
+    <div class="cf-breadcrumbs">
+      <a href="../index.html">Home</a>
+      <span>/</span>
+      <span>Roblox Matrix</span>
+    </div>
+
+    <h1 id="heroTitleHeader">Roblox Matrix Database</h1>
+    <p>
+      Discover executor modules, external scripts, bypass tools, and luxury cosmetics for Roblox.
+    </p>
+
+    <button class="cf-btn cf-btn-primary" onclick="switchViewMode('search')">
+      Start Browsing Scripts
+    </button>
+  </div>
+</section>
+
+<!-- MAIN GRID PANELS -->
+<main class="cf-main-grid" style="max-width:1400px; margin: 40px auto; padding: 0 40px; display: grid; grid-template-columns: 280px 1fr; gap: 40px;">
+  
+  <!-- LEFT FILTER SIDEBAR -->
+  <aside class="cf-sidebar">
+    <div class="cf-sidebar-section">
+      <h4>📂 CATEGORIES</h4>
+      <ul class="cat-list" id="categorySelectionList">
+        <li class="active" onclick="setCategoryFilter('all', this)">All Categories</li>
+        <li onclick="setCategoryFilter('executor', this)">Executors/Engines</li>
+        <li onclick="setCategoryFilter('gui', this)">GUI Scripts</li>
+        <li onclick="setCategoryFilter('addon', this)">Addons/Cosmetics</li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- CONTENT FEED -->
+  <div class="cf-content-feed" id="robloxFeedWrapper">
+    <!-- Injected dynamically and pre-populated below -->
+    
+    <!-- Script 1: Arceus X Neo -->
+    <div class="cf-project-row" data-category="executor">
+      <img src="https://images.unsplash.com/photo-1624305714006-25ccdfb70f1a?w=256&h=256&fit=crop&q=80" alt="Icon" class="cf-project-img">
+      <div class="cf-project-details">
+        <div class="cf-row-top">
+          <div class="cf-row-title">
+            <a href="../detail-mod-minecraft-bedrock/detail-pokemon.html?mod=arceus-x"><h3>Arceus X Neo Executor Suite</h3></a>
+            <div class="cf-row-meta-author">By <a href="../profile.html?user=CurseCreator"><strong>CurseCreator</strong></a> | Updated <span>Yesterday</span></div>
+          </div>
+          <span class="cf-cat-badge">v1.2</span>
+        </div>
+        <p class="cf-row-desc">Top-tier mobile executor script suite for Roblox. Run Lua scripts smoothly, execute heavy UI layouts, and unlock premium keyless clearance.</p>
+        <div class="cf-row-stats">
+          <span>Downloads: <strong>85.4K</strong></span>
+          <span>Type: <strong>Executor</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script 2: Infinite Yield -->
+    <div class="cf-project-row" data-category="gui">
+      <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=256&h=256&fit=crop&q=80" alt="Icon" class="cf-project-img">
+      <div class="cf-project-details">
+        <div class="cf-row-top">
+          <div class="cf-row-title">
+            <a href="../detail-mod-minecraft-bedrock/detail-pokemon.html?mod=infinite-yield"><h3>Infinite Yield FE Admin Console</h3></a>
+            <div class="cf-row-meta-author">By <a href="../profile.html?user=AstroOtaku"><strong>AstroOtaku</strong></a> | Updated <span>3 days ago</span></div>
+          </div>
+          <span class="cf-cat-badge">v1.0</span>
+        </div>
+        <p class="cf-row-desc">The premier script module admin panel compatible with all standard executors. Teleports, custom speed adjustments, noclip commands, and FE protection bypass.</p>
+        <div class="cf-row-stats">
+          <span>Downloads: <strong>120.1K</strong></span>
+          <span>Type: <strong>GUI</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script 3: Blox Fruits VIP Auto-Farm -->
+    <div class="cf-project-row" data-category="gui">
+      <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=256&h=256&fit=crop&q=80" alt="Icon" class="cf-project-img">
+      <div class="cf-project-details">
+        <div class="cf-row-top">
+          <div class="cf-row-title">
+            <a href="../detail-mod-minecraft-bedrock/detail-pokemon.html?mod=blox-fruits"><h3>Blox Fruits VIP Auto-Farm Client</h3></a>
+            <div class="cf-row-meta-author">By <a href="../profile.html?user=ZacekElSerpentin"><strong>ZacekElSerpentin</strong></a> | Updated <span>1 week ago</span></div>
+          </div>
+          <span class="cf-cat-badge">v4.8</span>
+        </div>
+        <p class="cf-row-desc">Level up to max, auto-farm bosses, collect random chests, and unlock legendary swords seamlessly with this highly stylized graphical interface script.</p>
+        <div class="cf-row-stats">
+          <span>Downloads: <strong>65.2K</strong></span>
+          <span>Type: <strong>GUI</strong></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+  <!-- DYNAMIC PREMIUM FOOTER SYSTEM -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-brandbox">
+        <div class="footer-brand-logo">
+          <img src="../src/assets/images/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+          <span>ASTROMODS</span>
+        </div>
+        <p class="footer-brand-motto" id="footerMottoText">Your ultimate cosmic station for top-tier game modifications, executor scripts, addons, and high-performance enhancements.</p>
+      </div>
+      
+      <div class="footer-links-grid">
+        <div class="footer-links-col">
+          <h4 class="footer-col-title" id="footerColNavTitle">Navigation</h4>
+          <a href="../index.html" class="footer-link">Home</a>
+          <a href="../index.html#games-section" class="footer-link">Games Listing</a>
+          <a href="../detail-mod-minecraft-bedrock/minecraft.html" class="footer-link">Browse Mods</a>
+        </div>
+        <div class="footer-links-col">
+          <h4 class="footer-col-title" id="footerColLegalTitle">Legal & Rules</h4>
+          <a href="../privacy-policy.html" class="footer-link">Privacy Policy</a>
+          <a href="../terms-of-service.html" class="footer-link">Terms of Service</a>
+          <a href="../dmca.html" class="footer-link">DMCA Policy</a>
+          <a href="../disclaimer.html" class="footer-link">Disclaimer</a>
+          <a href="mailto:bimaignal2010@gmail.com" class="footer-link">Contact Support</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p id="footerCopyrightText">&copy; 2026 AstroMods. All rights reserved. Created and managed by bimaignal2010.</p>
+    </div>
+  </footer>
+
+<!-- COOKEE COMPONENT -->
+<div id="cookieBanner" class="cookie-container">
+  <div class="cookie-content">
+    <span class="cookie-icon">🍪</span>
+    <p>AstroMods uses cookies to optimize your experience. <a href="../privacy-policy.html" class="cookie-policy-link">Learn Privacy Guide</a></p>
+  </div>
+  <button class="cookie-accept-btn" onclick="acceptCookieConsent()">ACCEPT COOKIES</button>
+</div>
+
+<script type="module" src="../js/firebase-init.js"></script>
+<script src="../js/script.js"></script>
+<script>
+  // Add category toggle handler
+  function setCategoryFilter(category, clickedElement) {
+    document.querySelectorAll('#categorySelectionList li').forEach(li => li.classList.remove('active'));
+    clickedElement.classList.add('active');
+
+    const cards = document.querySelectorAll('.cf-project-row');
+    cards.forEach(card => {
+      const cat = card.getAttribute('data-category');
+      if (category === 'all' || cat === category) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  function switchViewMode(mode) {
+    if (mode === 'discover') {
+      document.getElementById('tabMenuDiscover').classList.add('active');
+      document.getElementById('tabMenuSearch').classList.remove('active');
+      document.querySelectorAll('.cf-project-row').forEach(card => card.style.display = 'flex');
+      document.querySelectorAll('#categorySelectionList li').forEach(li => li.classList.remove('active'));
+      document.querySelector('#categorySelectionList li[onclick*="all"]').classList.add('active');
+    } else {
+      document.getElementById('tabMenuDiscover').classList.remove('active');
+      document.getElementById('tabMenuSearch').classList.add('active');
+      alert("🔍 Browse mode successfully filtered. Use categories to drill down specify mods!");
+    }
+  }
+</script>
+<script type="module" src="../js/firebase-auth.js"></script>
+<script type="module" src="../js/astro-features.js"></script>
+<script type="module" src="../js/notification-bell.js"></script>
+</body>
+</html>

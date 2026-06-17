@@ -1,0 +1,6 @@
+{
+  "name": "AstroMods",
+  "description": "Ultimate Gaming Hub for Minecraft Bedrock, Roblox, and Mobile Legends Mods",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
