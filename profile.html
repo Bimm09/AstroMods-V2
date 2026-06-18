@@ -1,339 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AstroMods | My Profile Dashboard</title>
+  <title>AstroMods | Profile</title>
+  <link rel="stylesheet" href="css/v4-design-system.css">
+  <link rel="stylesheet" href="css/v4-pages.css">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" type="image/png" href="src/assets/images/logo.png">
+  <link rel="icon" type="image/png" href="image/logo.png">
+  <style>
+    body { padding-top: var(--nav-height); }
+    .profile-container { max-width: 1100px; margin: 0 auto; padding: 0 0 80px; }
+  </style>
 </head>
-
 <body>
 
-  <!-- NAVBAR UTAMA -->
-  <header class="navbar">
-    <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
-      <img src="src/assets/images/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer"
-        onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
-      <h1>ASTROMODS</h1>
+<!-- NAVBAR V4 (shared) -->
+<header class="v4-navbar" id="v4Navbar">
+  <div class="v4-navbar-inner">
+    <div class="v4-logo" onclick="window.location.href='index.html'">
+      <img src="image/logo.png" alt="AstroMods" class="v4-logo-img" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+      <span class="v4-logo-text">ASTROMODS</span>
     </div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="index.html#games-section">Games</a>
-      <a href="detail-mod-minecraft-bedrock/minecraft.html">Browse</a>
-    </nav>
-
-    <div class="cf-header-right">
-      <div class="buttons">
-        <!-- GUEST -->
-        <div id="guestButtons">
-          <button class="login" onclick="openLoginModal()">Login</button>
-          <button class="register" onclick="openLoginModalSignUp()">Register</button>
+    <ul class="v4-nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#games-section">Games</a></li>
+      <li><a href="detail-mod-minecraft-bedrock/minecraft.html">Browse</a></li>
+    </ul>
+    <div class="v4-nav-spacer"></div>
+    <div class="v4-nav-actions">
+      <div id="guestButtons">
+        <div style="display:flex;gap:8px;">
+          <button class="v4-btn v4-btn-ghost v4-btn-sm" onclick="openLoginModal()">Log In</button>
+          <button class="v4-btn v4-btn-primary v4-btn-sm" onclick="openLoginModalSignUp()">Sign Up</button>
         </div>
-
-        <!-- PROFILE -->
-        <div id="profileSection" class="profile-hidden" style="display: none; align-items: center; gap: 12px;">
-          <button class="gear-settings-btn" onclick="window.location.href='settings.html'">⚙️</button>
-          <img src="https://i.imgur.com/8Km9tLL.png" alt="Profile" class="profile-avatar-trigger"
-            onclick="toggleDropdownMenu()" style="width: 42px; height: 42px; border-radius: 50%; cursor: pointer;">
-
-          <div id="profileDropdown" class="dropdown-menu">
-            <div class="dropdown-user-header"
-              style="display: flex; gap: 12px; align-items: center; padding: 16px 20px;">
-              <img src="https://i.imgur.com/8Km9tLL.png"
-                style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid #10b981; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"
-                class="dropdown-header-avatar" id="dropdownHeaderAvatar_static">
-              <div
-                style="display: flex; flex-direction: column; overflow: hidden; justify-content: center; text-align: left;">
-                <h4 id="dropdownUserText"
-                  style="margin: 0; font-size: 14px; font-weight: 700; color: #fff; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; font-family: 'Space Grotesk', sans-serif;">
-                  Player</h4>
-                <span class="vip-text-indicator"
-                  style="color: #8a9ab0; font-weight: 800; font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase; font-family: 'Space Grotesk', sans-serif;">🛡️
-                  BASIC CREATOR</span>
-              </div>
+      </div>
+      <div id="profileSection" style="display:none; align-items:center; gap:10px; position:relative;">
+        <button class="v4-notif-btn" onclick="window.location.href='settings.html'" title="Settings" style="font-size:14px;">⚙️</button>
+        <div class="v4-avatar-btn" onclick="toggleDropdownMenu()">
+          <img src="https://i.imgur.com/8Km9tLL.png" alt="Avatar" id="navAvatarImg">
+        </div>
+        <div id="profileDropdown" class="v4-dropdown">
+          <div class="v4-dropdown-header">
+            <img src="https://i.imgur.com/8Km9tLL.png" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" id="dropdownHeaderAvatar_static">
+            <div>
+              <div style="font-weight:700;font-size:14px;color:var(--text-primary);" id="dropdownUserText">Player</div>
+              <span class="v4-badge badge-primary vip-text-indicator" style="font-size:9px;">🛡️ BASIC</span>
             </div>
-            <a href="profile.html" class="dropdown-item">
-              <span class="dropdown-ii">👤</span>
-              <span class="dropdown-it">Profile Portfolio</span>
-            </a>
-            <a href="profile.html#profileFavoritesHeading" class="dropdown-item">
-              <span class="dropdown-ii">🔖</span>
-              <span class="dropdown-it">Bookmarked Mods</span>
-            </a>
-            <a href="profile.html#profileCreationsListGrid" class="dropdown-item">
-              <span class="dropdown-ii">📁</span>
-              <span class="dropdown-it">My Uploaded Mods</span>
-            </a>
-            <button class="dropdown-item vip-premium-trigger-nav-btn" onclick="openVipUpgradesModal()"
-              style="color:#ffaa00; font-weight:800; border: none; background: transparent; font-family:inherit; cursor:pointer;">
-              <span class="dropdown-ii">⚡</span>
-              <span class="dropdown-it">Get VIP Member</span>
-            </button>
-            <a href="settings.html" class="dropdown-item">
-              <span class="dropdown-ii">⚙️</span>
-              <span class="dropdown-it">Settings Dashboard</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <button class="dropdown-item logout-btn" onclick="logoutUser()"
-              style="border: none; background: transparent; font-family:inherit; cursor:pointer;">
-              <span class="dropdown-ii">🚪</span>
-              <span class="dropdown-it">Sign Out</span>
-            </button>
           </div>
+          <a href="profile.html" class="v4-dropdown-item"><span class="icon">👤</span> Profile Portfolio</a>
+          <a href="profile.html#profileFavoritesHeading" class="v4-dropdown-item"><span class="icon">🔖</span> Bookmarked Mods</a>
+          <a href="profile.html#profileCreationsListGrid" class="v4-dropdown-item"><span class="icon">📁</span> My Uploaded Mods</a>
+          <button class="v4-dropdown-item vip-premium-trigger-nav-btn" onclick="openVipUpgradesModal()" style="color:var(--warning);font-weight:700;"><span class="icon">⚡</span> Get VIP Member</button>
+          <a href="settings.html" class="v4-dropdown-item"><span class="icon">⚙️</span> Settings</a>
+          <div class="v4-dropdown-divider"></div>
+          <button class="v4-dropdown-item logout-btn" onclick="logoutUser()" style="color:var(--danger);"><span class="icon">🚪</span> Sign Out</button>
         </div>
       </div>
+      <button class="v4-mobile-menu-btn" onclick="toggleMobileNav()"><span></span><span></span><span></span></button>
     </div>
-  </header>
+  </div>
+  <nav class="v4-mobile-nav" id="mobileNav">
+    <a href="index.html">🏠 Home</a>
+    <a href="index.html#games-section">🎮 Games</a>
+    <a href="detail-mod-minecraft-bedrock/minecraft.html">🗂️ Browse Mods</a>
+    <a href="upload-mod.html">📤 Upload Mod</a>
+  </nav>
+</header>
 
-  <!-- PROFILE SECTION -->
-  <div class="profile-container">
-    <div class="profile-banner" id="profileDashboardBanner">
-      <!-- Edit Banner Brush Button in the top right of the banner -->
-      <label for="bannerFileInput" class="banner-edit-label" id="bannerEditLabel" title="Edit Profile Banner">
-        <span id="bannerEditText">🖼️ Edit Banner</span>
-      </label>
-      <input type="file" id="bannerFileInput" accept="image/*" style="display: none;"
-        onchange="processLocalBannerUpload(event)">
 
-      <!-- Avatar Wrapper containing image and absolute edit icon -->
-      <div class="avatar-container">
-        <img src="https://i.imgur.com/8Km9tLL.png" class="profile-avatar" id="profileDashboardAvatar">
-        <label for="avatarFileInput" class="avatar-edit-label" id="avatarEditLabel" title="Edit Avatar">
-          ✏️
-        </label>
-        <input type="file" id="avatarFileInput" accept="image/*" style="display: none;"
-          onchange="processLocalAvatarUpload(event)">
-      </div>
+<!-- ═══════════════════════════════════════════════════════
+     PROFILE V4
+══════════════════════════════════════════════════════════ -->
+<div class="profile-container">
+
+  <!-- Banner -->
+  <div class="v4-profile-banner" id="profileDashboardBanner">
+    <img src="" alt="" id="profileBannerImg" style="display:none;">
+    <div class="v4-profile-banner-gradient"></div>
+    <label for="bannerFileInput" class="banner-edit-label" id="bannerEditLabel" title="Edit Banner"
+      style="position:absolute;top:16px;right:16px;cursor:pointer;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);display:none;">
+      🖼️ Edit Banner
+    </label>
+    <input type="file" id="bannerFileInput" accept="image/*" style="display:none;" onchange="processLocalBannerUpload(event)">
+  </div>
+
+  <!-- Profile Header Row -->
+  <div class="v4-profile-header">
+    <div class="v4-profile-avatar-wrap">
+      <img src="https://i.imgur.com/8Km9tLL.png" class="v4-profile-avatar" id="profileDashboardAvatar" alt="Avatar">
+      <label for="avatarFileInput" class="avatar-edit-label v4-creator-verified" id="avatarEditLabel" title="Edit Avatar"
+        style="cursor:pointer;display:none;background:var(--primary);font-size:11px;">✏️</label>
+      <input type="file" id="avatarFileInput" accept="image/*" style="display:none;" onchange="processLocalAvatarUpload(event)">
     </div>
 
-    <div class="profile-info">
-      <div>
-        <h1 id="dropdownUserText">AstroMods User</h1>
+    <div class="v4-profile-info">
+      <h1 class="v4-profile-username" id="_v4ProfileUsername">
+        AstroMods User
+        <span id="ownerBadge" style="display:none;" class="v4-badge" style="background:linear-gradient(135deg,#ffd700,#ffb700);color:#000;">👑 OWNER</span>
+        <span id="adminBadge" style="display:none;" class="v4-badge badge-warning">🛡️ ADMIN</span>
+        <span id="vipBadge" style="display:none;" class="v4-badge badge-vip">⭐ VIP</span>
+      </h1>
+      <p class="v4-profile-bio">⚡ Minecraft Creator &amp; Mod Explorer</p>
 
-        <div id="userBadges" style="margin-top:12px;
-            display:flex;
-            justify-content:center;
-            gap:10px;
-            flex-wrap:wrap;">
+      <div id="_followStats" style="margin-top:10px;"></div>
+      <div id="_followBtn" style="margin-top:6px;"></div>
 
-          <span id="ownerBadge" style="display:none;
-               background:linear-gradient(135deg,#ffd700,#ffb700);
-               color:#000;
-               padding:6px 14px;
-               border-radius:999px;
-               font-weight:800;
-               font-size:13px;
-               box-shadow:0 0 12px rgba(255,215,0,.35);">
-            👑 OWNER
-          </span>
+      <div id="userBadges" class="v4-profile-badges" style="margin-top:10px;"></div>
+    </div>
 
-          <span id="adminBadge" style="display:none;
-               background:#ef4444;
-               color:#fff;
-               padding:6px 14px;
-               border-radius:999px;
-               font-weight:800;
-               font-size:13px;">
-            🛡️ ADMIN
-          </span>
+    <!-- Quick Actions -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;padding-bottom:var(--space-4);">
+      <button class="v4-btn v4-btn-ghost v4-btn-sm" onclick="window.location.href='settings.html'">⚙️ Edit Profile</button>
+      <button class="v4-btn v4-btn-primary v4-btn-sm" onclick="openUploadModal()">🚀 Upload Mod</button>
+      <button id="ownerPanelBtn" class="v4-btn v4-btn-sm" onclick="window.location.href='owner.html'"
+        style="display:none;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;font-weight:800;">👑 Owner Dashboard</button>
+    </div>
+  </div>
 
-          <span id="vipBadge" style="display:none;
-               background:#8b5cf6;
-               color:#fff;
-               padding:6px 14px;
-               border-radius:999px;
-               font-weight:800;
-               font-size:13px;">
-            ⭐ VIP
-          </span>
+  <!-- Stats Row -->
+  <div class="v4-profile-stats-row">
+    <div class="v4-profile-stat">
+      <div class="v4-profile-stat-val" id="profileTotalDownloads">0</div>
+      <div class="v4-profile-stat-lbl">Downloads</div>
+    </div>
+    <div class="v4-profile-stat">
+      <div class="v4-profile-stat-val" id="profileUploadedMods">0</div>
+      <div class="v4-profile-stat-lbl">Mods</div>
+    </div>
+    <div class="v4-profile-stat">
+      <div class="v4-profile-stat-val" id="profileFollowersCount">0</div>
+      <div class="v4-profile-stat-lbl">Followers</div>
+    </div>
+    <div class="v4-profile-stat">
+      <div class="v4-profile-stat-val" id="profileFollowingCount">0</div>
+      <div class="v4-profile-stat-lbl">Following</div>
+    </div>
+    <div class="v4-profile-stat">
+      <div class="v4-profile-stat-val" style="color:var(--warning);" id="profileRankDisplay">BASIC</div>
+      <div class="v4-profile-stat-lbl">Rank</div>
+    </div>
+  </div>
 
-        </div>
+  <!-- Tabs -->
+  <div class="v4-profile-tabs">
+    <button class="v4-profile-tab active" onclick="switchProfileTab('mods', this)">📁 Published Mods</button>
+    <button class="v4-profile-tab" onclick="switchProfileTab('favorites', this)">🔖 Bookmarks</button>
+    <button class="v4-profile-tab" onclick="switchProfileTab('activity', this)">⚡ Activity</button>
+  </div>
 
-        <p>⚡ Minecraft Creator & Mod Explorer</p>
+  <!-- Tab Content -->
+  <div style="padding:var(--space-8) var(--space-8) 0;">
+
+    <!-- Mods Tab -->
+    <div id="tabMods">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-5);">
+        <h2 class="section-title" style="font-size:1rem;">Published Mods (<span id="profileCreationsCount">0</span>)</h2>
+        <button class="v4-btn v4-btn-primary v4-btn-sm" onclick="openUploadModal()">+ Upload New</button>
       </div>
-
-      <div class="quick-actions">
-
-        <button onclick="window.location.href='settings.html'">
-          ⚙️ Edit Profile
-        </button>
-
-        <button onclick="openUploadModal()">
-          🚀 Upload Mod
-        </button>
-
-        <button id="ownerPanelBtn" style="display:none;" onclick="window.location.href='owner.html'">
-          👑 Owner Dashboard
-        </button>
-
+      <div class="v4-mod-grid" id="profileCreationsListGrid">
+        <div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:40px;font-size:13px;">No published mods yet.</div>
       </div>
+    </div>
 
-      <!-- STATS GRID -->
-      <div class="profile-stats-row">
-
-        <div class="stat-card">
-          <h2>124.000</h2>
-          <span>Total Downloads</span>
-        </div>
-
-        <div class="stat-card">
-          <h2>0</h2>
-          <span>Uploaded Mods</span>
-        </div>
-
-        <div class="stat-card">
-          <h2>1.240</h2>
-          <span>Followers</span>
-        </div>
-
-        <div class="stat-card vip-card">
-          <h2>VIP</h2>
-          <span>Creator Rank</span>
-        </div>
-
+    <!-- Favorites Tab -->
+    <div id="tabFavorites" style="display:none;">
+      <h2 class="section-title" style="font-size:1rem;margin-bottom:var(--space-5);" id="profileFavoritesHeading">
+        Bookmarked Mods (<span id="profileFavoritesCount">0</span>)
+      </h2>
+      <div class="v4-mod-grid" id="profileFavoritesListGrid">
+        <div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:40px;font-size:13px;">No bookmarks saved yet.</div>
       </div>
+    </div>
 
-      <!-- CREATIONS PORTFOLIO GRID -->
-      <div class="profile-extra-section" style="margin-bottom: 30px;">
-        <h2>Published Mods Portfolio (<span id="profileCreationsCount">0</span>)</h2>
-        <div id="profileCreationsListGrid"
-          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 15px;">
-          <!-- Populated dynamically via script.js -->
-          <div
-            style="text-align: center; color: #64748b; font-size: 13px; font-style: italic; padding: 20px; grid-column: 1 / -1;">
-            No published creations found.
-          </div>
+    <!-- Activity Tab -->
+    <div id="tabActivity" style="display:none;">
+      <h2 class="section-title" style="font-size:1rem;margin-bottom:var(--space-5);">Recent Activity</h2>
+      <div id="profileActivityList" style="display:flex;flex-direction:column;gap:var(--space-3);">
+        <div class="v4-card" style="padding:var(--space-4) var(--space-5);display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:14px;color:var(--text-secondary);">Uploaded: Pokemon Bedrock Addon</span>
+          <span class="v4-badge badge-success">05/22/2026</span>
         </div>
-      </div>
-
-      <!-- FAVORITE MODS SECTION -->
-      <div class="profile-extra-section" style="margin-bottom: 30px;">
-        <h2 id="profileFavoritesHeading">My Favorite Mods (<span id="profileFavoritesCount">0</span>)</h2>
-        <div id="profileFavoritesListGrid"
-          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 15px;">
-          <!-- Populated dynamically via script.js -->
-          <div
-            style="text-align: center; color: #64748b; font-size: 13px; font-style: italic; padding: 20px; grid-column: 1 / -1;">
-            No favorite mods saved yet.
-          </div>
-        </div>
-      </div>
-
-      <!-- RECENT ACTIVITY SECTION -->
-      <div class="profile-extra-section">
-        <h2>Recent Activity Feed</h2>
-        <div id="profileActivityList">
-          <!-- populated dynamically via script.js -->
-          <div class="recent-activity-card">
-            <span>Uploaded: Pokemon Bedrock Addon</span>
-            <span class="activity-badge">05/22/2026</span>
-          </div>
-          <div class="recent-activity-card">
-            <span>Updated: Dragon Shader V2</span>
-            <span class="activity-badge">05/18/2026</span>
-          </div>
+        <div class="v4-card" style="padding:var(--space-4) var(--space-5);display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:14px;color:var(--text-secondary);">Updated: Dragon Shader V2</span>
+          <span class="v4-badge badge-accent">05/18/2026</span>
         </div>
       </div>
     </div>
 
-    <!-- POP-UP LOGIN -->
-    <div id="loginModal" class="modal-overlay">
-      <div class="modal-box">
-        <button class="close-modal-btn" onclick="closeLoginModal()">&times;</button>
-        <h2>SECURE ACCESS</h2>
-      </div>
+  </div><!-- /tab content -->
+</div><!-- /profile-container -->
+
+
+<!-- Modals (preserved) -->
+<div id="loginModal" class="modal-overlay">
+  <div class="modal-box">
+    <button class="close-modal-btn" onclick="closeLoginModal()">&times;</button>
+    <h2>SECURE ACCESS</h2>
+  </div>
+</div>
+
+<div id="uploadModal" class="upload-modal-overlay">
+  <div class="upload-modal-box" style="max-width:500px;">
+    <button class="close-upload-btn" onclick="closeUploadModal()">&times;</button>
+    <h2>CREATOR PORTAL</h2>
+    <p class="upload-subtitle" style="color:#ff5555;font-weight:bold;">⚠️ TERMS: Files must not contain malicious code. Max 50MB.</p>
+    <div class="upload-game-select-title">1. Select Destination Target Game:</div>
+    <div class="upload-game-grid">
+      <div class="game-select-node" onclick="selectUploadGameSector('minecraft', this)">Minecraft Bedrock</div>
+      <div class="game-select-node" onclick="selectUploadGameSector('roblox', this)">Roblox Matrix</div>
+      <div class="game-select-node" onclick="selectUploadGameSector('gta', this)">Grand Theft Auto V</div>
     </div>
-
-    <!-- DYNAMIC CREATOR PORTAL UPLOAD MOD POPUP -->
-    <div id="uploadModal" class="upload-modal-overlay">
-      <div class="upload-modal-box" style="max-width: 500px;">
-        <button class="close-upload-btn" onclick="closeUploadModal()">&times;</button>
-        <h2>CREATOR PORTAL</h2>
-        <p class="upload-subtitle" style="color: #ff5555; font-weight: bold;">⚠️ TERMS: Files must not contain malicious
-          code. Max file limit scale parameter is 50MB.</p>
-
-        <div class="upload-game-select-title">1. Select Destination Target Game:</div>
-        <div class="upload-game-grid">
-          <div class="game-select-node" onclick="selectUploadGameSector('minecraft', this)">Minecraft Bedrock</div>
-          <div class="game-select-node" onclick="selectUploadGameSector('roblox', this)">Roblox Matrix</div>
-          <div class="game-select-node" onclick="selectUploadGameSector('gta', this)">Grand Theft Auto V</div>
-        </div>
-
-        <!-- Wadah Otomatis Pilihan Kategori Khas Masing-Masing Game -->
-        <div id="dynamicCategorySelectorBox" style="display: none; margin-bottom: 15px; text-align: left;">
-          <div class="upload-game-select-title">2. Select Module Category:</div>
-          <div id="categoryNodesContainer" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
-        </div>
-
-        <!-- Isian Formulir Berkas Bawah -->
-        <form class="upload-form" onsubmit="handleModCreatorUpload(event)" style="display: none;"
-          id="extendedUploadDetailsForm">
-          <input type="text" id="creatorModName" placeholder="Mod / Addon Title Name" required>
-          <textarea placeholder="Write documentation guide specifications... (Min 50 chars)" rows="3"
-            required></textarea>
-          <div style="text-align: left; font-size: 11px; margin-top: 5px;">
-            <label style="color:#64748b; font-weight:bold; display:block; margin-bottom:4px;">Upload Archive File (.zip,
-              .mcaddon, .mcpack, .mcworld):</label>
-            <input type="file" id="creatorModFile" accept=".zip,.mcaddon,.mcpack,.mcworld" required
-              style="padding: 8px;">
-          </div>
-          <button type="submit" class="upload-submit-btn">DEPLOY TARGET PACK FILE</button>
-        </form>
-      </div>
+    <div id="dynamicCategorySelectorBox" style="display:none;margin-bottom:15px;text-align:left;">
+      <div class="upload-game-select-title">2. Select Module Category:</div>
+      <div id="categoryNodesContainer" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
     </div>
-
-    <!-- DYNAMIC PREMIUM FOOTER SYSTEM -->
-    <footer class="main-footer">
-      <div class="footer-container">
-        <div class="footer-brandbox">
-          <div class="footer-brand-logo">
-            <img src="src/assets/images/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer"
-              onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
-            <span>ASTROMODS</span>
-          </div>
-          <p class="footer-brand-motto" id="footerMottoText">Your ultimate cosmic station for top-tier game
-            modifications,
-            executor scripts, addons, and high-performance enhancements.</p>
-        </div>
-
-        <div class="footer-links-grid">
-          <div class="footer-links-col">
-            <h4 class="footer-col-title" id="footerColNavTitle">Navigation</h4>
-            <a href="index.html" class="footer-link">Home</a>
-            <a href="index.html#games-section" class="footer-link">Games Listing</a>
-            <a href="detail-mod-minecraft-bedrock/minecraft.html" class="footer-link">Browse Mods</a>
-          </div>
-          <div class="footer-links-col">
-            <h4 class="footer-col-title" id="footerColLegalTitle">Legal & Rules</h4>
-            <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
-            <a href="terms-of-service.html" class="footer-link">Terms of Service</a>
-            <a href="dmca.html" class="footer-link">DMCA Policy</a>
-            <a href="disclaimer.html" class="footer-link">Disclaimer</a>
-            <a href="mailto:bimaignal2010@gmail.com" class="footer-link">Contact Support</a>
-          </div>
-        </div>
+    <form class="upload-form" onsubmit="handleModCreatorUpload(event)" style="display:none;" id="extendedUploadDetailsForm">
+      <input type="text" id="creatorModName" placeholder="Mod / Addon Title Name" required>
+      <textarea placeholder="Write documentation guide specifications... (Min 50 chars)" rows="3" required></textarea>
+      <div style="text-align:left;font-size:11px;margin-top:5px;">
+        <label style="color:#64748b;font-weight:bold;display:block;margin-bottom:4px;">Upload Archive File (.zip, .mcaddon, .mcpack, .mcworld):</label>
+        <input type="file" id="creatorModFile" accept=".zip,.mcaddon,.mcpack,.mcworld" required style="padding:8px;">
       </div>
+      <button type="submit" class="upload-submit-btn">DEPLOY TARGET PACK FILE</button>
+    </form>
+  </div>
+</div>
 
-      <div class="footer-bottom">
-        <p id="footerCopyrightText">&copy; 2026 AstroMods. All rights reserved. Created and managed by bimaignal2010.
-        </p>
-      </div>
-    </footer>
+<!-- Cookie Banner V4 -->
+<div id="cookieBanner" class="v4-cookie">
+  <span style="font-size:20px;">🍪</span>
+  <p>AstroMods uses cookies. <a href="privacy-policy.html">Learn more</a></p>
+  <button class="v4-btn v4-btn-primary v4-btn-sm" onclick="acceptCookieConsent()">Accept</button>
+</div>
 
-    <!-- FIXED COOKIE COMPONENT BAR HORIZONTAL -->
-    <div id="cookieBanner" class="cookie-container">
-      <div class="cookie-content">
-        <span class="cookie-icon">🍪</span>
-        <p>AstroMods uses cookies to optimize your experience. <a href="privacy-policy.html"
-            class="cookie-policy-link">Learn Privacy Guide</a></p>
-      </div>
-      <button class="cookie-accept-btn" onclick="acceptCookieConsent()">ACCEPT COOKIES</button>
-    </div>
+<script>
+window.addEventListener('scroll', () => {
+  document.getElementById('v4Navbar')?.classList.toggle('scrolled', window.scrollY > 20);
+});
+function toggleMobileNav() { document.getElementById('mobileNav')?.classList.toggle('open'); }
+function toggleDropdownMenu() { document.getElementById('profileDropdown')?.classList.toggle('open'); }
 
-    <script type="module" src="js/firebase-init.js"></script>
-    <script src="js/script.js"></script>
+function switchProfileTab(name, btn) {
+  ['Mods','Favorites','Activity'].forEach(t => {
+    const el = document.getElementById('tab'+t);
+    if (el) el.style.display = 'none';
+  });
+  document.querySelectorAll('.v4-profile-tab').forEach(b => b.classList.remove('active'));
+  const target = document.getElementById('tab' + name.charAt(0).toUpperCase() + name.slice(1));
+  if (target) target.style.display = 'block';
+  btn.classList.add('active');
+}
+
+// Sync old profile avatar/banner elements to v4 display
+document.addEventListener('DOMContentLoaded', () => {
+  // Mirror dropdownUserText to profile username
+  const observer = new MutationObserver(() => {
+    const nameEl = document.getElementById('dropdownUserText');
+    const v4name = document.getElementById('_v4ProfileUsername');
+    if (nameEl && v4name) {
+      v4name.childNodes[0].textContent = nameEl.textContent + ' ';
+    }
+  });
+  const nameEl = document.getElementById('dropdownUserText');
+  if (nameEl) observer.observe(nameEl, {characterData:true, subtree:true, childList:true});
+});
+</script>
+
+<script src="js/v4-ui.js"></script>
+<script type="module" src="js/firebase-init.js"></script>
+<script src="js/script.js"></script>
+<script type="module" src="js/firebase-auth.js"></script>
+<script type="module" src="js/astro-features.js"></script>
+<script type="module" src="js/notification-bell.js"></script>
+<script type="module">
+  import { db, auth, onAuthStateChanged, collection, getDocs, query, where, doc, getDoc } from './js/firebase-init.js';
+
+  onAuthStateChanged(auth, async (user) => {
+    const params = new URLSearchParams(window.location.search);
+    const targetUid = params.get('uid') || (user ? user.uid : null);
+    if (!targetUid) return;
+
+    try {
+      const snap = await getDoc(doc(db, 'users', targetUid));
+      if (!snap.exists()) return;
+      const profile = snap.data();
+
+      const [followersSnap, followingSnap] = await Promise.all([
+        getDocs(query(collection(db, 'follows'), where('creatorUid', '==', targetUid))),
+        getDocs(query(collection(db, 'follows'), where('followerUid', '==', targetUid)))
+      ]);
+
+      const fCount = document.getElementById('profileFollowersCount');
+      const fgCount = document.getElementById('profileFollowingCount');
+      if (fCount) fCount.textContent = followersSnap.size;
+      if (fgCount) fgCount.textContent = followingSnap.size;
+
+      const statsContainer = document.getElementById('_followStats');
+      if (statsContainer) statsContainer.innerHTML = '';
+
+      const isSelf = user && user.uid === targetUid;
+      const followContainer = document.getElementById('_followBtn');
+      if (followContainer && !isSelf && user) {
+        const following = await window.checkFollowStatus?.(targetUid);
+        followContainer.innerHTML = `
+          <button data-follow-btn="${targetUid}" onclick="toggleFollow('${targetUid}')"
+            class="astro-follow-btn v4-btn v4-btn-sm ${following ? 'v4-btn-ghost' : 'v4-btn-primary'}"
+            style="margin-top:8px;">
+            ${following ? '✅ Following' : '➕ Follow Creator'}
+          </button>`;
+      }
+    } catch (err) {
+      console.warn('Profile features error:', err.message);
+    }
+  });
+</script>
 </body>
-
 </html>

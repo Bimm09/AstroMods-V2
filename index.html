@@ -4,210 +4,674 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AstroMods | Ultimate Gaming Hub</title>
+  <link rel="stylesheet" href="css/v4-design-system.css">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" type="image/png" href="src/assets/images/logo.png">
+  <link rel="icon" type="image/png" href="image/logo.png">
+  <style>
+    /* ── V4 INDEX PAGE OVERRIDES ── */
+    body { padding-top: 0; }
+
+    /* Keep old modal/upload CSS working */
+    .modal-overlay, .upload-modal-overlay { display: none; }
+    .modal-overlay.active, .upload-modal-overlay.active { display: flex; }
+  </style>
 </head>
 <body>
 
-  <!-- NAVBAR UTAMA -->
-  <header class="navbar">
-    <div class="logo" onclick="window.location.reload()" style="cursor: pointer;">
-      <img src="src/assets/images/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
-      <h1>ASTROMODS</h1>
+<!-- ═══════════════════════════════════════════════════════
+     NAVBAR V4
+══════════════════════════════════════════════════════════ -->
+<header class="v4-navbar" id="v4Navbar">
+  <div class="v4-navbar-inner">
+
+    <!-- Logo -->
+    <div class="v4-logo" onclick="window.location.href='index.html'">
+      <img src="image/logo.png" alt="AstroMods" class="v4-logo-img"
+           onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+      <span class="v4-logo-text">ASTROMODS</span>
     </div>
-    <nav>
-      <a href="#" class="active-nav">Home</a>
-      <a href="#games-section">Games</a>
-      <a href="detail-mod-minecraft-bedrock/minecraft.html">Browse</a>
-    </nav>
-    
-    <div class="cf-header-right">
-      <div class="buttons">
-        <!-- GUEST -->
-        <div id="guestButtons">
-          <button class="login" onclick="openLoginModal()">Login</button>
-          <button class="register" onclick="openLoginModalSignUp()">Register</button>
+
+    <!-- Desktop Nav -->
+    <ul class="v4-nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="#games-section">Games</a></li>
+      <li><a href="detail-mod-minecraft-bedrock/minecraft.html">Browse</a></li>
+    </ul>
+
+    <div class="v4-nav-spacer"></div>
+
+    <!-- Actions -->
+    <div class="v4-nav-actions">
+
+      <!-- Notification Bell -->
+      <div style="position:relative;" id="notifBellWrap">
+        <button class="v4-notif-btn" onclick="toggleNotifDropdown()" id="notificationBellBtn" title="Notifications" style="display:none;">
+          🔔
+          <span class="v4-notif-dot" id="notifBadgeDot" style="display:none;"></span>
+        </button>
+      </div>
+
+      <!-- Guest Buttons -->
+      <div id="guestButtons">
+        <div style="display:flex;gap:8px;">
+          <button class="v4-btn v4-btn-ghost v4-btn-sm" onclick="openLoginModal()">Log In</button>
+          <button class="v4-btn v4-btn-primary v4-btn-sm" onclick="openLoginModalSignUp()">Sign Up</button>
+        </div>
+      </div>
+
+      <!-- Logged-in Profile -->
+      <div id="profileSection" style="display:none; align-items:center; gap:10px; position:relative;">
+        <button class="v4-notif-btn" onclick="window.location.href='settings.html'" title="Settings" style="font-size:14px;">⚙️</button>
+        <div class="v4-avatar-btn" onclick="toggleDropdownMenu()">
+          <img src="https://i.imgur.com/8Km9tLL.png" alt="Avatar" id="navAvatarImg">
         </div>
 
-        <!-- PROFILE -->
-        <div id="profileSection" class="profile-hidden" style="display: none; align-items: center; gap: 12px;">
-          <button class="gear-settings-btn" onclick="window.location.href='settings.html'">⚙️</button>
-          <img src="https://i.imgur.com/8Km9tLL.png" alt="Profile" class="profile-avatar-trigger" onclick="toggleDropdownMenu()" style="width: 42px; height: 42px; border-radius: 50%; cursor: pointer;">
-          
-          <div id="profileDropdown" class="dropdown-menu">
-            <div class="dropdown-user-header" style="display: flex; gap: 12px; align-items: center; padding: 16px 20px;">
-              <img src="https://i.imgur.com/8Km9tLL.png" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid #10b981; box-shadow: 0 4px 10px rgba(0,0,0,0.3);" class="dropdown-header-avatar" id="dropdownHeaderAvatar_static">
-              <div style="display: flex; flex-direction: column; overflow: hidden; justify-content: center; text-align: left;">
-                <h4 id="dropdownUserText" style="margin: 0; font-size: 14px; font-weight: 700; color: #fff; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; font-family: 'Space Grotesk', sans-serif;">Player</h4>
-                <span class="vip-text-indicator" style="color: #8a9ab0; font-weight: 800; font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase; font-family: 'Space Grotesk', sans-serif;">🛡️ BASIC CREATOR</span>
-              </div>
+        <!-- Profile Dropdown -->
+        <div id="profileDropdown" class="v4-dropdown" style="top:calc(100% + 10px); right:0;">
+          <div class="v4-dropdown-header">
+            <img src="https://i.imgur.com/8Km9tLL.png" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid rgba(79,70,229,0.4);" id="dropdownHeaderAvatar_static">
+            <div style="overflow:hidden;">
+              <div style="font-weight:700;font-size:14px;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" id="dropdownUserText">Player</div>
+              <span class="v4-badge badge-primary vip-text-indicator" style="font-size:9px;">🛡️ BASIC</span>
             </div>
-            <a href="profile.html" class="dropdown-item">
-              <span class="dropdown-ii">👤</span>
-              <span class="dropdown-it">Profile Portfolio</span>
-            </a>
-            <a href="profile.html#profileFavoritesHeading" class="dropdown-item">
-              <span class="dropdown-ii">🔖</span>
-              <span class="dropdown-it">Bookmarked Mods</span>
-            </a>
-            <a href="profile.html#profileCreationsListGrid" class="dropdown-item">
-              <span class="dropdown-ii">📁</span>
-              <span class="dropdown-it">My Uploaded Mods</span>
-            </a>
-            <button class="dropdown-item vip-premium-trigger-nav-btn" onclick="openVipUpgradesModal()" style="color:#ffaa00; font-weight:800; border: none; background: transparent; font-family:inherit; cursor:pointer;">
-              <span class="dropdown-ii">⚡</span>
-              <span class="dropdown-it">Get VIP Member</span>
-            </button>
-            <a href="settings.html" class="dropdown-item">
-              <span class="dropdown-ii">⚙️</span>
-              <span class="dropdown-it">Settings Dashboard</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <button class="dropdown-item logout-btn" onclick="logoutUser()" style="border: none; background: transparent; font-family:inherit; cursor:pointer;">
-              <span class="dropdown-ii">🚪</span>
-              <span class="dropdown-it">Sign Out</span>
-            </button>
+          </div>
+          <a href="profile.html" class="v4-dropdown-item"><span class="icon">👤</span> Profile Portfolio</a>
+          <a href="profile.html#profileFavoritesHeading" class="v4-dropdown-item"><span class="icon">🔖</span> Bookmarked Mods</a>
+          <a href="profile.html#profileCreationsListGrid" class="v4-dropdown-item"><span class="icon">📁</span> My Uploaded Mods</a>
+          <button class="v4-dropdown-item vip-premium-trigger-nav-btn" onclick="openVipUpgradesModal()" style="color:var(--warning);font-weight:700;"><span class="icon">⚡</span> Get VIP Member</button>
+          <a href="settings.html" class="v4-dropdown-item"><span class="icon">⚙️</span> Settings</a>
+          <div class="v4-dropdown-divider"></div>
+          <button class="v4-dropdown-item logout-btn" onclick="logoutUser()" style="color:var(--danger);"><span class="icon">🚪</span> Sign Out</button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button class="v4-mobile-menu-btn" onclick="toggleMobileNav()" id="mobileMenuBtn">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Nav -->
+  <nav class="v4-mobile-nav" id="mobileNav">
+    <a href="index.html">🏠 Home</a>
+    <a href="#games-section">🎮 Games</a>
+    <a href="detail-mod-minecraft-bedrock/minecraft.html">🗂️ Browse Mods</a>
+    <a href="upload-mod.html">📤 Upload Mod</a>
+    <a href="profile.html">👤 Profile</a>
+  </nav>
+</header>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     HERO V4
+══════════════════════════════════════════════════════════ -->
+<section class="v4-hero" id="heroSection">
+  <div class="v4-hero-bg"></div>
+  <div class="v4-hero-grid"></div>
+  <canvas id="v4-particles"></canvas>
+
+  <div class="v4-hero-content">
+    <div class="v4-hero-eyebrow">
+      🚀 The Ultimate Mod Universe
+    </div>
+
+    <h1 class="v4-hero-title">
+      <span class="line1">WELCOME TO</span>
+      <span class="brand">ASTROMODS</span>
+    </h1>
+
+    <p class="v4-hero-subtitle">
+      Explore, download, and share premium mods across the gaming universe.
+      Free &amp; Verified. Always.
+    </p>
+
+    <div class="v4-hero-cta">
+      <a href="#games-section">
+        <button class="v4-btn v4-btn-primary v4-btn-xl hero-btn-main">
+          🎮 Explore Mods
+        </button>
+      </a>
+      <button class="v4-btn v4-btn-ghost v4-btn-xl" onclick="openLoginModalSignUp()">
+        ✨ Join Free
+      </button>
+    </div>
+
+    <div class="v4-hero-scroll">
+      <div class="v4-hero-scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     STATS STRIP V4
+══════════════════════════════════════════════════════════ -->
+<section class="v4-stats-strip">
+  <div class="container">
+    <div class="v4-stats-grid v4-reveal">
+      <div class="v4-stat-item">
+        <div class="v4-stat-value" id="statTotalMods">—</div>
+        <div class="v4-stat-label">Total Mods</div>
+      </div>
+      <div class="v4-stat-item">
+        <div class="v4-stat-value" id="statTotalDownloads">—</div>
+        <div class="v4-stat-label">Downloads</div>
+      </div>
+      <div class="v4-stat-item">
+        <div class="v4-stat-value" id="statTotalUsers">—</div>
+        <div class="v4-stat-label">Members</div>
+      </div>
+      <div class="v4-stat-item">
+        <div class="v4-stat-value" id="statTotalCreators">—</div>
+        <div class="v4-stat-label">Creators</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SEARCH V4
+══════════════════════════════════════════════════════════ -->
+<div class="v4-search-wrap">
+  <div class="container">
+    <div class="v4-search-box v4-reveal">
+      <div class="v4-search-input-row">
+        <span class="v4-search-icon">🔍</span>
+        <input
+          type="text"
+          class="v4-search-input"
+          id="homeSearchModsInput"
+          placeholder="Search games, mods, creators… (e.g. Minecraft, Roblox, Pokémon)"
+          autocomplete="off"
+        >
+      </div>
+      <div id="homeSearchSuggestionsBox" class="v4-search-results"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     GAMES SECTION V4
+══════════════════════════════════════════════════════════ -->
+<section class="v4-section" id="games-section">
+  <div class="container">
+
+    <div class="section-header v4-reveal">
+      <div>
+        <p class="section-eyebrow">Choose Your World</p>
+        <h2 class="section-title">🎮 Select Your <span class="title-accent">Game</span></h2>
+      </div>
+    </div>
+
+    <div class="v4-game-grid v4-reveal">
+
+      <!-- Minecraft -->
+      <div class="v4-game-card" onclick="window.location.href='detail-mod-minecraft-bedrock/minecraft.html'">
+        <img src="image/minecraft-cover.png" alt="Minecraft Bedrock" loading="lazy">
+        <div class="v4-game-card-overlay">
+          <div>
+            <div class="v4-badge badge-success" style="margin-bottom:10px;">✅ Live</div>
+            <h3 class="v4-game-card-title">Minecraft Bedrock</h3>
+            <p class="v4-game-card-desc">Addons, maps, texture packs, shaders, skins &amp; more. Thousands of mods available.</p>
+            <button class="v4-btn v4-btn-primary v4-btn-sm game-card-link">VIEW MODS →</button>
           </div>
         </div>
       </div>
-    </div>
-  </header>
 
-  <!-- HERO SECTION -->
-  <section class="hero" id="heroSection">
-    <div class="hero-bg-interactive" id="heroInteractiveBg"></div>
-    <div class="hero-text">
-      <h2>WELCOME TO</h2>
-      <h1>ASTRO<span>MODS</span></h1>
-      <p>Explore Free & Premium Mods Across The Gaming Universe</p>
-      <div class="hero-buttons">
-        <a href="#games-section"><button class="hero-btn-main">EXPLORE MODS</button></a>
-      </div>
-    </div>
-  </section>
-
-  <!-- SEARCH FEATURE SECTION -->
-  <div class="search-mods-wrapper">
-    <div class="search-mods-container">
-      <h3>🔍 Search Target Games</h3>
-      <div class="search-mods-input-box">
-        <input type="text" id="homeSearchModsInput" placeholder="Type keywords to find games (e.g., Minecraft, Roblox, Mobile Legends, GTA V)..." autocomplete="off">
-      </div>
-      <!-- Instant search recommendations container -->
-      <div id="homeSearchSuggestionsBox" class="search-mods-results"></div>
-    </div>
-  </div>
-
-  <!-- GAMES SELECTION -->
-  <section class="games" id="games-section">
-    <h1>CHOOSE YOUR GAME</h1>
-    <div class="game-container">
-      <div class="game-card">
-        <img src="https://4kwallpapers.com/images/wallpapers/minecraft-key-art-3840x2160-20204.jpg" alt="Minecraft Bedrock">
-        <h2>Minecraft Mods</h2>
-        <p>Explore thousands of high-performance addon, maps, texture pack, shader, and skin.</p>
-        <a href="detail-mod-minecraft-bedrock/minecraft.html" class="card-link"><button>VIEW MODS</button></a>
-      </div>
-      <div class="game-card">
-        <img src="https://4kwallpapers.com/images/wallpapers/roblox-character-2560x1440-20149.jpg" alt="Roblox">
-        <h2>Roblox Mods</h2>
-        <p>Unlock premium executor script modules, engine adjustments, and character cosmetics.</p>
-        <button class="btn-disabled" style="cursor: not-allowed;" id="btn-roblox-soon">SOON</button>
-      </div>
-      <div class="game-card">
-        <img src="https://asset.indosport.com/article/image/q/80/311815/logo_mobile_legends-169.jpg?w=750&h=423" alt="Mobile Legends">
-        <h2>Mobile Legends</h2>
-        <p>Explore unique cool skin scripts.</p>
-        <button class="btn-disabled">SOON</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- POP-UP LOGIN -->
-  <div id="loginModal" class="modal-overlay">
-    <div class="modal-box">
-      <button class="close-modal-btn" onclick="closeLoginModal()">&times;</button>
-      <h2>SECURE ACCESS</h2>
-    </div>
-  </div>
-
-  <!-- DYNAMIC CREATOR PORTAL UPLOAD MOD POPUP -->
-  <div id="uploadModal" class="upload-modal-overlay">
-    <div class="upload-modal-box" style="max-width: 500px;">
-      <button class="close-upload-btn" onclick="closeUploadModal()">&times;</button>
-      <h2>CREATOR PORTAL</h2>
-      <p class="upload-subtitle" style="color: #ff5555; font-weight: bold;">⚠️ TERMS: Files must not contain malicious code. Max file limit scale parameter is 50MB.</p>
-      
-      <div class="upload-game-select-title">1. Select Destination Target Game:</div>
-      <div class="upload-game-grid">
-        <div class="game-select-node" onclick="selectUploadGameSector('minecraft', this)">Minecraft Bedrock</div>
-        <div class="game-select-node" onclick="selectUploadGameSector('roblox', this)">Roblox Matrix</div>
-        <div class="game-select-node" onclick="selectUploadGameSector('gta', this)">Grand Theft Auto V</div>
-      </div>
-
-      <!-- Wadah Otomatis Pilihan Kategori Khas Masing-Masing Game -->
-      <div id="dynamicCategorySelectorBox" style="display: none; margin-bottom: 15px; text-align: left;">
-        <div class="upload-game-select-title">2. Select Module Category:</div>
-        <div id="categoryNodesContainer" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
-      </div>
-
-      <!-- Isian Formulir Berkas Bawah -->
-      <form class="upload-form" onsubmit="handleModCreatorUpload(event)" style="display: none;" id="extendedUploadDetailsForm">
-        <input type="text" id="creatorModName" placeholder="Mod / Addon Title Name" required>
-        <textarea placeholder="Write documentation guide specifications... (Min 50 chars)" rows="3" required></textarea>
-        <div style="text-align: left; font-size: 11px; margin-top: 5px;">
-          <label style="color:#64748b; font-weight:bold; display:block; margin-bottom:4px;">Upload Archive File (.zip, .mcaddon, .mcpack, .mcworld):</label>
-          <input type="file" id="creatorModFile" accept=".zip,.mcaddon,.mcpack,.mcworld" required style="padding: 8px;">
-        </div>
-        <button type="submit" class="upload-submit-btn">DEPLOY TARGET PACK FILE</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- DYNAMIC PREMIUM FOOTER SYSTEM -->
-  <footer class="main-footer">
-    <div class="footer-container">
-      <div class="footer-brandbox">
-        <div class="footer-brand-logo">
-          <img src="src/assets/images/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
-          <span>ASTROMODS</span>
-        </div>
-        <p class="footer-brand-motto" id="footerMottoText">Your ultimate cosmic station for top-tier game modifications, executor scripts, addons, and high-performance enhancements.</p>
-      </div>
-      
-      <div class="footer-links-grid">
-        <div class="footer-links-col">
-          <h4 class="footer-col-title" id="footerColNavTitle">Navigation</h4>
-          <a href="index.html" class="footer-link">Home</a>
-          <a href="index.html#games-section" class="footer-link">Games Listing</a>
-          <a href="detail-mod-minecraft-bedrock/minecraft.html" class="footer-link">Browse Mods</a>
-        </div>
-        <div class="footer-links-col">
-          <h4 class="footer-col-title" id="footerColLegalTitle">Legal & Rules</h4>
-          <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
-          <a href="terms-of-service.html" class="footer-link">Terms of Service</a>
-          <a href="dmca.html" class="footer-link">DMCA Policy</a>
-          <a href="disclaimer.html" class="footer-link">Disclaimer</a>
-          <a href="mailto:bimaignal2010@gmail.com" class="footer-link">Contact Support</a>
+      <!-- Roblox -->
+      <div class="v4-game-card" style="cursor:default;">
+        <img src="image/roblox-cover.png" alt="Roblox" loading="lazy">
+        <div class="v4-game-card-overlay">
+          <div>
+            <div class="v4-badge badge-warning" style="margin-bottom:10px;">⏳ Coming Soon</div>
+            <h3 class="v4-game-card-title">Roblox</h3>
+            <p class="v4-game-card-desc">Executor scripts, engine adjustments, and character cosmetics coming soon.</p>
+            <button class="v4-btn v4-btn-ghost v4-btn-sm" disabled style="opacity:0.5;cursor:not-allowed;" id="btn-roblox-soon">SOON</button>
+          </div>
         </div>
       </div>
-    </div>
-    
-    <div class="footer-bottom">
-      <p id="footerCopyrightText">&copy; 2026 AstroMods. All rights reserved. Created and managed by bimaignal2010.</p>
-    </div>
-  </footer>
 
-  <!-- FIXED COOKIE COMPONENT BAR HORIZONTAL -->
-  <div id="cookieBanner" class="cookie-container">
-    <div class="cookie-content">
-      <span class="cookie-icon">🍪</span>
-      <p>AstroMods uses cookies to optimize your experience. <a href="privacy-policy.html" class="cookie-policy-link">Learn Privacy Guide</a></p>
+      <!-- Mobile Legends -->
+      <div class="v4-game-card" style="cursor:default;">
+        <img src="https://asset.indosport.com/article/image/q/80/311815/logo_mobile_legends-169.jpg?w=750&h=423" alt="Mobile Legends" loading="lazy">
+        <div class="v4-game-card-overlay">
+          <div>
+            <div class="v4-badge badge-warning" style="margin-bottom:10px;">⏳ Coming Soon</div>
+            <h3 class="v4-game-card-title">Mobile Legends</h3>
+            <p class="v4-game-card-desc">Unique cool skin scripts and gameplay enhancements on the way.</p>
+            <button class="v4-btn v4-btn-ghost v4-btn-sm" disabled style="opacity:0.5;cursor:not-allowed;">SOON</button>
+          </div>
+        </div>
+      </div>
+
     </div>
-    <button class="cookie-accept-btn" onclick="acceptCookieConsent()">ACCEPT COOKIES</button>
   </div>
+</section>
 
+
+<!-- ═══════════════════════════════════════════════════════
+     FEATURED MODS V4
+══════════════════════════════════════════════════════════ -->
+<section class="v4-section" style="padding-top:0;" id="featuredModsSection">
+  <div class="container">
+    <div class="section-header v4-reveal">
+      <div>
+        <p class="section-eyebrow">Editor's Picks</p>
+        <h2 class="section-title">⭐ Featured <span class="title-accent">Mods</span></h2>
+      </div>
+      <a href="detail-mod-minecraft-bedrock/minecraft.html" class="view-all-link">View All</a>
+    </div>
+
+    <div class="v4-mod-grid v4-reveal" id="featuredModsGrid">
+      <!-- JS-populated -->
+      <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);">
+        <div style="font-size:24px;margin-bottom:8px;">🔄</div>
+        Loading mods...
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     TRENDING MODS CAROUSEL V4
+══════════════════════════════════════════════════════════ -->
+<section class="v4-section" style="padding-top:0;" id="trendingSection">
+  <div class="container">
+    <div class="section-header v4-reveal">
+      <div>
+        <p class="section-eyebrow">Hot Right Now</p>
+        <h2 class="section-title">🔥 Trending <span class="title-accent">Mods</span></h2>
+      </div>
+    </div>
+    <div class="v4-carousel-wrap v4-reveal">
+      <div class="v4-carousel" id="trendingCarousel">
+        <!-- JS-populated -->
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     FEATURED CREATORS V4
+══════════════════════════════════════════════════════════ -->
+<section class="v4-section" style="padding-top:0;" id="creatorsSection">
+  <div class="container">
+    <div class="section-header v4-reveal">
+      <div>
+        <p class="section-eyebrow">Community Stars</p>
+        <h2 class="section-title">🌟 Featured <span class="title-accent">Creators</span></h2>
+      </div>
+    </div>
+    <div class="v4-creator-grid v4-reveal" id="featuredCreatorsGrid">
+      <!-- JS-populated -->
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER V4
+══════════════════════════════════════════════════════════ -->
+<footer class="v4-footer">
+  <div class="container">
+    <div class="v4-footer-grid">
+
+      <div class="v4-footer-brand">
+        <div class="v4-logo" style="cursor:default;">
+          <img src="image/logo.png" alt="AstroMods" class="v4-logo-img" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+          <span class="v4-logo-text">ASTROMODS</span>
+        </div>
+        <p id="footerMottoText">Your ultimate cosmic station for top-tier game modifications, executor scripts, addons, and high-performance enhancements.</p>
+      </div>
+
+      <div class="v4-footer-col">
+        <h5 id="footerColNavTitle">Navigation</h5>
+        <ul class="v4-footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#games-section">Games</a></li>
+          <li><a href="detail-mod-minecraft-bedrock/minecraft.html">Browse Mods</a></li>
+          <li><a href="upload-mod.html">Upload Mod</a></li>
+        </ul>
+      </div>
+
+      <div class="v4-footer-col">
+        <h5 id="footerColLegalTitle">Legal &amp; Info</h5>
+        <ul class="v4-footer-links">
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-of-service.html">Terms of Service</a></li>
+          <li><a href="dmca.html">DMCA Policy</a></li>
+          <li><a href="disclaimer.html">Disclaimer</a></li>
+          <li><a href="mailto:bimaignal2010@gmail.com">Contact Support</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="v4-glow-divider"></div>
+
+    <div class="v4-footer-bottom">
+      <p id="footerCopyrightText">© 2026 AstroMods. All rights reserved. Created by bimaignal2010.</p>
+      <div style="display:flex;gap:12px;">
+        <a href="privacy-policy.html" style="font-size:12px;color:var(--text-muted);">Privacy</a>
+        <a href="terms-of-service.html" style="font-size:12px;color:var(--text-muted);">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     LEGACY MODALS (kept intact, now use v4 styles)
+══════════════════════════════════════════════════════════ -->
+<div id="loginModal" class="modal-overlay">
+  <div class="modal-box">
+    <button class="close-modal-btn" onclick="closeLoginModal()">&times;</button>
+    <h2>SECURE ACCESS</h2>
+  </div>
+</div>
+
+<div id="uploadModal" class="upload-modal-overlay">
+  <div class="upload-modal-box" style="max-width: 500px;">
+    <button class="close-upload-btn" onclick="closeUploadModal()">&times;</button>
+    <h2>CREATOR PORTAL</h2>
+    <p class="upload-subtitle" style="color: #ff5555; font-weight: bold;">⚠️ TERMS: Files must not contain malicious code. Max file limit scale parameter is 50MB.</p>
+    <div class="upload-game-select-title">1. Select Destination Target Game:</div>
+    <div class="upload-game-grid">
+      <div class="game-select-node" onclick="selectUploadGameSector('minecraft', this)">Minecraft Bedrock</div>
+      <div class="game-select-node" onclick="selectUploadGameSector('roblox', this)">Roblox Matrix</div>
+      <div class="game-select-node" onclick="selectUploadGameSector('gta', this)">Grand Theft Auto V</div>
+    </div>
+    <div id="dynamicCategorySelectorBox" style="display: none; margin-bottom: 15px; text-align: left;">
+      <div class="upload-game-select-title">2. Select Module Category:</div>
+      <div id="categoryNodesContainer" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+    </div>
+    <form class="upload-form" onsubmit="handleModCreatorUpload(event)" style="display: none;" id="extendedUploadDetailsForm">
+      <input type="text" id="creatorModName" placeholder="Mod / Addon Title Name" required>
+      <textarea placeholder="Write documentation guide specifications... (Min 50 chars)" rows="3" required></textarea>
+      <div style="text-align: left; font-size: 11px; margin-top: 5px;">
+        <label style="color:#64748b; font-weight:bold; display:block; margin-bottom:4px;">Upload Archive File (.zip, .mcaddon, .mcpack, .mcworld):</label>
+        <input type="file" id="creatorModFile" accept=".zip,.mcaddon,.mcpack,.mcworld" required style="padding: 8px;">
+      </div>
+      <button type="submit" class="upload-submit-btn">DEPLOY TARGET PACK FILE</button>
+    </form>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     NOTIFICATION DROPDOWN V4
+══════════════════════════════════════════════════════════ -->
+<div id="notifDropdownPanel" style="position:fixed;top:calc(var(--nav-height) + 8px);right:max(24px,calc(50vw - 600px));z-index:1100;display:none;">
+  <div class="v4-notif-dropdown">
+    <div class="v4-notif-header">
+      <span class="v4-notif-title">🔔 Notifications</span>
+      <button class="v4-btn v4-btn-ghost v4-btn-sm" onclick="markAllNotifsRead()" style="font-size:11px;padding:4px 10px;">Mark all read</button>
+    </div>
+    <div class="v4-notif-list" id="notifListContainer">
+      <div style="padding:32px;text-align:center;color:var(--text-muted);font-size:13px;">
+        <div style="font-size:28px;margin-bottom:8px;">🔕</div>
+        No notifications yet
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     COOKIE BANNER V4
+══════════════════════════════════════════════════════════ -->
+<div id="cookieBanner" class="v4-cookie">
+  <span style="font-size:20px;">🍪</span>
+  <p>AstroMods uses cookies to optimize your experience. <a href="privacy-policy.html">Learn more</a></p>
+  <button class="v4-btn v4-btn-primary v4-btn-sm" onclick="acceptCookieConsent()">Accept</button>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     V4 SCRIPTS
+══════════════════════════════════════════════════════════ -->
+<script>
+// ── V4 UI UTILITIES ───────────────────────────────────────
+
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('v4Navbar');
+  if (nav) nav.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Mobile nav toggle
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+
+// Scroll reveal
+function initScrollReveal() {
+  const els = document.querySelectorAll('.v4-reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('revealed'), i * 80);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  els.forEach(el => obs.observe(el));
+}
+document.addEventListener('DOMContentLoaded', initScrollReveal);
+
+// Notification panel toggle
+function toggleNotifDropdown() {
+  const panel = document.getElementById('notifDropdownPanel');
+  if (!panel) return;
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+// Close notif on outside click
+document.addEventListener('click', (e) => {
+  const panel = document.getElementById('notifDropdownPanel');
+  const btn = document.getElementById('notificationBellBtn');
+  if (panel && btn && !panel.contains(e.target) && !btn.contains(e.target)) {
+    panel.style.display = 'none';
+  }
+  // also close profile dropdown on outside click
+  const dropdown = document.getElementById('profileDropdown');
+  const avatarBtn = document.querySelector('.v4-avatar-btn');
+  if (dropdown && avatarBtn && !dropdown.contains(e.target) && !avatarBtn.contains(e.target)) {
+    dropdown.classList.remove('open');
+  }
+});
+
+// Profile dropdown toggle override
+function toggleDropdownMenu() {
+  document.getElementById('profileDropdown')?.classList.toggle('open');
+}
+
+// ── PARTICLE SYSTEM ───────────────────────────────────────
+function initParticles() {
+  const canvas = document.getElementById('v4-particles');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W = canvas.width = canvas.offsetWidth;
+  let H = canvas.height = canvas.offsetHeight;
+
+  const particles = Array.from({length: 60}, () => ({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    r: Math.random() * 1.5 + 0.3,
+    vx: (Math.random() - 0.5) * 0.3,
+    vy: (Math.random() - 0.5) * 0.3,
+    a: Math.random(),
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(99,102,241,${p.a * 0.6})`;
+      ctx.fill();
+    });
+    // draw faint connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 100) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(79,70,229,${0.08 * (1 - dist/100)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  window.addEventListener('resize', () => {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  });
+}
+document.addEventListener('DOMContentLoaded', initParticles);
+
+// ── FEATURED MODS RENDERER ────────────────────────────────
+function renderModCard(mod) {
+  return `
+  <div class="v4-mod-card" onclick="window.location.href='${mod.detailUrl || 'detail-mod-minecraft-bedrock/minecraft.html'}'">
+    <div class="v4-mod-card-thumb">
+      <img src="${mod.img}" alt="${mod.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=225&fit=crop'">
+      <div class="v4-mod-card-overlay"></div>
+      <div class="v4-mod-card-badges">
+        ${mod.featured ? '<span class="v4-badge badge-accent">⭐ Featured</span>' : ''}
+        ${mod.isNew ? '<span class="v4-badge badge-success">🆕 New</span>' : ''}
+      </div>
+      <div class="v4-mod-card-actions">
+        <button class="v4-mod-action-btn" title="Wishlist" onclick="event.stopPropagation()">🔖</button>
+        <button class="v4-mod-action-btn" title="Like" onclick="event.stopPropagation()">❤️</button>
+      </div>
+    </div>
+    <div class="v4-mod-card-body">
+      <div class="v4-mod-card-title">${mod.title}</div>
+      <div class="v4-mod-card-creator">
+        <img src="https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=${encodeURIComponent(mod.creator)}" alt="${mod.creator}">
+        <span>${mod.creator}</span>
+        ${mod.verified ? '<span class="verified">✓</span>' : ''}
+      </div>
+      <div class="v4-mod-card-meta">
+        <span class="v4-meta-item rating"><span class="icon">⭐</span>${mod.rating || '4.8'}</span>
+        <span class="v4-meta-item downloads"><span class="icon">⬇</span>${mod.downloads}</span>
+        <span class="v4-meta-item" style="margin-left:auto;font-size:11px;color:var(--text-muted);">${mod.updated}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderTrendingCard(mod) {
+  return `
+  <div class="v4-mod-card" style="width:220px;" onclick="window.location.href='detail-mod-minecraft-bedrock/minecraft.html'">
+    <div class="v4-mod-card-thumb">
+      <img src="${mod.img}" alt="${mod.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=225&fit=crop'">
+      <div class="v4-mod-card-overlay"></div>
+    </div>
+    <div class="v4-mod-card-body">
+      <div class="v4-mod-card-title">${mod.title}</div>
+      <div class="v4-mod-card-meta">
+        <span class="v4-meta-item rating"><span class="icon">⭐</span>${mod.rating || '4.8'}</span>
+        <span class="v4-meta-item downloads"><span class="icon">⬇</span>${mod.downloads}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function populateFeaturedMods() {
+  const grid = document.getElementById('featuredModsGrid');
+  const carousel = document.getElementById('trendingCarousel');
+  if (!grid || !window.ALL_GAME_MODS) return;
+  const mods = window.ALL_GAME_MODS.slice(0, 8).map((m, i) => ({...m, featured: i < 3, isNew: i > 5}));
+  grid.innerHTML = mods.slice(0, 4).map(renderModCard).join('');
+  if (carousel) carousel.innerHTML = mods.map(renderTrendingCard).join('');
+}
+
+function populateFeaturedCreators() {
+  const grid = document.getElementById('featuredCreatorsGrid');
+  if (!grid) return;
+  const creators = [
+    { name: 'ZacekElSerpentin', mods: 14, followers: '2.3K', verified: true },
+    { name: 'NovaBuilder_', mods: 8, followers: '1.1K', verified: false },
+    { name: 'AstroForge', mods: 22, followers: '5.8K', verified: true },
+    { name: 'PixelCrafter', mods: 5, followers: '890', verified: false },
+  ];
+  grid.innerHTML = creators.map(c => `
+    <div class="v4-creator-card">
+      <div class="v4-creator-avatar-wrap">
+        <img src="https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=${encodeURIComponent(c.name)}" alt="${c.name}">
+        ${c.verified ? '<span class="v4-creator-verified">✓</span>' : ''}
+      </div>
+      <div class="v4-creator-name">${c.name}</div>
+      <div class="v4-creator-stat">${c.mods} mods</div>
+      <div class="v4-creator-followers">${c.followers} followers</div>
+    </div>
+  `).join('');
+}
+
+// Wait for ALL_GAME_MODS to be populated by script.js
+function waitForMods(tries = 0) {
+  if (window.ALL_GAME_MODS && window.ALL_GAME_MODS.length) {
+    populateFeaturedMods();
+    populateFeaturedCreators();
+    populateStatsFromMods();
+  } else if (tries < 30) {
+    setTimeout(() => waitForMods(tries + 1), 200);
+  }
+}
+document.addEventListener('DOMContentLoaded', waitForMods);
+
+// ── STATS (static fallback, Firebase replaces in astro-features.js) ──
+function populateStatsFromMods() {
+  const mods = window.ALL_GAME_MODS || [];
+  let totalDL = 0;
+  mods.forEach(m => {
+    const n = parseFloat((m.downloads || '0').replace(/[^0-9.]/g,''));
+    const mult = (m.downloads || '').toLowerCase().includes('k') ? 1000 : 1;
+    totalDL += n * mult;
+  });
+
+  const fmt = n => n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000).toFixed(1)+'K' : n;
+  setStatIfEmpty('statTotalMods', mods.length || '50+');
+  setStatIfEmpty('statTotalDownloads', fmt(totalDL) || '100K+');
+  setStatIfEmpty('statTotalUsers', '10K+');
+  setStatIfEmpty('statTotalCreators', '500+');
+}
+function setStatIfEmpty(id, val) {
+  const el = document.getElementById(id);
+  if (el && el.textContent === '—') el.textContent = val;
+}
+
+// ── SEARCH RESULTS STYLING ────────────────────────────────
+// Override old search results container style
+const searchBox = document.getElementById('homeSearchSuggestionsBox');
+if (searchBox) {
+  searchBox.style.marginTop = '12px';
+}
+</script>
+
+<script src="js/v4-ui.js"></script>
 <script type="module" src="js/firebase-init.js"></script>
 <script src="js/script.js"></script>
+<script type="module" src="js/firebase-auth.js"></script>
+<script type="module" src="js/astro-features.js"></script>
+<script type="module" src="js/notification-bell.js"></script>
 </body>
 </html>

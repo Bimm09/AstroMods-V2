@@ -6,7 +6,7 @@
 <title>AstroMods | Mod Details</title>
 <link rel="stylesheet" href="minecraft.css">
 <link rel="stylesheet" href="../css/style.css">
-<link rel="icon" type="image/png" href="src/assets/images/logo.png">
+<link rel="icon" type="image/png" href="../image/logo.png">
 <style>
   /* Extra details specific elements */
   .cf-project-header-row {
@@ -78,7 +78,7 @@
 <header class="cf-global-header">
   <div class="cf-header-left">
     <a href="../index.html" class="cf-logo" style="display: flex; align-items: center; gap: 10px;">
-      <img src="../src/assets/images/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer" style="height: 32px; width: auto;" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+      <img src="../image/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer" style="height: 32px; width: auto;" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
       ASTRO<span>MODS</span>
     </a>
     <nav class="cf-main-nav">
@@ -377,7 +377,7 @@
     <div class="footer-container">
       <div class="footer-brandbox">
         <div class="footer-brand-logo">
-          <img src="../src/assets/images/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+          <img src="../image/logo.png" alt="AstroMods Logo" referrerPolicy="no-referrer" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
           <span>ASTROMODS</span>
         </div>
         <p class="footer-brand-motto" id="footerMottoText">Your ultimate cosmic station for top-tier game modifications, executor scripts, addons, and high-performance enhancements.</p>
@@ -418,5 +418,66 @@
 <script type="module" src="../js/firebase-init.js"></script>
 <script src="../js/script.js"></script>
 <script src="../js/comments-firebase.js"></script>
+<script type="module" src="../js/firebase-auth.js"></script>
+<script type="module" src="../js/astro-features.js"></script>
+<script type="module" src="../js/notification-bell.js"></script>
+<script type="module" src="../js/mod-interactions.js"></script>
+
+<!-- ─── ASTROMODS FEATURES INIT ─────────────────────── -->
+<script type="module">
+  // Tunggu modId tersedia dari script.js
+  function waitForModId(cb, max = 5000) {
+    const start = Date.now();
+    const check = () => {
+      if (window.currentDetailPageModId) { cb(window.currentDetailPageModId); return; }
+      if (Date.now() - start > max) { console.warn('modId timeout'); return; }
+      setTimeout(check, 300);
+    };
+    check();
+  }
+
+  // Inject interaction bar setelah action buttons
+  function injectInteractionBar() {
+    const actionBar = document.querySelector('.top-buttons');
+    if (actionBar && !document.getElementById('_modInteractionsBar')) {
+      const div = document.createElement('div');
+      div.id = '_modInteractionsBar';
+      actionBar.after(div);
+    }
+    // Creator card area (di sidebar kanan)
+    const sidebar = document.querySelector('.right-sidebar');
+    if (sidebar && !document.getElementById('_creatorCard')) {
+      const div = document.createElement('div');
+      div.id = '_creatorCard';
+      div.style.marginBottom = '16px';
+      sidebar.prepend(div);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    injectInteractionBar();
+
+    waitForModId(async (modId) => {
+      // Ambil data mod dari elemen yang sudah ada di halaman
+      const title = document.getElementById('detailModTitle')?.textContent || modId;
+      const img = document.getElementById('detailModIcon')?.src || '';
+      const downloadUrl = ''; // akan diisi dari script.js
+
+      const modData = { title, img, game: 'Minecraft Bedrock', downloadUrl };
+
+      // Render interaction bar
+      if (typeof window.renderModInteractions === 'function') {
+        await window.renderModInteractions(modId, modData);
+      }
+
+      // Render creator card jika uploaderUid tersedia
+      if (window.currentDetailPageUploaderUid) {
+        if (typeof window.renderCreatorCard === 'function') {
+          await window.renderCreatorCard(window.currentDetailPageUploaderUid, '_creatorCard');
+        }
+      }
+    });
+  });
+</script>
 </body>
 </html>

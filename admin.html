@@ -4,44 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AstroMods | Admin Panel</title>
+  <link rel="stylesheet" href="css/v4-design-system.css">
+  <link rel="stylesheet" href="css/v4-pages.css">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" type="image/png" href="src/assets/images/logo.png">
+  <link rel="icon" type="image/png" href="image/logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { background: #080a12; color: #fff; font-family: 'Space Grotesk', sans-serif; }
+    body { background: var(--bg-root); color: var(--text-primary); font-family: 'Space Grotesk', sans-serif; }
     .admin-layout { display: flex; min-height: 100vh; }
     .admin-sidebar {
-      width: 240px; background: #0d0f1a; border-right: 1px solid rgba(255,255,255,.06);
+      width: 240px; background: var(--bg-surface); border-right: 1px solid var(--glass-border);
       padding: 24px 0; position: fixed; top: 0; bottom: 0; left: 0; z-index: 100;
       display: flex; flex-direction: column;
     }
     .admin-sidebar-logo { padding: 0 20px 24px; border-bottom: 1px solid rgba(255,255,255,.06); margin-bottom: 16px; }
     .admin-sidebar-logo img { width: 36px; height: 36px; }
-    .admin-sidebar-logo span { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 800; color: #ff003c; vertical-align: middle; margin-left: 8px; }
+    .admin-sidebar-logo span { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 800; color: var(--primary-light); vertical-align: middle; margin-left: 8px; }
     .admin-nav-item {
       display: flex; align-items: center; gap: 10px; padding: 10px 20px;
       color: #64748b; cursor: pointer; transition: .2s; font-size: 13.5px; font-weight: 500;
       border-left: 3px solid transparent;
     }
     .admin-nav-item:hover { background: rgba(255,255,255,.03); color: #fff; }
-    .admin-nav-item.active { color: #ff003c; background: rgba(255,0,60,.06); border-left-color: #ff003c; }
+    .admin-nav-item.active { color: var(--primary-light); background: var(--primary-dim); border-left-color: var(--primary-light); }
     .admin-main { margin-left: 240px; padding: 32px; min-height: 100vh; }
     .admin-header { margin-bottom: 28px; }
     .admin-header h1 { font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 800; margin: 0 0 4px; }
     .admin-header p { color: #64748b; font-size: 13px; margin: 0; }
     .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin-bottom: 28px; }
     .stat-card {
-      background: #0d0f1a; border: 1px solid rgba(255,255,255,.06); border-radius: 12px;
+      background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-xl);
       padding: 20px; text-align: center; transition: .2s;
     }
     .stat-card:hover { border-color: rgba(255,0,60,.2); }
     .stat-card h2 { font-size: 28px; font-weight: 800; font-family: 'Orbitron', sans-serif; margin: 0 0 6px; color: #fff; }
     .stat-card p { color: #64748b; font-size: 12px; margin: 0; }
-    .stat-card.red h2 { color: #ff003c; }
+    .stat-card.red h2 { color: var(--danger); }
     .stat-card.green h2 { color: #10b981; }
     .stat-card.yellow h2 { color: #f59e0b; }
     .stat-card.blue h2 { color: #6366f1; }
-    .admin-section { background: #0d0f1a; border: 1px solid rgba(255,255,255,.06); border-radius: 14px; margin-bottom: 24px; overflow: hidden; }
+    .admin-section { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-xl); margin-bottom: 24px; overflow: hidden; }
     .admin-section-header { padding: 18px 22px; border-bottom: 1px solid rgba(255,255,255,.05); display: flex; align-items: center; justify-content: space-between; }
     .admin-section-header h2 { font-size: 15px; font-weight: 700; font-family: 'Orbitron', sans-serif; margin: 0; }
     .admin-table { width: 100%; border-collapse: collapse; }
@@ -67,8 +69,8 @@
     .role-user { background: rgba(100,116,139,.1); color: #64748b; border: 1px solid rgba(100,116,139,.2); }
     .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
     .filter-btn { padding: 7px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,.08); background: transparent; color: #64748b; font-size: 12px; cursor: pointer; transition: .2s; font-family: 'Space Grotesk', sans-serif; }
-    .filter-btn.active, .filter-btn:hover { background: rgba(255,0,60,.1); border-color: rgba(255,0,60,.3); color: #ff003c; }
-    .search-input { background: #141724; border: 1px solid rgba(255,255,255,.08); color: #fff; padding: 8px 14px; border-radius: 8px; font-size: 13px; width: 220px; font-family: 'Space Grotesk', sans-serif; }
+    .filter-btn.active, .filter-btn:hover { background: var(--primary-dim); border-color: rgba(79,70,229,.4); color: var(--primary-light); }
+    .search-input { background: var(--bg-surface); border: 1px solid var(--glass-border); color: var(--text-primary); padding: 8px 14px; border-radius: 8px; font-size: 13px; width: 220px; font-family: 'Space Grotesk', sans-serif; }
     .search-input:focus { outline: none; border-color: rgba(255,0,60,.3); }
     .tab-nav { display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,.06); }
     .tab-btn { padding: 14px 22px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: #64748b; border-bottom: 2px solid transparent; transition: .2s; font-family: 'Space Grotesk', sans-serif; }
@@ -88,7 +90,7 @@
   <!-- SIDEBAR -->
   <aside class="admin-sidebar">
     <div class="admin-sidebar-logo">
-      <img src="src/assets/images/logo.png" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+      <img src="image/logo.png" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
       <span>ASTROMODS</span>
     </div>
     <nav>
@@ -107,7 +109,7 @@
   <!-- MAIN CONTENT -->
   <main class="admin-main">
     <div class="admin-header">
-      <h1>🛡️ ADMIN PANEL</h1>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;"><h1 style="font-family:'Orbitron',sans-serif;font-size:22px;font-weight:800;margin:0;">🛡️ ADMIN PANEL</h1><span class="v4-admin-tag">RESTRICTED</span></div>
       <p id="_adminSubtitle">Loading panel...</p>
     </div>
 

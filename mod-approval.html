@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AstroMods | Mod Approval System</title>
+  <link rel="stylesheet" href="css/v4-design-system.css">
+  <link rel="stylesheet" href="css/v4-pages.css">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" type="image/png" href="src/assets/images/logo.png">
+  <link rel="icon" type="image/png" href="image/logo.png">
   <style>
     :root {
       --green: #10b981;
@@ -342,31 +344,59 @@
 <body>
 
   <!-- NAVBAR -->
-  <header class="navbar">
-    <div class="logo" onclick="window.location.href='index.html'" style="cursor:pointer;">
-      <img src="src/assets/images/logo.png" alt="AstroMods Logo" referrerpolicy="no-referrer"
-        onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
-      <h1>ASTROMODS</h1>
+  <header class="v4-navbar" id="v4Navbar">
+  <div class="v4-navbar-inner">
+    <div class="v4-logo" onclick="window.location.href='index.html'">
+      <img src="image/logo.png" alt="AstroMods" class="v4-logo-img" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+      <span class="v4-logo-text">ASTROMODS</span>
     </div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="users-management.html">Users</a>
-    </nav>
-    <div class="cf-header-right">
-      <div class="buttons">
-        <div id="guestButtons" style="display:flex;gap:8px;">
-          <button class="login" onclick="openLoginModal()">Sign In</button>
-        </div>
-        <div id="profileSection" style="display:none;align-items:center;gap:12px;">
-          <button class="gear-settings-btn" onclick="window.location.href='settings.html'">⚙️</button>
-          <img src="" alt="Profile" class="profile-avatar-trigger" onclick="toggleDropdownMenu()"
-            style="width:42px;height:42px;border-radius:50%;cursor:pointer;">
-          <div id="profileDropdown" class="dropdown-menu"></div>
+    <ul class="v4-nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#games-section">Games</a></li>
+      <li><a href="detail-mod-minecraft-bedrock/minecraft.html">Browse</a></li>
+    </ul>
+    <div class="v4-nav-spacer"></div>
+    <div class="v4-nav-actions">
+      <div id="guestButtons">
+        <div style="display:flex;gap:8px;">
+          <button class="v4-btn v4-btn-ghost v4-btn-sm" onclick="openLoginModal()">Log In</button>
+          <button class="v4-btn v4-btn-primary v4-btn-sm" onclick="openLoginModalSignUp()">Sign Up</button>
         </div>
       </div>
+      <div id="profileSection" style="display:none;align-items:center;gap:10px;position:relative;">
+        <button class="v4-notif-btn" onclick="window.location.href='settings.html'" style="font-size:14px;">⚙️</button>
+        <div class="v4-avatar-btn" onclick="toggleDropdownMenu()">
+          <img src="https://i.imgur.com/8Km9tLL.png" alt="Avatar" id="navAvatarImg">
+        </div>
+        <div id="profileDropdown" class="v4-dropdown">
+          <div class="v4-dropdown-header">
+            <img src="https://i.imgur.com/8Km9tLL.png" style="width:40px;height:40px;border-radius:50%;" id="dropdownHeaderAvatar_static">
+            <div>
+              <div style="font-weight:700;font-size:14px;color:var(--text-primary);" id="dropdownUserText">Player</div>
+              <span class="v4-badge badge-primary vip-text-indicator" style="font-size:9px;">🛡️ BASIC</span>
+            </div>
+          </div>
+          <a href="profile.html" class="v4-dropdown-item"><span class="icon">👤</span> Profile</a>
+          <a href="settings.html" class="v4-dropdown-item"><span class="icon">⚙️</span> Settings</a>
+          <div class="v4-dropdown-divider"></div>
+          <button class="v4-dropdown-item logout-btn" onclick="logoutUser()" style="color:var(--danger);"><span class="icon">🚪</span> Sign Out</button>
+        </div>
+      </div>
+      <button class="v4-mobile-menu-btn" onclick="toggleMobileNav()"><span></span><span></span><span></span></button>
     </div>
-  </header>
+  </div>
+  <nav class="v4-mobile-nav" id="mobileNav">
+    <a href="index.html">🏠 Home</a>
+    <a href="index.html#games-section">🎮 Games</a>
+    <a href="detail-mod-minecraft-bedrock/minecraft.html">🗂️ Browse Mods</a>
+    <a href="profile.html">👤 Profile</a>
+  </nav>
+</header>
+<script>
+window.addEventListener('scroll', () => { document.getElementById('v4Navbar')?.classList.toggle('scrolled', window.scrollY > 20); });
+function toggleMobileNav() { document.getElementById('mobileNav')?.classList.toggle('open'); }
+function toggleDropdownMenu() { document.getElementById('profileDropdown')?.classList.toggle('open'); }
+</script>
 
   <!-- LOGIN MODAL -->
   <div id="loginModal" class="modal-overlay">
@@ -453,11 +483,40 @@
   </div>
 
   <!-- FOOTER -->
-  <footer class="main-footer" style="margin-top:60px;">
-    <div class="footer-bottom">
-      <p>&copy; 2026 AstroMods. All rights reserved.</p>
+  <footer class="v4-footer">
+  <div class="container">
+    <div class="v4-footer-grid">
+      <div class="v4-footer-brand">
+        <div class="v4-logo" style="cursor:default;">
+          <img src="image/logo.png" alt="AstroMods" class="v4-logo-img" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+          <span class="v4-logo-text">ASTROMODS</span>
+        </div>
+        <p id="footerMottoText">Your ultimate cosmic station for top-tier game modifications.</p>
+      </div>
+      <div class="v4-footer-col">
+        <h5>Navigation</h5>
+        <ul class="v4-footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#games-section">Games</a></li>
+          <li><a href="detail-mod-minecraft-bedrock/minecraft.html">Browse Mods</a></li>
+        </ul>
+      </div>
+      <div class="v4-footer-col">
+        <h5>Legal</h5>
+        <ul class="v4-footer-links">
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-of-service.html">Terms of Service</a></li>
+          <li><a href="dmca.html">DMCA</a></li>
+          <li><a href="mailto:bimaignal2010@gmail.com">Contact</a></li>
+        </ul>
+      </div>
     </div>
-  </footer>
+    <div class="v4-glow-divider"></div>
+    <div class="v4-footer-bottom">
+      <p id="footerCopyrightText">© 2026 AstroMods. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
 
   <script src="js/script.js"></script>
   <script type="module" src="js/firebase-init.js"></script>
