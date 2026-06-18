@@ -1144,7 +1144,7 @@ function initModsNavbarDropdown() {
       card.innerHTML = `
         <div class="mods-dropdown-head">${headerText}</div>
         <a href="${prefix}detail-mod-minecraft-bedrock/minecraft.html" class="mods-dropdown-game">
-          <img src="https://4kwallpapers.com/images/wallpapers/minecraft-key-art-3840x2160-20204.jpg" class="mods-dropdown-img">
+          <img src="image/minecraft-cover.png" class="mods-dropdown-img">
           <div class="mods-dropdown-info">
             <span class="mods-game-title">Minecraft Bedrock</span>
             <span class="mods-game-badge badge-active">${activeStatus}</span>
@@ -1152,7 +1152,7 @@ function initModsNavbarDropdown() {
         </a>
         <div class="mods-dropdown-divider"></div>
         <div class="mods-dropdown-game disabled-game">
-          <img src="https://4kwallpapers.com/images/wallpapers/roblox-character-2560x1440-20149.jpg" class="mods-dropdown-img">
+          <img src="image/roblox-cover.png" class="mods-dropdown-img">
           <div class="mods-dropdown-info">
             <span class="mods-game-title">Roblox Matrix</span>
             <span class="mods-game-badge badge-soon">${soonStatus}</span>
@@ -1892,7 +1892,7 @@ function handleModCreatorUpload(event) {
       banner: selectedUploadGame === 'minecraft' 
         ? "https://4kwallpapers.com/images/wallpapers/minecraft-bedrock-3840x1080-19694.jpg" 
         : selectedUploadGame === 'roblox'
-        ? "https://4kwallpapers.com/images/wallpapers/roblox-character-2560x1440-20149.jpg"
+        ? "image/roblox-cover.png"
         : selectedUploadGame === 'gta'
         ? "https://4kwallpapers.com/images/wallpapers/grand-theft-auto-1920x1085-11003.jpg"
         : "https://4kwallpapers.com/images/wallpapers/minecraft-bedrock-3840x1080-19694.jpg",
@@ -2006,7 +2006,7 @@ function initDetailPage() {
     if (gameName.includes("minecraft")) {
       computedBanner = "https://4kwallpapers.com/images/wallpapers/minecraft-bedrock-3840x1080-19694.jpg";
     } else if (gameName.includes("roblox")) {
-      computedBanner = "https://4kwallpapers.com/images/wallpapers/roblox-character-2560x1440-20149.jpg";
+      computedBanner = "image/roblox-cover.png";
     } else if (gameName.includes("legends") || gameName.includes("mobile legends") || gameName.includes("mlbb")) {
       computedBanner = "https://asset.indosport.com/article/image/q/80/311815/logo_mobile_legends-169.jpg?w=1200&h=500&fit=crop";
     } else if (gameName.includes("gta") || gameName.includes("grand theft auto")) {
@@ -2900,7 +2900,7 @@ function initSearchEngineHome() {
       id: "minecraft",
       title: "Minecraft Bedrock Edition",
       desc: "Explore addons, shaders, maps, textures, and custom creator skins.",
-      img: "https://4kwallpapers.com/images/wallpapers/minecraft-key-art-3840x2160-20204.jpg",
+      img: "image/minecraft-cover.png",
       link: "detail-mod-minecraft-bedrock/minecraft.html",
       badge: "Available",
       badgeColor: "#10b981"
@@ -2909,7 +2909,7 @@ function initSearchEngineHome() {
       id: "roblox",
       title: "Roblox Matrix",
       desc: "Unlock premium executor scripts, engine scripts, and character customs.",
-      img: "https://4kwallpapers.com/images/wallpapers/roblox-character-2560x1440-20149.jpg",
+      img: "image/roblox-cover.png",
       link: "#games-section",
       badge: "Coming Soon",
       badgeColor: "#f59e0b"
